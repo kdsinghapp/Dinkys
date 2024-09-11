@@ -1,0 +1,9 @@
+export const USERINFO = "USERINFO";
+export const SET_USER = 'SET_USER'
+export const TOKEN = 'TOKEN'
+export const GENERAL = 'GENERAL'
+export const SOUND = 'SOUND'
+export const VIBRATE = 'VIBRATE'
+export const APPUPDATE = 'APPUPDATE'
+export const NEWTIP = 'NEWTIP'
+export const WALLET = 'WALLET'

@@ -1,0 +1,449 @@
+
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+  Platform,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
+import { styles } from '../../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { DOMAIN } from '../../../../services/Config';
+
+export default function Home() {
+  const navigation = useNavigation();
+  const [StatusIndex, setStatusIndex] = useState(0)
+  const [Status, setStatus] = useState('All')
+  const [user, setUser] = useState(null)
+  const [AllOrder, setAllOrder] = useState([])
+  const [StatusOrder, setStatusOrder] = useState([])
+  const [loading, setLoading] = useState([])
+  const dispatch = useDispatch()
+  const userDetailData = useSelector((state) => state.user.user)
+
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const dayName = days[date.getDay()];
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    return `${month} ${day}, ${dayName} ${hours}:${minutes}:${seconds} ${ampm}`;
+  }
+
+  const isFocus = useIsFocused()
+
+  useFocusEffect(
+    React.useCallback(() => {
+
+      _get_profile()
+      _get_allOrder()
+    }, [])
+  )
+  const _get_profile = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+    fetch(`${DOMAIN}get-profile`, requestOptions)
+      .then((response) => response.json())
+      .then(async (res) => {
+        if (res.status == "1") {
+          dispatch({ type: "WALLET", payload: res?.data?.wallet });
+          setUser(res?.data)
+        }
+      }).catch((err) => {
+        console.log("err", err)
+      })
+  }
+  const _get_allOrder = () => {
+    setLoading(true)
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+    var formdata = new FormData();
+    formdata.append("user_id", user?.id);
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+    fetch(`${DOMAIN}orders`, requestOptions)
+      .then((response) => response.json())
+      .then(async (res) => {
+        if (res.status == "1") {
+          setLoading(false)
+          setAllOrder(res?.result)
+        }
+      }).catch((err) => {
+        console.log("err", err)
+        setLoading(false)
+      })
+  }
+  const _get_StatusOrder = (status) => {
+    setLoading(true)
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+    var formdata = new FormData();
+    formdata.append("user_id", user?.id);
+    formdata.append("driver_id", user?.driver_data?.driver_id);
+    formdata.append("status", status);
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+    fetch(`${DOMAIN}order_by_status`, requestOptions)
+      .then((response) => response.json())
+      .then(async (res) => {
+        if (res.status == "1") {
+          setLoading(false)
+          setStatusOrder(res?.result)
+        }
+      }).catch((err) => {
+        console.log("err", err)
+        setLoading(false)
+      })
+  }
+
+  const getCompleteOrder = () => {
+    let data = new FormData();
+    data.append('delivery_status', 'Deliverd');
+
+
+    const params = {
+      token: user?.token,
+      data: data
+    }
+    dispatch(get_order_list(params))
+  }
+
+  const Selected_List = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('OrderDetails', { item: item });
+      }}
+      style={[
+        styles.shadow,
+
+        {
+          height: hp(18),
+          borderRadius: 10,
+          marginTop: 10,
+          backgroundColor: '#FFF',
+          marginHorizontal: 5,
+          borderRadius: 20,
+          flexDirection: 'row',
+          marginBottom: 5,
+        },
+      ]}>
+      <View style={{ width: '93%' }}>
+        <View
+          style={{
+            paddingHorizontal: 15,
+            height: hp(6),
+
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          <View style={{ paddingHorizontal: 5 }}>
+            <Text
+              style={{
+                color: '#0BD89E',
+                fontSize: 14,
+                fontWeight: '700',
+                lineHeight: 21,
+                borderBottomWidth: 1,
+                borderColor: '#0BD89E',
+              }}>
+              Order ID-#{item.order_id}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                color: '#0BD89E',
+                fontSize: 22,
+                fontWeight: '500',
+                lineHeight: 28,
+              }}>
+              £ {item.total_amount}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            height: hp(8),
+            paddingHorizontal: 15,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+
+              height: 25,
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                height: 12,
+                width: 12,
+                borderWidth: 2,
+                borderRadius: 6,
+                borderColor: '#AFB1B0',
+                marginTop: -3
+              }}
+            />
+            <View>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 12,
+                  fontStyle: '600',
+                  lineHeight: 12,
+                  color: '#000',
+                }}>
+                {item?.product_data?.product_location?.substring(0, 120)}
+              </Text>
+              {/* <Text
+              style={{
+                marginLeft: 10,
+                fontSize: 10,
+                fontStyle: '400',
+                lineHeight:12,
+                color: '#111111',
+              }}>
+              {item.restaurant_data?.res_address}
+            </Text> */}
+            </View>
+          </View>
+
+          <View
+            style={{
+              marginLeft: 5,
+              height: hp(3),
+              borderColor: '#AFB1B0',
+
+              borderLeftWidth: 2,
+            }}
+          />
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+            <Image
+              source={require('../../../../assets/dinkyimg/Pin.png')}
+              style={{ height: 12, width: 12 }}
+            />
+            <View>
+
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 12,
+                  fontStyle: '400',
+                  lineHeight: 14,
+
+                  color: '#111111',
+                }}>
+                {item?.shipping_address?.substring(0, 120)}
+              </Text>
+
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            paddingHorizontal: 15,
+            height: hp(4),
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          <Text
+            style={{
+              color: '#AFB1B0',
+              fontSize: 14,
+              lineHeight: 21,
+              fontWeight: '500',
+            }}>
+            {formatDate(item.created_at)}
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          backgroundColor: '#0BD89E',
+          borderTopRightRadius: 20,
+          borderBottomRightRadius: 20,
+          width: '7%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: 12,
+            fontWeight: '500',
+            lineHeight: 18,
+            color: '#FFF',
+            transform: [{ rotate: '270deg' }],
+
+            height: 18,
+            width: 79,
+            alignSelf: 'center',
+          }}>
+          New Request
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+      {Platform.OS === 'ios' ? (
+        <View style={{ height: 30, backgroundColor: '#fff' }} />
+      ) : (
+        <View style={{ height: 0 }} />
+      )}
+      {/* {isLoading ? <Loading /> : null} */}
+
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Welcome,</Text>
+          <Text style={styles.status}>johne</Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Profile')
+          }}
+          style={{ height: 45, width: 45 }}
+
+        >
+          <Image
+            source={require('../../../../assets/dinkyimg/User.png')}
+            resizeMode="contain"
+            style={{ height: 45, width: 45 }}
+          />
+        </TouchableOpacity>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false} >
+
+        <View
+          style={{
+            paddingHorizontal: 5,
+            height: hp(6),
+
+
+            backgroundColor: '#F9F9F9',
+            marginVertical: hp(2),
+            justifyContent: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+          }}>
+
+          <FlatList
+            data={status}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setStatusIndex(index)
+                  setStatus(item.name)
+                  if (Status !== 'All') {
+
+                    _get_StatusOrder(item.name)
+                  }
+                }}
+                style={{
+                  paddingHorizontal: 23,
+                  marginTop: 10,
+                  height: 30,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                <Text style={{ fontWeight: '500', color: index == StatusIndex ? '#0BD89E' : '#AFB1B0', fontSize: 14 }}>
+                  {item.name}
+
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: 10,
+          }}>
+          {(AllOrder?.length > 0 && Status === 'All') || (StatusOrder?.length > 0 && Status != 'All') ? <FlatList
+            data={Status === 'All' ? AllOrder : StatusOrder}
+            renderItem={Selected_List}
+            keyExtractor={item => item.order_id}
+            ListFooterComponent={<View style={{ height: hp(2) }} />}
+            showsVerticalScrollIndicator={false}
+          /> :
+
+            <View style={{ flex: 1, justifyContent: 'center', justifyContent: 'centerc' }}>
+
+              <Text style={{ fontSize: 16, color: "#777777", fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>No Order Found</Text>
+            </View>
+          }
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+
+
+
+
+const status = [
+  {
+    name: 'New Order'
+  },
+  {
+    name: 'All'
+  },
+  {
+    name: 'Pending'
+  },
+  {
+    name: 'Completed'
+  },
+
+  {
+    name: 'Cancelled'
+  },
+
+]

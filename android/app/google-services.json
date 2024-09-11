@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234245639578",
+    "project_id": "dikys-256f8",
+    "storage_bucket": "dikys-256f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234245639578:android:70f85d04afcb67fc907e23",
+        "android_client_info": {
+          "package_name": "com.dinkys"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCezyLamt6wAA3W4QPrjPNJdeg1hALNmsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

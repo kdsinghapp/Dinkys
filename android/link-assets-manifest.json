@@ -1,0 +1,25 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/HindSiliguri-Bold.ttf",
+      "sha1": "30564ccaf590dd3243a3818b7f97d019909ddc9a"
+    },
+    {
+      "path": "src/assets/fonts/HindSiliguri-Light.ttf",
+      "sha1": "e4ca1e41c4aed08bdf52f6380d0d87f70928f8e3"
+    },
+    {
+      "path": "src/assets/fonts/HindSiliguri-Medium.ttf",
+      "sha1": "4b7d92e2b43400b2375da8124d247dbb913e4321"
+    },
+    {
+      "path": "src/assets/fonts/HindSiliguri-Regular.ttf",
+      "sha1": "1aa1c0b58701dc320b48eb98940418a644eea59f"
+    },
+    {
+      "path": "src/assets/fonts/HindSiliguri-SemiBold.ttf",
+      "sha1": "e75ec38ea60dbaebcfffa3e230bcd91c92447e4a"
+    }
+  ]
+}
