@@ -37,22 +37,22 @@ export default function Wallet() {
 //     }
 //   };
 
-//   const addWithdraw = () => {
-//     try {
-//       if (user?.token) {
-//         const params = {
-//           token: user.token,
-//         };
-//         dispatch(payment_withdraw(params)).then(() => {
-//           getCompleteOrder();
-//         }).catch(err => {
-//           console.error('Failed to withdraw payment:', err);
-//         });
-//       }
-//     } catch (err) {
-//       console.error('Error in addWithdraw:', err);
-//     }
-//   };
+  // const addWithdraw = () => {
+  //   try {
+  //     if (user?.token) {
+  //       const params = {
+  //         token: user.token,
+  //       };
+  //       dispatch(payment_withdraw(params)).then(() => {
+  //         getCompleteOrder();
+  //       }).catch(err => {
+  //         console.error('Failed to withdraw payment:', err);
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error('Error in addWithdraw:', err);
+  //   }
+  // };
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);

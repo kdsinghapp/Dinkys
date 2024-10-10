@@ -3,25 +3,12 @@ import { View, Text, FlatList, TouchableOpacity,Image, StyleSheet } from 'react-
 
 import Star from '../../assets/svg/star.svg';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-const data = [
-    {
-        "resrev_id": 34,
-        "resrev_user_id": 5,
-        "resrev_review_text": "Lorem ipsum dolor sit amet consectetur. Amet non elementum fermentum eu non nisi vestibulum. Lectus phasellus libero hendrerit nibh euismod arcu at. Egestas lacinia ut hendrerit etiam id sollicitudin.",
-        "resrev_rating": 5,
-        "resrev_created_at": "2024-08-31 17:53:36",
-        "resrev_updated_at": "2024-08-31 17:53:36",
-        "resrev_deleted_at": null,
-        "resrev_restaurants_id": 18,
-        "full_name": "edqowu",
-        "images": "https://loveeatsdb.com/storage/app/users/51Ucg1RCjx_1724247566.png"
-    }
-]
-export default function ProductReview({  }) {
+
+export default function ProductReview({ data,count }) {
 
     
   const [showAll, setShowAll] = useState(false);
-  const topReviews = showAll ? data : data.slice(0,3);
+  const topReviews = showAll ? data : data?.slice(0,3);
 
 
 
@@ -37,45 +24,58 @@ export default function ProductReview({  }) {
             paddingHorizontal: 10,
             backgroundColor: '#FFFFFF',
             marginHorizontal: 5,
-            paddingVertical: 10,
+          paddingVertical:5,
             marginVertical: 5,
             borderRadius:15,
           },
         ]}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ height: 45, width: 45 }}>
+        <View style={{ flexDirection: 'row',alignItems:'center',paddingVertical:5 }}>
+         
             <Image
-              source={{ uri: item.images }}
+              source={{ uri: item.user_data?.image }}
               style={{
-                height: 40,
-                width: 40,
+                height:30,
+                width:30,
                 borderRadius: 20,
                 borderColor: '#7756FC',
               }}
               resizeMode="cover"
             />
-          </View>
+      
 
           <View
             style={{
-              paddingVertical: 5,
-              marginLeft: 10,
+            
+         marginLeft:10,
+         paddingVertical:5,
               width: '82%',
             }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                alignItems:'center'
               }}>
+                <View style={{ width: '85%',}}>
               <Text
                 style={{
-                  fontSize:14,
+                  fontSize:12,
                   fontWeight: '700',
-                  lineHeight: 24,
+            
                   color: '#000000',
                 }}>
-                {item.full_name}
+               {item.user_data?.user_name}
               </Text>
+              <Text
+            style={{
+              fontSize:11,
+              fontWeight: '500',
+    
+              color: '#677294',
+            }}>
+            {item.message}
+          </Text>
+          </View>
               <View
                 style={{
                   borderWidth: 1,
@@ -96,24 +96,14 @@ export default function ProductReview({  }) {
                     lineHeight: 24,
                     color: '#E79B3F',
                   }}>
-                  {item.resrev_rating}
+                  {item.rating}
                 </Text>
                 <Star />
               </View>
             </View>
           </View>
         </View>
-        <View style={{ marginTop: 5, marginHorizontal: 5 }}>
-          <Text
-            style={{
-              fontSize:12,
-              fontWeight: '500',
-              lineHeight: 15,
-              color: '#677294',
-            }}>
-            {item.resrev_review_text}
-          </Text>
-        </View>
+       
       </View>
     );
   };
@@ -125,17 +115,14 @@ export default function ProductReview({  }) {
   return (
     <View style={{flex:1}}>
       <FlatList
-        data={topReviews}
+        data={data?.slice(0,count)}
         renderItem={RenderReviewList}
-        keyExtractor={item => item.resrev_id.toString()}
+        keyExtractor={item => item.id.toString()}
+      
         showsHorizontalScrollIndicator={false}
       />
    
-        {/* <TouchableOpacity onPress={handleSeeAll}>
-          <Text style={{ color: '#E79B3F', textAlign: 'center', marginTop: 10 ,fontSize:16}}>
-            {showAll?'less all reviews':'See all reviews'}
-          </Text>
-        </TouchableOpacity> */}
+      
       
     </View>
   );

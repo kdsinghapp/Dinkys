@@ -12,35 +12,7 @@ import { DOMAIN } from '../../services/Config'
 import Pig from "../../assets/svg/pig.svg"
 import SearchSvg from "../../assets/svg/search.svg"
 
-const Data = [
-    {
-        id: 1,
-        name: "iPhone 11 pro ",
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ032m4BO7E0ceS_SM0cRiMgn9uAIHzLbBmA&s",
-        amt: "29.00"
-    },
-    {
-        id: 2,
-        name: "Motorcycle jacket ",
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUildVeakfCBxylFDyisGCtQ7fyxw20lHWug&s",
-        amt: "60.00"
 
-    },
-    {
-        id: 3,
-        name: "Quad bike ",
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPjdPd2FnNTIDDHweeN7kv0tY1v-QlA_y6gw&s",
-        amt: "200.00"
-
-    },
-    {
-        id: 4,
-        name: "electric kettle",
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvTJkLYR0zoJgI1cKiigWOTI8BUtmZol6ctQ&s",
-        amt: "29.00"
-
-    }
-]
 
 const ChatScreen = ({ navigation }) => {
     const userDetails = useSelector((state) => state?.user?.user)
@@ -54,7 +26,7 @@ const ChatScreen = ({ navigation }) => {
             _getChatC()
         }, [])
     )
-
+console.log('chatList',chatList);
     const _getChatC = () => {
         setLoading(true)
         const myHeaders = new Headers();

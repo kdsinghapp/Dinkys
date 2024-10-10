@@ -144,7 +144,7 @@ const Login = ({ route, navigation }) => {
                                 <MyText semibold h6 style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
                                     {"Password"}
                                 </MyText>
-                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Password' placeholderTextColor={"#000"} />
+                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 12, color: "#000", height: 34 }} placeholder='Enter Your Password' placeholderTextColor={"#000"} />
                             </View>
                             <View style={{ width: "15%", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <EyesSvg width={24} height={24} />

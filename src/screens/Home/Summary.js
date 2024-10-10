@@ -2,17 +2,19 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react'
-import { Image, Pressable, ScrollView, Alert, View, FlatList, TouchableOpacity, TextInput, BackHandler } from 'react-native'
+import { Image, Pressable, ScrollView, Alert,Text, View, FlatList, TouchableOpacity, TextInput, BackHandler } from 'react-native'
 import MyText from '../../elements/MyText'
 import MyStatusBar from '../../elements/MyStatusBar'
 import PinSvg from "../../assets/svg/pin.svg"
-import PickSvg from "../../assets/svg/Pick.svg"
-import PersonSvg from "../../assets/svg/person.svg"
+import Offer from "../../assets/svg/offer.svg"
+import Shield from "../../assets/svg/shield.svg"
+import Truck from "../../assets/svg/truck.svg"
 import MyButton from '../../elements/MyButton'
 import HeaderTwo from '../../components/Header'
 import { DOMAIN } from '../../services/Config'
 import { useSelector } from 'react-redux'
 import { errorToast, successToast } from '../../utils/customToast'
+import MapPickerModal from '../../components/MapPicker'
 
 const Summary = ({ navigation, route }) => {
     const userDetails = useSelector((state) => state?.user?.user)
@@ -20,6 +22,9 @@ const Summary = ({ navigation, route }) => {
     const { details, address, shipping_charge } = route?.params
     const [loading, setLoading] = useState(false)
     const [selectPay, setSelectPay] = useState("card")
+
+
+
 
     const payment_handler = () => {
         setLoading(true)
@@ -51,7 +56,7 @@ const Summary = ({ navigation, route }) => {
                 setLoading(false)
             })
     }
-
+console.log('shipping_charge',shipping_charge);
     const payment_wallet = () => {
         if ((Number(details?.price) + shipping_charge) > Wallet) {
             errorToast("Please Add Money in wallet")
@@ -116,86 +121,108 @@ const Summary = ({ navigation, route }) => {
             <ScrollView style={{ backgroundColor: "#fff", flex: 1, padding: 20, paddingTop: 0 }}>
                 <View style={{ width: "100%", borderRadius: 12, marginVertical: 8, padding: 15, borderWidth: 1, borderColor: "#EDEDED" }}>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                        <MyText h5 bold style={{ color: "#000000" }}>
+                        <Text  style={{ color: "#000000",fontWeight:'700',fontSize:16 }}>
                             {details?.title}
-                        </MyText >
-                        <MyText h5 bold style={{ color: "#000000" }}>
-                            € {details?.price}
-                        </MyText >
+                        </Text >
+                        <Text  style={{ color: "#000000",fontWeight:'700',fontSize:16 }}>
+                            € {details?.price}.00
+                        </Text >
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 8 }}>
-                        <MyText h5 bold style={{ color: "#C3C6C9" }}>
+                       <View style={{flexDirection:'row',alignItems:'center'}}>
+<Shield />
+                        <Text h5 bold style={{marginLeft:10, color: "#C3C6C9",fontWeight:'700',fontSize:12  }}>
                             ROT Protection Fee
-                        </MyText >
-                        <MyText h5 bold style={{ color: "#C3C6C9" }}>
+                        </Text >
+                       </View>
+                        <Text h5 bold style={{ color: "#C3C6C9",fontWeight:'700',fontSize:12  }}>
                             € 0.00
-                        </MyText >
+                        </Text >
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                        <MyText h5 bold style={{ color: "#C3C6C9" }}>
-                            Shipping
-                        </MyText >
-                        <MyText h5 bold style={{ color: "#C3C6C9" }}>
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+<Truck />
+                    <Text h5 bold style={{marginLeft:10, color: "#C3C6C9",fontWeight:'700',fontSize:12  }}>
+                            Shipping charges
+                        </Text >
+                        </View>
+                        <Text h5 bold style={{ color: "#C3C6C9",fontWeight:'700',fontSize:12  }}>
                             € {shipping_charge}
-                        </MyText >
+                        </Text >
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 10, borderTopWidth: 1, borderColor: "#D9D9D9", marginTop: 10 }}>
-                        <MyText h4 bold style={{ color: "#000000" }}>
-                            Total
-                        </MyText >
-                        <MyText h5 bold style={{ color: "#000000" }}>
-                            € {Number(details?.price) + shipping_charge}
-                        </MyText >
+                      
+                      <View style={{width:'50%'}}>
+                        <Text  style={{ color: "#000000",fontSize:18,fontWeight:'700' }}>
+                   Total
+                        </Text >
+                        </View>
+                        <Text style={{ color: "#000000",fontSize:24,fontWeight:'700' }}>
+                            € {Number(details?.price) + Number(shipping_charge)}
+                        </Text >
                     </View>
 
                 </View>
                 <Pressable style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 15, padding: 5, paddingVertical: 8, borderBottomWidth: 1, borderColor: "#EDEDED" }}>
                     <PinSvg width={34} height={34} />
                     <View style={{ width: "80%" }}>
-                        <MyText h6 regular style={{ color: "#C3C6C9" }}>
-                            Stimulated delivery in 3-7 days
+                        <MyText h6 regular style={{ color: "#6d6d6e" }}>
+                            Stimulated delivery in {details?.estimate_delivery_days} days
                         </MyText >
-                        <MyText h6 bold style={{ color: "#303030", marginVertical: 8 }}>
+                        <Text style={{ color: "#6d6d6e", marginVertical: 8,fontSize:12,fontWeight:'600', }}>
                             {address?.place}
-                        </MyText >
-                        <Pressable onPress={() => navigation.goBack()}>
-                            <MyText h6 regular style={{ color: "#04CFA4" }}>
+                        </Text >
+                        {/* <Pressable onPress={() => navigation.goBack()}>
+                            <Text style={{ color: "#04CFA4",fontWeight:'500',fontSize:14 }}>
                                 To Edit
-                            </MyText >
-                        </Pressable>
+                            </Text >
+                        </Pressable> */}
 
                     </View>
                 </Pressable>
                 <Pressable style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 15, padding: 5, paddingVertical: 12, borderBottomWidth: 1, borderColor: "#EDEDED" }}>
                     {/* <PersonSvg width={34} height={34} /> */}
                     <View style={{ width: "80%" }}>
-                        <MyText h5 regular style={{ color: "#000" }}>
+                        <Text style={{ color: "#000",fontSize:18,fontWeight:'600' }}>
                             Select Payment method
-                        </MyText >
+                        </Text >
                         <View style={{ marginTop: 12, gap: 25, width: "100%" }}>
                             <View style={{ flexDirection: "row", alignItems: "center", gap: 15, width: "48%" }}>
-                                <Pressable onPress={() => setSelectPay("card")} style={{ width: 25, height: 25, borderWidth: 2, borderColor: "#04CFA4", borderRadius: 25 / 2, backgroundColor: selectPay == "card" ? "#04CFA4" : "#fff" }} />
-                                <MyText h6 bold style={{ color: "#303030" }}>
+                                <Pressable onPress={() => setSelectPay("card")} 
+                                style={{ width: 25, height: 25, borderWidth: 2,
+                                 borderColor: selectPay == "card" ?"#000":"#04CFA4", borderRadius: 25 / 2, backgroundColor: selectPay == "card" ? "#04CFA4" : "#fff" }} />
+                                <Text  style={{ color: "#303030",fontSize:16,fontWeight:'700' }}>
                                     Card
-                                </MyText >
+                                </Text >
                             </View>
                             <View style={{ flexDirection: "row", alignItems: "center", gap: 15, width: "48%" }}>
-                                <Pressable onPress={() => setSelectPay("wallet")} style={{ width: 25, height: 25, borderWidth: 2, borderColor: "#04CFA4", borderRadius: 25 / 2, backgroundColor: selectPay == "wallet" ? "#04CFA4" : "#fff" }} />
-                                <MyText h6 bold style={{ color: "#303030" }}>
+                        
+                                <Pressable onPress={() => setSelectPay("wallet")} 
+                                style={{ width: 25, height: 25, borderWidth: 2, 
+                                borderColor: selectPay == "wallet" ?"#000":"#04CFA4",
+                                borderRadius: 25 / 2, 
+                                backgroundColor: selectPay == "wallet" ? "#04CFA4" : "#fff" }} />
+                                <Text  style={{ color: "#303030",
+                                
+                                fontSize:16,fontWeight:'700' }}>
                                     Wallet  ( {`€ ${Wallet}`} )
-                                </MyText >
+                                </Text >
                             </View>
                             <View style={{ flexDirection: "row", alignItems: "center", gap: 15, width: "48%" }}>
-                                <Pressable onPress={() => setSelectPay("cod")} style={{ width: 25, height: 25, borderWidth: 2, borderColor: "#04CFA4", borderRadius: 25 / 2, backgroundColor: selectPay == "cod" ? "#04CFA4" : "#fff" }} />
-                                <MyText h6 bold style={{ color: "#303030" }}>
+                                <Pressable onPress={() => setSelectPay("cod")}
+                                style={{ width: 25, height: 25, 
+                                borderWidth: 2,
+                                 borderColor: selectPay == "cod"?'#000' :"#04CFA4",
+                                 borderRadius: 25 / 2, backgroundColor: selectPay == "cod" ? "#04CFA4" : "#fff" }} />
+                                <Text  style={{ color: "#303030",fontSize:16,fontWeight:'700' }}>
                                     COD
-                                </MyText >
+                                </Text >
                             </View>
                         </View>
                     </View>
                 </Pressable>
                 <Pressable style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 15, padding: 5, paddingVertical: 12, borderBottomWidth: 1, borderColor: "#EDEDED" }}>
-                    <PickSvg width={34} height={34} />
+                    <Offer width={34} height={34} />
                     <View style={{ width: "80%" }}>
                         <MyText h6 regular style={{ color: "#C3C6C9" }}>
                             Promotional code
@@ -208,27 +235,28 @@ const Summary = ({ navigation, route }) => {
                 </Pressable>
                 <View style={{ backgroundColor: "#fff", marginVertical: 15 }}>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, elevation: 5 }}>
-                        <View style={{ width: 133, height: 133, borderRadius: 12, overflow: "hidden" }}>
+                        <View style={{ width: 100, height: 100, borderRadius: 12, overflow: "hidden" }}>
                             <Image source={{ uri: details.product_images?.[0].image }} style={{ width: "100%", height: "100%" }} />
                         </View>
                         <View style={{}}>
-                            <MyText h4 bold style={{ color: "#1C1B1B" }}>
+                            <Text  style={{ color: "#000",fontSize:18,fontWeight:'800' }}>
                                 {details?.title}
-                            </MyText >
-                            <MyText h5 regular style={{ color: "#C3C6C9" }}>
+                            </Text >
+                            <Text style={{ color: "#C3C6C9",fontWeight:'500',marginTop:10 }}>
                                 Colour: Made Blue
-                            </MyText >
-                            <MyText h5 bold style={{ color: "#04CFA4" }}>
+                            </Text >
+                            <Text h5 bold style={{ color: "#04CFA4" ,fontWeight:'700',fontSize:18}}>
                                 € {details?.price}
-                            </MyText >
+                            </Text >
                         </View>
                     </View>
                 </View>
-                <MyButton onPress={() => selectPay == "card" ? payment_handler_web() : selectPay == "wallet" ? payment_wallet() : payment_handler()} loading={loading} title={"Continue"} style={{ borderRadius: 12 }} />
-
+                <View   style={{height:20}}/>
+                <MyButton
+                 onPress={() => selectPay == "card" ? payment_handler_web() : selectPay == "wallet" ? payment_wallet() : payment_handler()} loading={loading} title={"Continue"} style={{ borderRadius: 12 }} />
+<View   style={{height:40}}/>
             </ScrollView>
-
-        </View>
+      </View>
     )
 }
 

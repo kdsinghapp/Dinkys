@@ -62,7 +62,7 @@ const AddCardDetails = ({ route }) => {
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
                 <View>
                     <MyText semibold h5 style={{ color: "#000", marginVertical: 10 }} >Card Holder Name</MyText>
-                    <TextInput maxLength={16} value={cardnumber} keyboardType='numeric' onChangeText={(e) => setCardNumber(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18 }} placeholder='Enter card holder name' placeholderTextColor={"#979797"} />
+                    <TextInput maxLength={16} value={carName} keyboardType='numeric' onChangeText={(e) => setCarName(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18 }} placeholder='Enter card holder name' placeholderTextColor={"#979797"} />
                     <MyText semibold h5 style={{ color: "#000", marginVertical: 10 }} >Card Number</MyText>
                     <TextInput maxLength={16} value={cardnumber} keyboardType='numeric' onChangeText={(e) => setCardNumber(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18 }} placeholder='Enter 12 digit card number' placeholderTextColor={"#979797"} />
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginVertical: 15 }} >
@@ -75,12 +75,10 @@ const AddCardDetails = ({ route }) => {
                             <TextInput value={year} keyboardType='numeric' onChangeText={(e) => setYear(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18, width: "42%", }} placeholder='Year' placeholderTextColor={"#979797"} />
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", width: "40%" }}>
-                            <TextInput maxLength={3} value={cvv} keyboardType='numeric' onChangeText={(e) => setCvv(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18, width: "80%", }} placeholder='Enter Cvv' placeholderTextColor={"#979797"} />
+                            <TextInput maxLength={3} secureTextEntry={true}value={cvv} keyboardType='numeric' onChangeText={(e) => setCvv(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18, width: "80%", }} placeholder='Enter Cvv' placeholderTextColor={"#979797"} />
                         </View>
                     </View>
-                    <MyText semibold h5 style={{ color: "#000", marginVertical: 10 }} >Card Holder’s Name</MyText>
-                    <TextInput value={carName} onChangeText={(e) => setCarName(e)} style={{ backgroundColor: "#F8F8F8", borderRadius: 12, padding: 18 }} placeholder='Name on Card' placeholderTextColor={"#979797"} />
-                </View>
+                     </View>
 
                 <MyButton loading={loading} onPress={_add_card} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD }} style={{ borderRadius: 30, width: "100%", alignSelf: "center", marginTop: 20, }} title={"Add"} />
 

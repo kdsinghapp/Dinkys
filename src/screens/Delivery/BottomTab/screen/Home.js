@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  ActivityIndicator,
   Platform,
+  Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -22,13 +24,15 @@ import { DOMAIN } from '../../../../services/Config';
 export default function Home() {
   const navigation = useNavigation();
   const [StatusIndex, setStatusIndex] = useState(0)
-  const [Status, setStatus] = useState('All')
+  const [Status, setStatus] = useState('New Order')
   const [user, setUser] = useState(null)
   const [AllOrder, setAllOrder] = useState([])
   const [StatusOrder, setStatusOrder] = useState([])
-  const [loading, setLoading] = useState([])
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const userDetailData = useSelector((state) => state.user.user)
+
+
 
   function formatDate(timestamp) {
     const date = new Date(timestamp);
@@ -79,32 +83,31 @@ export default function Home() {
         console.log("err", err)
       })
   }
-  const _get_allOrder = () => {
+  const _get_allOrder = async () => {
     setLoading(true)
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
-    var formdata = new FormData();
-    formdata.append("user_id", user?.id);
 
     const requestOptions = {
       method: "POST",
-      body: formdata,
+      body: null,
       redirect: "follow"
     };
-    fetch(`${DOMAIN}orders`, requestOptions)
+    await fetch(`${DOMAIN}orders`, requestOptions)
       .then((response) => response.json())
       .then(async (res) => {
         if (res.status == "1") {
           setLoading(false)
           setAllOrder(res?.result)
+
         }
       }).catch((err) => {
         console.log("err", err)
         setLoading(false)
       })
   }
-  const _get_StatusOrder = (status) => {
+  const _get_StatusOrder = async (status) => {
     setLoading(true)
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -119,7 +122,7 @@ export default function Home() {
       body: formdata,
       redirect: "follow"
     };
-    fetch(`${DOMAIN}order_by_status`, requestOptions)
+    await fetch(`${DOMAIN}order_by_status`, requestOptions)
       .then((response) => response.json())
       .then(async (res) => {
         if (res.status == "1") {
@@ -132,22 +135,12 @@ export default function Home() {
       })
   }
 
-  const getCompleteOrder = () => {
-    let data = new FormData();
-    data.append('delivery_status', 'Deliverd');
 
-
-    const params = {
-      token: user?.token,
-      data: data
-    }
-    dispatch(get_order_list(params))
-  }
 
   const Selected_List = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('OrderDetails', { item: item });
+        navigation.navigate('OrderDetails', { item: item, status: Status, user: user, sellerData: item.seller_data });
       }}
       style={[
         styles.shadow,
@@ -307,17 +300,17 @@ export default function Home() {
         }}>
         <Text
           style={{
-            fontSize: 12,
-            fontWeight: '500',
+            fontSize: 14,
+            fontWeight: '600',
             lineHeight: 18,
             color: '#FFF',
             transform: [{ rotate: '270deg' }],
-
+            textAlign: 'center',
             height: 18,
             width: 79,
             alignSelf: 'center',
           }}>
-          New Request
+          {item?.status}
         </Text>
       </View>
     </TouchableOpacity>
@@ -338,20 +331,32 @@ export default function Home() {
           <Text style={styles.title}>Welcome,</Text>
           <Text style={styles.status}>johne</Text>
         </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Profile')
-          }}
-          style={{ height: 45, width: 45 }}
 
-        >
-          <Image
-            source={require('../../../../assets/dinkyimg/User.png')}
-            resizeMode="contain"
+          <Pressable
+            onPress={() => {
+
+
+              navigation.navigate('Bottomtab')
+            }}
+            style={{ paddingHorizontal: 10 }}>
+            <Image source={require('../../../../assets/dinkyimg/homeActive.png')} style={{ width: 30, height: 30 }} />
+          </Pressable>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Profile')
+            }}
             style={{ height: 45, width: 45 }}
-          />
-        </TouchableOpacity>
+
+          >
+            <Image
+              source={require('../../../../assets/dinkyimg/User.png')}
+              resizeMode="contain"
+              style={{ height: 45, width: 45 }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
 
@@ -369,7 +374,7 @@ export default function Home() {
 
           }}>
 
-          <FlatList
+          {/* <FlatList
             data={status}
             showsHorizontalScrollIndicator={false}
             horizontal
@@ -378,9 +383,12 @@ export default function Home() {
                 onPress={() => {
                   setStatusIndex(index)
                   setStatus(item.name)
-                  if (Status !== 'All') {
+                  if (Status !== 'New Order') {
 
-                    _get_StatusOrder(item.name)
+                    _get_StatusOrder(item.status)
+                  }
+                  else {
+                    _get_allOrder()
                   }
                 }}
                 style={{
@@ -396,17 +404,45 @@ export default function Home() {
                 </Text>
               </TouchableOpacity>
             )}
-          />
+          /> */}
+<FlatList
+  data={status}
+  showsHorizontalScrollIndicator={false}
+  horizontal
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      onPress={() => {
+        setStatusIndex(index);
+        setStatus(item.name);  // Update status
+        if (item.status !== 'New Order') {
+          _get_StatusOrder(item.status);  // Call the status API for non-new orders
+        } else {
+          _get_allOrder();  // Call the new order API
+        }
+      }}
+      style={{
+        paddingHorizontal: 23,
+        marginTop: 10,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+      <Text style={{ fontWeight: '500', color: index === StatusIndex ? '#0BD89E' : '#AFB1B0', fontSize: 14 }}>
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  )}
+/>
 
         </View>
-
+{/* 
         <View
           style={{
             flex: 1,
             paddingHorizontal: 10,
           }}>
-          {(AllOrder?.length > 0 && Status === 'All') || (StatusOrder?.length > 0 && Status != 'All') ? <FlatList
-            data={Status === 'All' ? AllOrder : StatusOrder}
+          {(AllOrder?.length > 0 && Status === 'New Order') || (StatusOrder?.length > 0 && Status != 'New Order') ? <FlatList
+            data={Status === 'New Order' ? AllOrder : StatusOrder}
             renderItem={Selected_List}
             keyExtractor={item => item.order_id}
             ListFooterComponent={<View style={{ height: hp(2) }} />}
@@ -415,10 +451,34 @@ export default function Home() {
 
             <View style={{ flex: 1, justifyContent: 'center', justifyContent: 'centerc' }}>
 
-              <Text style={{ fontSize: 16, color: "#777777", fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>No Order Found</Text>
+              {loading ? <ActivityIndicator size={20} color={'#000'} /> : <Text style={{ fontSize: 16, color: "#777777", fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>No Order Found</Text>}
             </View>
+
           }
-        </View>
+        </View> */}
+
+<View style={{ flex: 1, paddingHorizontal: 10 }}>
+  {(Status === 'New Order' && AllOrder.length > 0) || (Status !== 'New Order' && StatusOrder.length > 0) ? (
+    <FlatList
+      data={Status === 'New Order' ? AllOrder : StatusOrder}
+      renderItem={Selected_List}
+      keyExtractor={item => item.order_id.toString()}
+      ListFooterComponent={<View style={{ height: hp(2) }} />}
+      showsVerticalScrollIndicator={false}
+    />
+  ) : (
+    <View style={{ flex: 1, justifyContent: 'center' }}>
+      {loading ? (
+        <ActivityIndicator size={20} color={'#000'} />
+      ) : (
+        <Text style={{ fontSize: 16, color: '#777777', fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>
+          No Order Found
+        </Text>
+      )}
+    </View>
+  )}
+</View>
+
       </ScrollView>
     </View>
   );
@@ -430,20 +490,29 @@ export default function Home() {
 
 const status = [
   {
-    name: 'New Order'
+    name: 'New Order',
+    status: 'New Order'
   },
   {
-    name: 'All'
+    name: 'All',
+    status: 'All'
   },
   {
-    name: 'Pending'
+    name: 'Accepted',
+    status: 'Accepted'
   },
   {
-    name: 'Completed'
+    name: 'Pickuped',
+    status: 'Pickuped'
+  },
+  {
+    name: 'Completed',
+    status: 'Delivered'
   },
 
   {
-    name: 'Cancelled'
+    name: 'Cancelled',
+    status: 'Cancelled'
   },
 
 ]

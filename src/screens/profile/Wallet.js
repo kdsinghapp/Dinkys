@@ -14,30 +14,69 @@ import WithDraw from "../../assets/svg/Withdraw.svg"
 import ProRight from "../../assets/svg/proright.svg"
 import BankSvg from "../../assets/svg/bank.svg"
 import HistorySvg from "../../assets/svg/history.svg"
+import { useSelector } from 'react-redux'
+import AddMoneyModal from './WalletAmount'
+import { DOMAIN } from '../../services/Config'
 
 
 
 const Wallet = ({ route }) => {
     const { user } = route?.params
-    const navigation = useNavigation()
 
+    const userDetails = useSelector((state) => state.user.user)
+    const navigation = useNavigation()
+    const [amount, setAmount] = useState()
+    const [loading, setLoading] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
+  
+    const add_wallet = () => {
+      if (!amount) {
+        errorToast("Please Enter Amount", 3000)
+      } else {
+        setLoading(true)
+        var formdata = new FormData();
+        formdata.append("email", userDetails?.email);
+        formdata.append("price", amount);
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow"
+        };
+        fetch(`${DOMAIN}create-checkout-session`, requestOptions)
+          .then((response) => response.json())
+          .then(async (res) => {
+        
+            if (res?.data?.url) {
+              navigation.navigate("WebViewScreen", { details: undefined, url: res?.data?.url, shipping_charge: undefined, wallet: true, amount })
+              setModalVisible(false)
+            }
+          }).catch((err) => {
+            console.log("err", err)
+          }).finally(() => {
+            setLoading(false)
+          })
+      }
+    }
+  
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo title={"Wallet"} navigation={navigation} />
             <View style={{ flex: 1, padding: 20 }}>
                 <View style={{ padding: 20, width: "100%", borderRadius: 15, elevation: 5, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" }}>
-                <Text  style={{color:'#04CFA4',fontWeight:'600',fontSize:16,marginTop:10}}>Principal. USD</Text>
-                <Text  style={{color:'#04CFA4',fontWeight:'700',fontSize:22,marginTop:10}}>{user?.wallet}</Text>
-                    <View style={{ width: "100%", borderRadius: 15, marginTop: 15, flexDirection: "row", backgroundColor: "#fff", alignItems: "center" }}>
-                        <Pressable onPress={() => navigation.navigate("WalletAmount")} style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
+                <Text  style={{color:'#04CFA4',fontWeight:'600',fontSize:16,marginTop:10}}>Principal. Euro</Text>
+                <Text  style={{color:'#04CFA4',fontWeight:'700',fontSize:22,marginTop:10}}>€ {user?.wallet}</Text>
+                    <View style={{ width: "100%",
+                    alignItems:'center',justifyContent:'center',
+                    borderRadius: 15, marginTop: 15, flexDirection: "row", backgroundColor: "#fff", alignItems: "center" }}>
+                        <Pressable onPress={() => {setModalVisible(true)}} style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
                             <RechargeSvg width={41} height={41} />
                             <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Recharge</Text>
                         </Pressable>
-                        <View style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
+                        {/* <View style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
                             <PaySvg width={41} height={41} />
                             <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Pay</Text>
-                        </View>
+                        </View> */}
                         <View style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
                             <WithDraw width={41} height={41} />
                   
@@ -66,6 +105,14 @@ const Wallet = ({ route }) => {
                 </Pressable>
 
             </View >
+            <AddMoneyModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        amount={amount}
+        setAmount={setAmount}
+        loading={loading}
+        add_wallet={add_wallet}
+      />
         </View>
 
     )

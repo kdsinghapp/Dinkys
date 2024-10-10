@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useRef, useState } from 'react'
-import { Image, Pressable, ScrollView, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Dimensions } from 'react-native'
+import { Image, Pressable, ScrollView, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Dimensions, Linking } from 'react-native'
 import MyText from '../../elements/MyText'
 import { useSelector } from 'react-redux'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -25,6 +25,8 @@ import { errorToast } from '../../utils/customToast'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Ratting from '../Delivery/Ratting'
 import ProductReview from './Productreview'
+import AddReview from './AddReview'
+import AddReviewModal from './AddReview'
 const { width } = Dimensions.get('window');
 
 const ProductDetails = ({ navigation, route }) => {
@@ -35,10 +37,9 @@ const ProductDetails = ({ navigation, route }) => {
     const [rating, setRating] = useState("3")
     const [message, setMessage] = useState()
     const [ratingData, setRatingData] = useState([])
+    const [ReviewModal, setReviewModal] = useState(false)
+const [reviewCount,setreviewCount] = useState(3)
 
-    console.log('${DOMAIN}get-reviews', DOMAIN + 'get-reviews');
-
-    console.log('details', details);
     useFocusEffect(
         React.useCallback(() => {
             _getProductdetails()
@@ -46,8 +47,9 @@ const ProductDetails = ({ navigation, route }) => {
         }, [])
     )
 
-    const ratingCompleted = (rating) => {
-        setRating(rating)
+    const ratingCompleted = () => {
+        _getProductdetails()
+        get_rating()
     }
 
     const get_rating = () => {
@@ -80,7 +82,7 @@ const ProductDetails = ({ navigation, route }) => {
             setLoading(true)
             var formdata = new FormData();
             formdata.append("user_id", userDetails?.id);
-            formdata.append("product_id", item?.id );
+            formdata.append("product_id", item?.id);
             formdata.append("rating", rating);
             formdata.append("message", message);
             const requestOptions = {
@@ -100,7 +102,13 @@ const ProductDetails = ({ navigation, route }) => {
                 })
         }
     }
+    const openGoogleMaps = (latitude, longitude) => {
 
+        if(latitude == '' || longitude == '') return errorToast('No Product Address Found',3000)
+        const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+        Linking.openURL(url).catch((err) => console.error('Error opening Google Maps:', err));
+      };
+    
     const _getProductdetails = () => {
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
@@ -147,27 +155,30 @@ const ProductDetails = ({ navigation, route }) => {
             })
     }
 
-    // const remove_fav = () => {
-    //     setLoading(true)
-    //     var formdata = new FormData();
-    //     formdata.append("fav_id", !item?.product_data?.id ? item?.id : item?.product_data?.id);
-    //     const requestOptions = {
-    //         method: "POST",
-    //         body: formdata,
-    //         redirect: "follow"
-    //     };
-    //     fetch(`${DOMAIN}delete-favourite`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then(async (res) => {
-    //             if (res.status == "1") {
-    //                 _getProductdetails()
-    //             }
-    //         }).catch((err) => {
-    //             console.log("err", err)
-    //         }).finally(() => {
-    //             setLoading(false)
-    //         })
-    // }
+    const remove_fav = () => {
+     
+        setLoading(true)
+        var formdata = new FormData();
+        formdata.append("fav_id", !item?.product_data?.id ? item?.id : item?.product_data?.id);
+        const requestOptions = {
+            method: "POST",
+            body: formdata,
+            redirect: "follow"
+        };
+        fetch(`${DOMAIN}delete-favourite`, requestOptions)
+      
+            .then(async (res) => {
+
+                if (res.status == "200") {
+                 
+                    _getProductdetails()
+                }
+            }).catch((err) => {
+                console.log("err", err)
+            }).finally(() => {
+                setLoading(false)
+            })
+    }
     const [activeIndex, setActiveIndex] = useState(0); // State to track the active index
 
     const onViewRef = useRef(({ viewableItems }) => {
@@ -177,7 +188,6 @@ const ProductDetails = ({ navigation, route }) => {
     });
 
     const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
-
 
 
     return (
@@ -230,7 +240,7 @@ const ProductDetails = ({ navigation, route }) => {
                         </Pressable>
                         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
                             <ShareSvg width={28} height={28} />
-                            <Pressable onPress={() => details?.favourite == false ? add_fav() : remove_fav()}>
+                            <Pressable onPress={() => details?.favourite == false && add_fav()}>
                                 {loading ? <ActivityIndicator size={"small"} />
                                     :
                                     !details?.favourite ?
@@ -249,10 +259,14 @@ const ProductDetails = ({ navigation, route }) => {
                     <Text style={{ color: "#1C1B1B", marginTop: 5, fontWeight: '700', fontSize: 17 }}>
                         {item?.title?.substring(0, 30)}
                     </Text >
-                    <Text h6 semibold style={{ color: "#949494", fontWeight: '500', fontSize: 12 }}>
-                        {item?.product_location?.substring(0, 30)}
+                    <Text h6 semibold style={{ color: "#949494", fontWeight: '500', fontSize: 12,width:'80%' }}>
+                        {item?.product_location?.substring(0, 100)}
                     </Text >
-                    <View style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
+                    <TouchableOpacity 
+                    onPress={()=>{
+                        navigation.navigate('UserProfile',{item:details?.user_data})
+                    }}
+                    style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
                         <View style={{ width: 50, height: 50, borderRadius: 50 / 2, backgroundColor: "#04CFA433", overflow: "hidden" }} >
                             <Image source={{ uri: details?.user_data?.image }} style={{ width: "100%", height: "100%" }} />
                         </View>
@@ -263,25 +277,26 @@ const ProductDetails = ({ navigation, route }) => {
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5, marginTop: 5 }}>
                                 <Ratting Ratting={details?.ratting} />
                                 <Text style={{ color: "#000", fontSize: 12, fontWeight: '600', marginLeft: 10 }}>
-                                    4.5 (2,495 reviews)
+                                {details?.ratting}
                                 </Text >
                             </View>
                         </View>
                         <Pressable onPress={() => details == null ? null : navigation.navigate("ChattingScreen", {
                             item: {
-                                image: "",
+                                image: details?.user_data?.image,
                                 name: details?.user_data?.user_name,
                                 product_id: details?.id,
                                 reciever_id: details?.user_id
-                            }
+                            },
+                            product:item
                         })}>
                             <ChatIcon width={65} height={44} />
                         </Pressable>
-                    </View>
-                    <MyText h5 regular style={{ color: "#C3C6C9" }}>
+                    </TouchableOpacity>
+                    <Text style={{ color: "#64646b",fontSize:14,fontWeight:'500' }}>
                         {details?.description}
-                    </MyText >
-                    <View style={{ width: "100%", borderRadius: 12, flexDirection: "row", alignItems: "center", gap: 15, marginVertical: 18, padding: 15, backgroundColor: "#04CFA433" }}>
+                    </Text >
+                    {/* <View style={{ width: "100%", borderRadius: 12, flexDirection: "row", alignItems: "center", gap: 15, marginVertical: 18, padding: 15, backgroundColor: "#04CFA433" }}>
                         <Globe />
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 13 }}>
@@ -291,11 +306,11 @@ const ProductDetails = ({ navigation, route }) => {
                                 More information
                             </Text >
                         </View>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    </View> */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:30 }}>
 
                         <Text style={{ color: "#000", fontWeight: '600', fontSize: 18, marginRight: 5 }}>
-                            Delivery in 3-7 days
+                            Delivery in {details?.estimate_delivery_days} days
                         </Text >
                         <Iicon height={25} />
                     </View>
@@ -303,22 +318,18 @@ const ProductDetails = ({ navigation, route }) => {
                         <PinSvg width={44} height={44} />
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#000", fontWeight: '600', fontSize: 16, marginRight: 5 }}>
-                                At collection point from €2.99
+                                At collection point from €{details?.at_collection_point}
                             </Text >
-                            <Text style={{ color: "#04CFA4", fontWeight: '400', fontSize: 15, marginRight: 5 }}>
-                                See nearby points
-                            </Text >
+                           
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, padding: 5, paddingVertical: 18, borderBottomWidth: 1, borderColor: "#EDEDED" }}>
                         <PinSvg width={44} height={44} />
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#000", fontWeight: '600', fontSize: 16, marginRight: 5 }}>
-                                At my address from €3.49
+                                At my address from €{details?.at_my_address}
                             </Text >
-                            <Text style={{ color: "#04CFA4", fontWeight: '400', fontSize: 15, marginRight: 5 }}>
-                                Send to 47011 Valladolid
-                            </Text >
+                          
                         </View>
                     </View>
                     <View style={{ width: "100%", borderRadius: 12, marginVertical: 18, padding: 15, borderWidth: 1, borderColor: "#EDEDED" }}>
@@ -329,11 +340,11 @@ const ProductDetails = ({ navigation, route }) => {
                                     Dpop Protection
                                 </Text >
                             </View>
-                            <Pressable onPress={() => navigation.goBack()}>
+                            <View >
                                 <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 15, marginRight: 5 }}>
                                     + Info
                                 </Text >
-                            </Pressable>
+                            </View>
                         </View>
                         <MyText h6 regular style={{ color: "#C3C6C9", marginTop: 15 }}>
                             Buy without worries through our shipping service. Transaction protected with refunds, secure payments and help whenever you need it.
@@ -345,12 +356,23 @@ const ProductDetails = ({ navigation, route }) => {
                             {details?.zip_code}
                         </Text >
                     </View>
-                    <View style={{
+                    <Pressable 
+                    onPress={()=>{
+                        openGoogleMaps(details?.lat,details?.long)
+                    }}
+                    style={{
                         height: 120, borderRadius: 12, marginVertical: 18
                     }}>
 
                         <Image source={require('../../assets/dinkyimg/map3.png')} style={{ height: 120, borderRadius: 15, width: '100%' }} />
-                    </View>
+                        <Image source={require('../../assets/dinkyimg/location.png')} style={{
+                                                        width:30, height:30, borderRadius: 12,
+                                                        position:'absolute',
+                                                        alignSelf:'center',
+                                                        marginTop:'12%'
+                                                        
+                                                    }} resizeMode='cover' />
+                    </Pressable>
 
 
                     <View
@@ -378,8 +400,8 @@ const ProductDetails = ({ navigation, route }) => {
                                         fontSize: 18,
                                         fontWeight: '700',
                                         color: '#101010',
-                                        lineHeight:20,
-                                        marginRight:10
+                                        lineHeight: 20,
+                                        marginRight: 10
                                     }}>
                                     Review
                                 </Text>
@@ -389,19 +411,19 @@ const ProductDetails = ({ navigation, route }) => {
                             </View>
 
                         </View>
-                        <Pressable onPress={() => navigation.goBack()} style={{}}>
+                        <Pressable onPress={() => {setreviewCount(reviewCount == 100?3:100)}} style={{}}>
                             <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 15, marginRight: 5 }}>
-                                See All
+                                {reviewCount == 3?'See All':'See less'}
                             </Text >
                         </Pressable>
                     </View>
 
                     <View
-    style={{ marginTop: 10, paddingVertical: 10, padding: 5 }}>
-    <ProductReview data={details?.review} />
-  </View>
-                 
-             
+                        style={{ marginTop: 10, paddingVertical: 10, padding: 5 }}>
+                        <ProductReview data={details?.reviews} count={reviewCount} />
+                    </View>
+
+
                     {/* <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 
                         
@@ -457,13 +479,23 @@ const ProductDetails = ({ navigation, route }) => {
                                 )
                             })}
                     </View> */}
-                    <Text style={{ color: "#04CFA4", alignSelf: "center",fontWeight:'600',fontSize:16 }}>
-                        Report product
+                    <AddReviewModal visible={ReviewModal}  onClose={()=>{
+                        setReviewModal(false)
+                        ratingCompleted()}}  item={item}/>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        setReviewModal(true)
+                    }}
+                    >
+
+                    <Text style={{ color: "#04CFA4", alignSelf: "center", fontWeight: '600', fontSize: 16 }}>
+                        Review product
                     </Text >
-                    <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })} 
-                    textStyle={{fontWeight:'700' }}
-                    title={"Buy"} style={{ borderRadius: 12, marginTop: 10, }} />
-              
+                    </TouchableOpacity>
+                    <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })}
+                        textStyle={{ fontWeight: '700' }}
+                        title={"Buy"} style={{ borderRadius: 12, marginTop: 10, }} />
+
                 </View>
             </ScrollView>
 

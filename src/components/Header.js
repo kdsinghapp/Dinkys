@@ -10,7 +10,7 @@ const HeaderTwo = ({ title, navigation, back, subtitle }) => {
             <Pressable style={{ position: "absolute", left: 25 }} onPress={() => navigation.goBack()}>
                 {back ? null : <BackNav width={32} height={32} />}
             </Pressable>
-            <Text  style={{ color: "#000",fontWeight:'700',fontSize:25 }} >{title}</Text>
+            <Text  style={{ color: "#000",fontWeight:'700',fontSize:20 }} >{title}</Text>
         </View>
     )
 }

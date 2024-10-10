@@ -47,6 +47,13 @@ import MapDeliverd from '../screens/Delivery/MapDeliverd';
 import DriverDocument from '../screens/Delivery/DriverDocument';
 import DriverCertificate from '../screens/Delivery/DriverCertificate';
 import DriverProfile from '../screens/Delivery/DriverProfile';
+import MapPicker from '../components/MapPicker';
+import UserProfile from '../screens/Home/UserProfile';
+import MeetAndPay from '../screens/Home/MeetAndPay';
+import MyaddressModal from '../components/MyaddressModal';
+import PersionPayment from '../screens/Home/PersionPayment';
+import Help from '../components/Help';
+import BankDetails from '../screens/Home/AddBankDetails';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -130,6 +137,20 @@ export default function Navigation() {
                 <Stack.Screen name="DriverCertificate" component={DriverCertificate} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="DriverProfile" component={DriverProfile} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="MapPicker" component={MapPicker} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="UserProfile" component={UserProfile} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="MeetAndPay" component={MeetAndPay} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="MyaddressModal" component={MyaddressModal} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="PersionPayment" component={PersionPayment} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="Help" component={Help} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="BankDetails" component={BankDetails} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

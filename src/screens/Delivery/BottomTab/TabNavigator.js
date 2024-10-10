@@ -2,8 +2,9 @@ import {View, Text, Image, Platform, Keyboard} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './screen/Home';
-import Wallet from './screen/Wallet';
+
 import Profile from '../../profile/Profile';
+import Wallet from '../../profile/Wallet';
 
 const Tab = createBottomTabNavigator();
 
@@ -72,8 +73,8 @@ export default function TabNavigator() {
       />
     
 
-      <Tab.Screen
-        name={'Wallet'}
+      {/* <Tab.Screen
+        name={'WalletBottom'}
         component={Wallet}
         options={{
           tabBarIconStyle:{
@@ -105,7 +106,7 @@ export default function TabNavigator() {
           ),
 
         }}
-      />
+      /> */}
       <Tab.Screen
         name={'Profile'}
         component={Profile}

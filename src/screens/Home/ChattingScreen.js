@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ProRight from "../../assets/svg/LeftArrow.svg"
 import MenuSvg from "../../assets/svg/menu.svg"
 import SendSvg from "../../assets/svg/Send.svg"
-import AttachedSvg from "../../assets/svg/Attachment.svg"
+import Lock from "../../assets/svg/lock.svg"
 import { useFocusEffect } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import { errorToast } from '../../utils/customToast'
@@ -19,13 +19,13 @@ import LinearGradient from 'react-native-linear-gradient'
 
 
 const ChattingScreen = ({ navigation, route }) => {
-    const { item } = route?.params
+    const { item, product } = route?.params
     const userDetails = useSelector((state) => state.user.user)
     const [chat, setChat] = useState([]);
     const [loading, setLoading] = useState(false);
     const [send, setsend] = useState('');
 
-
+    console.log('product', product);
     useFocusEffect(
         React.useCallback(() => {
             _getChat();
@@ -86,13 +86,40 @@ const ChattingScreen = ({ navigation, route }) => {
                 setsend('');
             });
     };
+    const productImage = product?.product_images[0]?.image
 
-
+    console.log('item',item);
     return (
-        <View style={{ flex: 1, backgroundColor: "#F9F9F9" }}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <View style={{ flex: 1 }}>
-                <View style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 25, justifyContent: "space-between" }}>
+
+
+                {/* 
+            <>
+            <View style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 25, justifyContent: "space-between" }}>
+                    <Pressable onPress={() => navigation.goBack()} style={{marginLeft:-20}}>
+                        <ProRight width={50} height={50} />
+                    </Pressable>
+                    <View style={{ width: 40, height: 40, }}>
+                        <Image source={{ uri: productImage }} style={{ width: 40, height: 40, borderRadius: 40 / 2, }} />
+
+
+                    </View>
+                    <View style={{ width: "67%" }}>
+                        <Text style={{ fontSize:14, color: '#000', fontWeight: '500' ,marginLeft:15}} >{product?.title?.substring(0, 30)}</Text>
+                        <Text style={{ fontSize:12, color: '#949494', fontWeight: '500' ,marginLeft:15}} >{product?.product_location?.substring(0, 100)}</Text>
+           
+                    </View>
+                    <MenuSvg width={80} height={80} />
+                
+                
+                </View> 
+                
+            
+            */}
+    
+            <View style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 25, justifyContent: "space-between" }}>
                     <Pressable onPress={() => navigation.goBack()} style={{marginLeft:-20}}>
                         <ProRight width={50} height={50} />
                     </Pressable>
@@ -102,10 +129,28 @@ const ChattingScreen = ({ navigation, route }) => {
 
                     </View>
                     <View style={{ width: "67%" }}>
-                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '500' ,marginLeft:15}} >{item?.name}</Text>
-                        {/* <MyText h6 regular>Nemo enim ipsam voluptatem quia voluptas sit aspernatur</MyText> */}
+                        <Text style={{ fontSize:14, color: '#000', fontWeight: '500' ,marginLeft:15}} >{item?.name?.substring(0, 30)}</Text>
+                       
+           
                     </View>
-                    <MenuSvg width={31} height={31} />
+                    <MenuSvg width={80} height={80} />
+                
+                
+                </View> 
+                
+            
+           
+
+
+
+                <View style={{
+                    height: 80, flexDirection: 'row',
+                    alignItems: 'center', justifyContent: 'center', backgroundColor: "#F9F9F9",
+                    alignSelf: 'center', width: '50%', borderRadius: 25, marginTop: 20
+                }}>
+                    <Lock />
+                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '500', color: '#000', width: '70%', marginLeft: 10 }}>For security reasons, never share private data</Text>
+
                 </View>
                 <FlatList
                     inverted
@@ -146,10 +191,13 @@ const ChattingScreen = ({ navigation, route }) => {
                                                 </View>
                                                 :
                                                 <LinearGradient
-                                                    colors={['#0066FF', '#00CE9A']}
+                                                    colors={['#0BD89E', '#0BD89E']}
                                                     start={{ x: 5, y: 0 }}
                                                     end={{ x: 0, y: 1 }}
-                                                    style={{ padding: 10, alignSelf: "flex-start", borderRadius: 12 }}>
+                                                    style={{
+                                                        padding: 5, paddingHorizontal: 15,
+                                                        alignSelf: "flex-start", borderRadius: 12
+                                                    }}>
                                                     <MyText
                                                         h6
                                                         regular
@@ -171,18 +219,21 @@ const ChattingScreen = ({ navigation, route }) => {
                         );
                     }}
                 />
-                <View style={{ backgroundColor: "#F3F4F5", borderRadius: 30, 
-                flexDirection: "row", alignItems: "center", paddingVertical:2,
-                paddingHorizontal: 12, justifyContent: "space-between", margin: 15 }}>
+                <View style={{
+                    backgroundColor: "#F3F4F5", borderRadius: 30,
+                    flexDirection: "row", alignItems: "center", paddingVertical: 2,
+                    paddingHorizontal: 12, justifyContent: "space-between", margin: 15
+                }}>
                     {/* <AttachedSvg width={16} height={16} /> */}
-                    <TextInput style={{ width: "75%", height: "100%" }} value={send} onChangeText={(e) => setsend(e)} placeholder='Typing here...' />
+                    <TextInput style={{ width: "75%", height: "100%" }}
+                        value={send} onChangeText={(e) => setsend(e)} placeholder='Typing message...' />
                     {loading ? (
                         <ActivityIndicator size={'small'} />
                     ) : (
                         <Pressable
                             onPress={() =>
                                 send?.length === 0
-                                    ? errorToast('Please Enter text', 3000)
+                                    ? errorToast('Please Me text', 3000)
                                     : InsertChat_api()
                             }>
                             <SendSvg width={40} height={40} />

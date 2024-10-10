@@ -8,6 +8,12 @@
 <string>We need access to your photo library to select photos.</string>
 <key>NSMicrophoneUsageDescription</key>
 <string>We need access to your microphone to record videos.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need your location to show relevant data.</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>We need your location to always provide updates.</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>We need your location even when the app is in the background.</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>

@@ -1,7 +1,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
-import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import MyStatusBar from '../../elements/MyStatusBar'
 import HeaderTwo from '../../components/Header'
@@ -47,47 +47,54 @@ const BankScreen = ({ route }) => {
                 setLoading(false)
             })
     }
-
+    const lastFourDigits = account?.card_number.slice(-4);
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo title={"Bank Details"} navigation={navigation} />
             <View style={{ flex: 1, padding: 20 }}>
-                <Pressable onPress={() => navigation.navigate("AddCardDetails")} style={{ height: 206, width: "100%",
-                 borderRadius: 15, elevation: 5, backgroundColor: "#e7fbf5", justifyContent: "center", alignItems: "center" }}>
-                     <Text style={{ color: "#000",fontWeight:'600',fontSize:18 }}>Credit or debit card</Text>
-                    <RechargeSvg width={41} height={41} style={{ marginTop: 20 }} />
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate("AddCardDetails")} 
-                style={{ height: 206, width: "100%", borderRadius: 15, elevation: 5,
-                
-                backgroundColor: "#e7fbf5", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
-                    <Text style={{ color: "#000",fontWeight:'600',fontSize:18 }}>Bank Account</Text>
-                    <RechargeSvg width={41} height={41} style={{ marginTop: 20 }} />
-                </Pressable>
+           <Text style={{fontSize:18,fontWeight:'600',color:"#000"}}>My Card</Text>
 
-                <Pressable style={{position:'absolute',bottom:50,right:30}}>
+                <Pressable 
+                onPress={()=>{
+                    navigation.navigate('BankDetails')
+                }}
+                style={{position:'absolute',bottom:50,right:30}}>
                     <Image source={require('../../assets/dinkyimg/AddCard3x.png')}  style={{height:50,width:50,}}/>
                 </Pressable>
+
+                <View style={{marginTop:10}} />
                 {loading ?
                     <View style={{ marginTop: 30, alignItems: "center", justifyContent: "center" }}>
                         <ActivityIndicator size={"small"} />
                     </View>
                     :
                     account == null ? null :
-                        <View style={{
-                            marginTop: 30, width: "100%", padding: 15, borderRadius: 12, shadowOpacity: 0.8,
-                            shadowRadius: 2,
-                            shadowOffset: {
-                                height: 0,
-                                width: 0
-                            },
-                            backgroundColor: "#fff",
-                            elevation: 5,
-                        }}>
-                            <MyText h5 semibold >Card Name: {account?.card_holder_name}</MyText>
-                            <MyText h5 regular >Card No.: {account?.card_number}</MyText>
-                        </View>
+                    <View style={styles.cardContainer}>
+                    {/* Card Logo */}
+                    <Image
+                      source={require('../../assets/visa.png')}
+                      style={styles.logo}
+                    />
+              
+                    {/* Chip */}
+                    <Image
+                      source={require('../../assets/chip.png')}
+                      style={styles.chip}
+                    />
+              
+                    {/* Card Number */}
+                    <Text style={styles.cardNumber}>**** **** **** {lastFourDigits}</Text>
+              
+                    {/* Cardholder Name */}
+                    <Text style={styles.cardHolder}>{account?.card_holder_name}</Text>
+              
+                    {/* Expiry Date */}
+                    <View style={styles.cardDetails}>
+                      <Text style={styles.label}>Expiry</Text>
+                      <Text style={styles.expiryDate}>{account?.expire_month}/{account?.expire_year}</Text>
+                    </View>
+                  </View>
 
                 }
 
@@ -96,5 +103,60 @@ const BankScreen = ({ route }) => {
 
     )
 }
+const styles = StyleSheet.create({
+    cardContainer: {
+        alignSelf:'center',
 
+      width: '85%',
+      height: 200,
+      backgroundColor: '#1e1e1e',
+      borderRadius: 15,
+      padding: 20,
+      justifyContent: 'space-between',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      elevation: 8,
+    },
+    logo: {
+      width: 50,
+      height: 20,
+      resizeMode: 'contain',
+      position: 'absolute',
+      top: 20,
+      right: 20,
+    },
+    chip: {
+      width: 40,
+      height: 40,
+      resizeMode: 'contain',
+      marginTop: 30,
+    },
+    cardNumber: {
+      fontSize: 20,
+      letterSpacing: 2,
+      color: '#fff',
+      marginTop: 10,
+    },
+    cardHolder: {
+      fontSize: 16,
+      color: '#fff',
+      textTransform: 'uppercase',
+      marginTop: 15,
+    },
+    cardDetails: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 15,
+    },
+    label: {
+      fontSize: 12,
+      color: '#bbb',
+    },
+    expiryDate: {
+      fontSize: 16,
+      color: '#fff',
+    },
+  });
 export default BankScreen

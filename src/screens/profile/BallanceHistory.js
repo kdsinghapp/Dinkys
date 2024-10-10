@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
 import {
-    Pressable, Image, View, TouchableOpacity, TextInput, ScrollView, ImageBackground, FlatList, ActivityIndicator
+    Pressable, Image, View, Text,TouchableOpacity, TextInput, ScrollView, ImageBackground, FlatList, ActivityIndicator, StyleSheet
 } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -11,7 +11,10 @@ import MyText from '../../elements/MyText'
 import { useFocusEffect } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { DOMAIN } from '../../services/Config'
-import moment from 'moment'
+import {
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+  } from 'react-native-responsive-screen';
 const BallanceHistory = ({ route }) => {
     const navigation = useNavigation()
     const userDetails = useSelector((state) => state?.user?.user)
@@ -45,7 +48,34 @@ const BallanceHistory = ({ route }) => {
                 setLoading(false)
             })
     }
-
+    const formatDate = (inputDate) => {
+        const date = new Date(inputDate);
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+      };
+    const renderItem = ({ item }) => (
+        <View style={{ height: hp(12), paddingHorizontal: 5, justifyContent: 'center' }}>
+          <View style={{ height: 40, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ justifyContent: 'space-between', marginLeft: 5 }}>
+              <Text style={styles.amountText}>€ {item.amount}</Text>
+              <Text style={[styles.paymentTypeText, { color: item.payment_type === 'Debit' ? '#F44336' : '#4CAF50' }]}>
+                {item.payment_type}
+              </Text>
+            </View>
+            <View>
+              <Image
+                source={item.payment_type === 'Debit' ? require('../../assets/dinkyimg/Iconred3x.png') : require('../../assets/dinkyimg/Icongreenreceived3x.png')}
+                style={styles.paymentIcon}
+              />
+              <Text style={styles.dateText}>{formatDate(item.created_at)}</Text>
+            </View>
+          </View>
+        </View>
+      );
+    
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -62,24 +92,14 @@ const BallanceHistory = ({ route }) => {
                             <MyText>No data here...</MyText>
                         </View>
                         :
-                        balance.map((item, index) => {
-                            return (
-                                <View key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", marginVertical: 15, borderBottomWidth: 0.5, paddingBottom: 20, borderColor: "#949494" }}>
-                                    <View style={{ width: 60, height: 60, borderRadius: 20 / 2, backgroundColor: "#CACACA40" }}>
-                                    </View>
-                                    <View style={{ width: "58%" }}>
-                                        <MyText h5 bold>Rechargel </MyText>
-                                        <MyText h6 regular>Recharge Jan 10</MyText>
-                                    </View>
-                                    <View >
-                                        <MyText h6 bold style={{textAlign:"right"}}>$ {item?.amount}</MyText>
-                                        <MyText h6 regular>{moment(item?.created_at).format("DD MMM YYYY")}</MyText>
-
-
-                                    </View>
-                                </View>
-                            )
-                        })
+                        <View style={{ flex: 1 }}>
+                        <FlatList
+                          showsVerticalScrollIndicator={false}
+                          data={balance}
+                          renderItem={renderItem}
+                          keyExtractor={(item) => item.payment_id.toString()}
+                        />
+                      </View>
                 }
 
             </ScrollView >
@@ -89,3 +109,95 @@ const BallanceHistory = ({ route }) => {
 }
 
 export default BallanceHistory
+
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#FFF',
+      paddingHorizontal: 15,
+    },
+    header: {
+      marginTop: 30,
+    },
+    headerText: {
+      fontSize: 24,
+      lineHeight: 36,
+      fontWeight: '700',
+      color: '#000000',
+    },
+    balanceContainer: {
+      backgroundColor: '#0BD89E',
+      height: hp(20),
+      borderRadius: 20,
+      marginTop: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    balanceLabelText: {
+      fontSize: 14,
+      lineHeight: 21,
+      fontWeight: '500',
+      color: '#FFFFFF',
+    },
+    balanceText: {
+      fontSize: 20,
+      lineHeight: 26,
+      fontWeight: '700',
+      color: '#FFFFFF',
+    },
+    withdrawButton: {
+      height: 45,
+      backgroundColor: '#352C48',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 30,
+      borderRadius: 30,
+      marginTop: 20,
+    },
+    withdrawButtonText: {
+      fontWeight: '600',
+      fontSize: 14,
+      color: '#FFFFFF',
+      lineHeight: 25.5,
+      marginLeft: 10,
+    },
+    historyHeader: {
+      height: hp(5),
+      marginTop: 10,
+      justifyContent: 'center',
+    },
+    historyHeaderText: {
+      fontSize: 16,
+      lineHeight: 24,
+      fontWeight: '700',
+      color: '#000',
+    },
+    amountText: {
+      fontWeight: '600',
+      fontSize: 16,
+      lineHeight: 18,
+      alignItems: 'center',
+      color: '#000000',
+    },
+    paymentTypeText: {
+      fontWeight: '400',
+      fontSize: 12,
+      marginTop: 10,
+      lineHeight: 14,
+      alignItems: 'center',
+    },
+    paymentIcon: {
+      height: 30,
+      width: 30,
+      alignSelf: 'flex-end',
+    },
+    dateText: {
+      fontWeight: '400',
+      fontSize: 12,
+      lineHeight:14,
+      alignItems: 'center',
+      color: '#000',
+      marginTop: 10,
+    },
+  });

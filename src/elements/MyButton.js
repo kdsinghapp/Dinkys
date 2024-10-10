@@ -18,7 +18,7 @@ const MyButton = (props) => {
                     justifyContent: "center",
                     minHeight: 55,
                     borderRadius: 3,
-                    backgroundColor:'#0BD89E',
+                    backgroundColor:Theme.BUTTON_PRIMARY_COLOR,
                     paddingHorizontal: 20,
                     opacity: props.loading ? 0.5 : 1,
                     ...props.style
@@ -30,7 +30,7 @@ const MyButton = (props) => {
                 ) : (
                     <Text
                         style={{
-                   
+                   fontWeight:'700',
                             color: '#FFF',
                             fontSize: Theme.FONT_SIZE_MEDIUM,
                             fontFamily: Theme.FONT_FAMILY_SEMIBOLD,

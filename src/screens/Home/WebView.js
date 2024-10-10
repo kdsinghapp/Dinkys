@@ -1,15 +1,18 @@
-import React, { useRef } from 'react';
-import { View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Pressable, StyleSheet, View ,Text, BackHandler} from 'react-native';
 import WebView from 'react-native-webview';
 import MyStatusBar from '../../elements/MyStatusBar';
 import HeaderTwo from '../../components/Header';
 import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import { successToast } from '../../utils/customToast';
-
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import BackNav from "../../assets/svg/BackNav.svg"
+import ExitConfirmationModal from './ExitConfirmationModal';
 const WebViewScreen = ({ route, navigation }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const { url, details, shipping_charge, wallet, amount } = route?.params
+    const [modalVisible, setModalVisible] = useState(false);
 
     const onNavigationStateChange = navState => {
         const filename = navState?.url?.split('/')?.pop()?.split('?')[0].split('#')[0];
@@ -90,15 +93,33 @@ const WebViewScreen = ({ route, navigation }) => {
                     .catch((error) => console.error(error));
             }
         }
+    
 
     };
 
-
+    useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+            // Show the modal when the back button is pressed
+            setModalVisible(true);
+            return true; // Prevent default back button behavior
+          };
+      
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      
+          return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        }, [])
+      );
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Payment"} />
+            <View style={styles.container}>
+            <Pressable style={{ position: "absolute", left: 25 }} onPress={() => {setModalVisible(true)}}>
+           <BackNav width={32} height={32} />
+            </Pressable>
+            <Text  style={{ color: "#000",fontWeight:'700',fontSize:20 }} >Payment</Text>
+        </View>
             <WebView
                 source={{ uri: url }}
                 javaScriptEnabled
@@ -112,9 +133,25 @@ const WebViewScreen = ({ route, navigation }) => {
                 injectedJavaScript={`
                 document.getElementsByClassName("elementor-search-form__container")[0].style="padding:10px 10px";`}
             />
+
+<ExitConfirmationModal 
+        modalVisible={modalVisible} 
+        setModalVisible={setModalVisible} 
+      />
         </View>
 
     );
 }
 export default WebViewScreen;
 
+const styles = StyleSheet.create({
+    container: {
+        overflow: "hidden",
+        justifyContent: "center",
+        padding: 20,
+        paddingTop: 20,
+        justifyContent: "center",
+        alignItems: "center"
+
+    },
+})

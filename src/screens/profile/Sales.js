@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react'
-import { Image, Pressable, ScrollView, Alert, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator } from 'react-native'
+import { Image, Pressable, ScrollView, Alert, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Linking } from 'react-native'
 import MyText from '../../elements/MyText'
 import { useSelector } from 'react-redux'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -87,8 +87,14 @@ const Sales = ({ navigation }) => {
             setData(item)
     }
 
+ 
 
-    console.log('purchase',purchase);
+        const openGoogleMaps = (latitude, longitude) => {
+          const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+          Linking.openURL(url).catch((err) => console.error('Error opening Google Maps:', err));
+        };
+      
+      console.log('purchase',purchase);
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
@@ -239,9 +245,10 @@ const Sales = ({ navigation }) => {
                                         {Expandable &&
                                             <>
                                                 <View style={{ height: hp(28) }}>
-                                                    <TouchableOpacity
+                                                    <View
                                                     onPress={()=>{
                                                         // navigation.navigate('Map',{details:item})
+
                                                     }}
                                                     >
 
@@ -249,9 +256,19 @@ const Sales = ({ navigation }) => {
                                                         width: '100%', height: hp(15), borderRadius: 12,
                                                         
                                                     }} resizeMode='cover' />
-                                                    </TouchableOpacity>
 
-                                                    <MyButton loading={loading} onPress={()=>{_add_card(item)}} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD }} style={{ borderRadius: 15, marginVertical: 10, width: "100%", alignSelf: "center", marginTop: 20, }} title={"View Pickup Point"} />
+                                                    <Image source={require('../../assets/dinkyimg/location.png')} style={{
+                                                        width:30, height:30, borderRadius: 12,
+                                                        position:'absolute',
+                                                        alignSelf:'center',
+                                                        marginTop:'12%'
+                                                        
+                                                    }} resizeMode='cover' />
+                                                    </View>
+
+                                                    <MyButton loading={loading} onPress={()=>{openGoogleMaps(item.lat,item.long)}} textStyle={{ fontSize: 18, fontWeight: "700",
+                                                     fontFamily: Theme.FONT_FAMILY_SEMIBOLD }} style={{ borderRadius: 15, marginVertical: 10, 
+                                                     width: "100%", alignSelf: "center", marginTop: 20, }} title={"View Pickup Point"} />
 
                                                 </View>
 
@@ -310,13 +327,13 @@ const Sales = ({ navigation }) => {
          <Text style={{ color: "#04CFA4", fontSize: 14, fontWeight: '700' }}>
              € {item?.price}
          </Text >
-         <Heart />
+         {/* <Heart /> */}
      </View>
          <Text style={{ color: "#000",fontWeight:'600',fontSize:12 }}>
              {item?.title?.substring(0,20)}
          </Text >
-         <Text style={{ color: "#949494",fontWeight:'600',fontSize:12 }}>
-             {item?.description?.substring(0,25)}
+         <Text style={{ color: "#949494",fontWeight:'600',fontSize:10 }}>
+             {item?.product_location?.substring(0,100)}...
          </Text >
      </View>
  </Pressable>

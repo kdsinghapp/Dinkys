@@ -40,6 +40,7 @@ const AddProduct = ({ navigation }) => {
     const [cityList, setCityList] = useState([]);
     const [hastagOpen, sethastagOpen] = useState(false);
     const [hastagData, sethastagData] = useState('');
+    const [color, setcolor] = useState('');
     const [hastagList, sethastagList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [PickupLocationlat, setPickupLocationlat] = useState({
@@ -188,6 +189,7 @@ const AddProduct = ({ navigation }) => {
             formdata.append("city_id", cityData?.id);
             formdata.append("zip_code", zip);
             formdata.append("brand", brand);
+            formdata.append("color", color);
             formdata.append("hashtag_id", hastagData?.id);
             formdata.append("product_location", PickupLocationlat?.place);
             formdata.append("lat", PickupLocationlat?.lat);
@@ -303,6 +305,7 @@ const AddProduct = ({ navigation }) => {
                             key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',
                             language: 'en',
                         }}
+                        enablePoweredByContainer={false}
                     />
                 </View>
             <ScrollView style={{ flex: 1, padding: 20, paddingTop: 0 }}>
@@ -401,6 +404,7 @@ const AddProduct = ({ navigation }) => {
                 </Pressable>
                 <TextInput value={zip} placeholder='Zip Code' placeholderTextColor={"#000"} onChangeText={(e) => setZip(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
                 <TextInput value={brand} placeholder='Brand' placeholderTextColor={"#000"} onChangeText={(e) => setBrand(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15 }} />
+                <TextInput value={color} placeholder='Color' placeholderTextColor={"#000"} onChangeText={(e) => setcolor(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15 ,marginTop:10}} />
                 <TextInput value={status} placeholder='Products Status' placeholderTextColor={"#000"} onChangeText={(e) => setStatus(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
                 <Pressable onPress={() => sethastagOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginBottom: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <MyText h6 regular style={{ color: "#000" }}>{!hastagData?.hash_tag_name ? "Hastag" : hastagData?.hash_tag_name}</MyText>

@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react'
 import {
-    Pressable, View, TextInput, ScrollView, Image,Text
+    Pressable, View, TextInput, ScrollView, Image,Text, TouchableOpacity
 } from 'react-native'
 import MyStatusBar from '../../elements/MyStatusBar'
 import MyText from '../../elements/MyText'
@@ -47,13 +47,16 @@ const Profile = ({ navigation }) => {
             })
     }
 
-console.log('user?.image',userDetailData?.access_token);
     return (
         <View style={{ flex: 1, backgroundColor: "#F9F9F9" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} back={true} title={"Profile"} />
             <ScrollView style={{ flex: 1 }}>
-                <View style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 25, justifyContent: "space-between" }}>
+                <TouchableOpacity
+                onPress={()=>{
+                    navigation.navigate('EditProfile',{userDetails: user})
+                }}
+                style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 25, justifyContent: "space-between" }}>
                     <View style={{ width: 80, height: 80, borderRadius: 80 / 2, borderWidth: 0.5, overflow: "hidden" }}>
                         {user?.image?.length === 0 ? null : <Image source={{ uri: user?.image }} style={{ width: "100%", height: "100%", borderRadius: 80 / 2 }} />}
                     </View>
@@ -66,7 +69,7 @@ console.log('user?.image',userDetailData?.access_token);
                </View>
                     </View>
                     <ProRight width={16} height={16} />
-                </View>
+                </TouchableOpacity>
                 <View style={{ backgroundColor: "transparent", padding: 25, justifyContent: "space-between", paddingVertical: 20 }}>
                     <Text style={{ color: "#04CFA4",fontWeight:'700',fontSize:18 }} >Transaction</Text>
                 </View>
@@ -98,7 +101,11 @@ console.log('user?.image',userDetailData?.access_token);
                     <Text  style={{color:'#000',fontWeight:'500',fontSize:16}}>Setting</Text>
                         <ProRight width={24} height={24} />
                     </Pressable>
-                    <Pressable style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginVertical: 30 }}>
+                    <Pressable 
+              
+                        onPress={() => user == null ? null : navigation.navigate("Help", { userDetails: user })}
+            
+                    style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginVertical: 30 }}>
                     <Text  style={{color:'#000',fontWeight:'500',fontSize:16}}>Help</Text>
                         <ProRight width={24} height={24} />
                     </Pressable>

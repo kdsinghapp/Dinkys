@@ -76,7 +76,8 @@ const OrderSalesDetails = ({
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12,borderBottomWidth: 1, borderColor: "#D9D9D9", paddingVertical: 18 }}>
-                        <View style={{ width: 60, height: 60, borderRadius: 12, overflow: "hidden" }}>
+                    <View style={{ width: 60, height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../assets/dinkyimg/Total3x.png')} style={{ width: 40, height: 40 }} />
                         </View>
                         <View >
                             <MyText h5 bold style={{ color: "#1C1B1B" }}>
@@ -89,7 +90,8 @@ const OrderSalesDetails = ({
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12,borderBottomWidth: 1, borderColor: "#D9D9D9", paddingVertical: 18 }}>
-                        <View style={{ width: 60, height: 60, borderRadius: 12, overflow: "hidden" }}>
+                    <View style={{ width: 60, height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../assets/dinkyimg/User.png')} style={{ width: 40, height: 40 }} />
                         </View>
                         <View >
                             <MyText h5 bold style={{ color: "#1C1B1B" }}>
@@ -102,7 +104,8 @@ const OrderSalesDetails = ({
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12,borderBottomWidth: 1, borderColor: "#D9D9D9", paddingVertical: 18 }}>
-                        <View style={{ width: 60, height: 60, borderRadius: 12, overflow: "hidden" }}>
+                    <View style={{ width: 60, height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../assets/dinkyimg/AddressShiping3x.png')} style={{ width: 40, height: 40 }} />
                         </View>
                         <View >
                             <MyText h5 bold style={{ color: "#1C1B1B" }}>
@@ -114,7 +117,8 @@ const OrderSalesDetails = ({
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12,borderBottomWidth: 1, borderColor: "#D9D9D9", paddingVertical: 18 }}>
-                        <View style={{ width: 60, height: 60, borderRadius: 12, overflow: "hidden" }}>
+                    <View style={{ width: 60, height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                            <Image source={require('../assets/dinkyimg/Paymentmethod3x.png')} style={{ width: 40, height: 40 }} />
                         </View>
                         <View >
                             <MyText h5 bold style={{ color: "#1C1B1B" }}>
@@ -125,7 +129,7 @@ const OrderSalesDetails = ({
                             </MyText >
                         </View>
                     </View>
-                    {data?.status == "wind" ?
+                    {/* {data?.status == "wind" ?
                         <Button
                             buttonTitle={"Inprogress"}
                             onPress={()=>onDone(data?.id,"inprogress")}
@@ -139,7 +143,7 @@ const OrderSalesDetails = ({
                             />
                             :
                             null
-                    }
+                    } */}
                 </View>
             </View>
         </Modal>
