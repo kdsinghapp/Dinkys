@@ -34,6 +34,7 @@ const { width } = Dimensions.get('window');
 const ProductDetails = ({ navigation, route }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const { item } = route?.params
+console.log('item',item);
     const [details, setDetails] = useState(null)
     const [loading, setLoading] = useState(false)
     const [rating, setRating] = useState("3")
@@ -518,7 +519,7 @@ const [reviewCount,setreviewCount] = useState(3)
                         Review product
                     </Text >
                     </TouchableOpacity>
-                    <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })}
+                  <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })}
                         textStyle={{ fontWeight: '700' }}
                         title={"Buy"} style={{ borderRadius: 12, marginTop: 10, }} />
 

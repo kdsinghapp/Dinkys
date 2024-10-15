@@ -362,8 +362,10 @@ const Home = ({ navigation }) => {
                         style={{ paddingVertical: 10 }}>
                             <Bag width={28} height={28} />
                         </Pressable>
-                        <Pressable style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 40 / 2 }}>
-                            {user?.image?.length === 0 ? null : <Image source={{ uri: user?.image }} style={{ width: "100%", height: "100%", borderRadius: 40 / 2 }} />}
+                        <Pressable style={{ width: 40, backgroundColor:'#f0f0f0',
+                            alignItems:'center',justifyContent:'center',
+                            height: 40,  borderRadius: 40 / 2 }}>
+                            {user?.image !== 'https://api.dkyss.es/public/uploads/users/'? <Image source={{ uri: user?.image }} style={{ width: "100%", height: "100%", borderRadius: 40 / 2 }} />:<Text style={{color:'#000',fontWeight:'600',fontSize:14}}>{user?.user_name[0]?.toUpperCase()}</Text>}
                         </Pressable>
                     </View>
                 </View>
