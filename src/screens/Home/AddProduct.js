@@ -226,10 +226,9 @@ const AddProduct = ({ navigation }) => {
     }
     const _launchCamera = async () => {
         ImagePicker.openCamera({
-            width: 500,
-            height: 500,
+           
             cropping: true,
-            cropperCircleOverlay: true,
+   
             includeExif: true,
         })
             .then(image => {
@@ -243,21 +242,18 @@ const AddProduct = ({ navigation }) => {
 
     const _launchGallery = async () => {
         ImagePicker.openPicker({
-            width: 500,
-            height: 500,
+            includeExif: true,  // This will include the image's metadata
             cropping: true,
-            cropperCircleOverlay: true,
-            includeExif: true,
         })
             .then(image => {
-                setImageData([...imageData, image])
+                setImageData([...imageData, image]);
                 setImageOpen(false);
             })
             .catch(e => {
                 console.log(e);
             });
     };
-
+    
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
@@ -383,8 +379,12 @@ const AddProduct = ({ navigation }) => {
                     </Pressable>
                 </View>
                
-                <TextInput value={title} placeholder='Title' placeholderTextColor={"#000"} onChangeText={(e) => setTitle(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15 }} />
-                <TextInput multiline value={des} placeholder='Discription' placeholderTextColor={"#000"} onChangeText={(e) => setDes(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 12 }} />
+                <TextInput value={title} placeholder='Title' placeholderTextColor={"#000"}
+                 onChangeText={(e) => setTitle(e)} style={{ borderColor: "#EBEBEB",color:'#000', borderWidth: 1, borderRadius: 12, padding: 15 }} />
+                <TextInput  multiline value={des} placeholder='Discription' placeholderTextColor={"#000"} 
+                
+                onChangeText={(e) => setDes(e)} style={{ borderColor: "#EBEBEB", color:'#000',
+                borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 12 }} />
             
                 <Pressable onPress={() => setopenCate(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <MyText h6 regular style={{ color: "#000" }}>{!categoriesData?.category_name ? "Category" : categoriesData?.category_name}</MyText>
@@ -402,10 +402,15 @@ const AddProduct = ({ navigation }) => {
                     <MyText h6 regular style={{ color: "#000" }}>{!cityData?.name ? "City" : cityData?.name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
-                <TextInput value={zip} placeholder='Zip Code' placeholderTextColor={"#000"} onChangeText={(e) => setZip(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
-                <TextInput value={brand} placeholder='Brand' placeholderTextColor={"#000"} onChangeText={(e) => setBrand(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15 }} />
-                <TextInput value={color} placeholder='Color' placeholderTextColor={"#000"} onChangeText={(e) => setcolor(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15 ,marginTop:10}} />
-                <TextInput value={status} placeholder='Products Status' placeholderTextColor={"#000"} onChangeText={(e) => setStatus(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
+                <TextInput value={zip} placeholder='Zip Code' placeholderTextColor={"#000"}
+                
+                onChangeText={(e) => setZip(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15, marginVertical: 15, }} />
+                <TextInput value={brand} placeholder='Brand' placeholderTextColor={"#000"} 
+                onChangeText={(e) => setBrand(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15 }} />
+                <TextInput value={color} placeholder='Color' placeholderTextColor={"#000"} 
+                onChangeText={(e) => setcolor(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, color:'#000',borderRadius: 12, padding: 15 ,marginTop:10}} />
+                <TextInput value={status} placeholder='Products Status' 
+                placeholderTextColor={"#000"} onChangeText={(e) => setStatus(e)} style={{ color:'#000',borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
                 <Pressable onPress={() => sethastagOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginBottom: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <MyText h6 regular style={{ color: "#000" }}>{!hastagData?.hash_tag_name ? "Hastag" : hastagData?.hash_tag_name}</MyText>
                     <ProRight width={12} height={12} />
@@ -423,8 +428,12 @@ const AddProduct = ({ navigation }) => {
                         }
                     </View>
                 )}
-                <TextInput value={price} placeholder='Price' placeholderTextColor={"#000"} onChangeText={(e) => setPrice(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
+                <TextInput value={price} placeholder='Price' placeholderTextColor={"#000"}
+                
+                onChangeText={(e) => setPrice(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15, marginVertical: 15, }} />
                 <MyButton title={"Post Add"} loading={loading} onPress={uploadHandler} style={{ borderRadius: 12 }} />
+         
+         <View  style={{height:60}} />
             </ScrollView>
             <SingleExperties
                 isVisible={openCate}

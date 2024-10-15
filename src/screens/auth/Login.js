@@ -186,10 +186,10 @@ const Login = ({ route, navigation }) => {
                     </MyText >
                 </Pressable>
                 <MyButton loading={loading} onPress={loginHandler} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "100%", alignSelf: "center", marginVertical: 8 }} title={"Login"} />
-                <MyText h4 semibold style={{ textAlign: "center", color: "#000000", marginVertical: 18 }}>
+                {/* <MyText h4 semibold style={{ textAlign: "center", color: "#000000", marginVertical: 18 }}>
                     Or
-                </MyText >
-                <Pressable style={{ width: "100%", padding: 18, borderWidth: 1, borderColor: "#EBEBEB", borderRadius: 15, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
+                </MyText > */}
+                {/* <Pressable style={{ width: "100%", padding: 18, borderWidth: 1, borderColor: "#EBEBEB", borderRadius: 15, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
                     <GoogleSvg width={24} height={24} />
                     <MyText h5 semibold style={{ color: "#00000054" }}>
                         Login with Google
@@ -200,7 +200,7 @@ const Login = ({ route, navigation }) => {
                     <MyText h5 semibold style={{ color: "#00000054" }}>
                         Login with Facebook
                     </MyText >
-                </Pressable>
+                </Pressable> */}
                 <Pressable onPress={() => setShowNumber(!showNumber)} style={{ width: "100%", padding: 18, borderWidth: 1, borderColor: "#EBEBEB", borderRadius: 15, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
                     {showNumber ? <SMSSvg width={24} height={24} /> : <MobileSvg width={24} height={24} />}
                     <MyText h5 semibold style={{ color: "#00000054" }}>

@@ -49,6 +49,7 @@ const Delivery = ({ navigation, route }) => {
         return distance.toFixed(2); // Return distance rounded to 2 decimal places
     }
     
+
     
     const _next = () => {
         if (show == "person") {
@@ -145,7 +146,8 @@ const Delivery = ({ navigation, route }) => {
             <MyButton onPress={_next} title={"Continue"} style={{ borderRadius: 12, marginBottom:10, width: "95%", alignSelf: "center" }} />
             <MapPickerModal    setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible}  sendLocation={setPickupLocation} setLocationName={setPickupLocationName}  />
   
-            <MyaddressModal    setModalVisible={setaddressModalVisible} modalVisible={addressModalVisible}  sendLocation={setAddressLocation} setLocationName={setAddressLocationName}  />
+            <MyaddressModal    setModalVisible={setaddressModalVisible} modalVisible={addressModalVisible} 
+             sendLocation={setAddressLocation} setLocationName={setAddressLocationName}  />
      
         </View>
     )

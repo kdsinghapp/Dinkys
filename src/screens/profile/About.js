@@ -3,30 +3,74 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
 import {
+    FlatList,
     Image, ImageBackground, Pressable, ScrollView, TextInput, View,
 } from 'react-native'
 import MyStatusBar from '../../elements/MyStatusBar'
 import MyText from '../../elements/MyText'
 import HeaderTwo from '../../components/Header'
+import { useSelector } from 'react-redux'
+import { useFocusEffect } from '@react-navigation/native'
 const About = ({ navigation }) => {
+
+
+    const [faqData, setFaqData] = useState([])
+    const userDetailData = useSelector((state) => state.user.user)
+
+    const token = userDetailData?.access_token
+    useFocusEffect(
+        React.useCallback(() => {
+            _get_about()
+        }, [])
+    )
+    const _get_about = () => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch("https://api.dkyss.es/api/get_about_us", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                const res = JSON.parse(result)
+                if (res?.status == '1') {
+                    setFaqData(res?.result)
+
+                }
+
+            })
+
+            .catch((error) => console.error(error));
+    }
+
+
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} title={"About Us"} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, paddingTop: 0, padding: 20 }}>
-                <MyText h6 bold style={{ color: "#000000", }}>
-                    App About Details
-                </MyText >
-                <MyText h6 bold style={{ color: "#00000050", marginTop: 10 }}>
-                    At STEMM Research, we understand the crucial role that visual documentation plays in the field of dentistry. To enhance this process, we have developed a user-friendly and feature-rich app that empowers patients and dental practitioners to take high-quality images with ease.
-                </MyText >
-                <MyText h6 bold style={{ color: "#000000", marginVertical: 15 }}>
-                    App Usage
-                </MyText >
-                <MyText h6 bold style={{ color: "#00000050", }}>
-                    STEMM Research is committed to pushing the boundaries of dental technology, and our FirstSightDentalTMApp is just the beginning. We strive to empower both patients and dental professionals worldwide with innovative solutions that promote equity, elevate quality of care, and provide useful services to the community, including vulnerable individuals and underrepresented minorities.
-                    Download the FirstSightDentalTMApp by STEMM Research today and experience a new era of dental photography. Join us on our journey to revolutionize the way dental images are captured and utilized for improved patient outcomes.
-                </MyText >
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={faqData}
+                    keyExtractor={(item, index) => index?.toString()}
+                    style={{ flex: 1, paddingVertical: 10, backgroundColor: "transparent", marginBottom: 30 }}
+                    renderItem={({ item }) => (
+                        <View>
+                            <MyText h6 bold style={{ color: "#000000", marginVertical: 15 }}>
+                                {item?.name}
+                            </MyText >
+                            <MyText h6 bold style={{ color: "#00000050", }}>
+                                {item.description}
+                            </MyText >
+                        </View>
+                    )
+                    }
+                />
             </ScrollView>
         </View>
     )

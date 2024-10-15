@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Platform, Pressable, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geocoder from 'react-native-geocoding'; // Optional if you want address from lat/lng
@@ -7,6 +7,7 @@ import Theme from '../theme';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCurrentLocation, locationPermission } from './helperFunction';
 import Geolocation from '@react-native-community/geolocation';
+import AddressAutocomplete from './AddressAutocomplete';
 
 Geocoder.init("AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70");
 
@@ -25,28 +26,28 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
     const [address, setAddress] = useState('');
     const [placeholderModal, setplaceholderModal] = useState(false);
     const navigation = useNavigation();
-    
+
 
     const getCurrentLocation2 = () => {
         Geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setRegion({
-              ...region,
-              latitude,
-              longitude,
-            });
-            setMarkerPosition({
-              latitude,
-              longitude,
-            });
-          },
-          (error) => {
-            console.log(error);
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setRegion({
+                    ...region,
+                    latitude,
+                    longitude,
+                });
+                setMarkerPosition({
+                    latitude,
+                    longitude,
+                });
+            },
+            (error) => {
+                console.log(error);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
-      };
+    };
 
     // // Ask for permission and get location on component mount
     useEffect(() => {
@@ -55,7 +56,7 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
 
 
 
- 
+
     const handleConfirmLocation = () => {
         setModalVisible(false); // Close modal when user confirms location
     };
@@ -65,7 +66,7 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
     // sendLocation({ latitude: lat, longitude: lng });
 
 
-    const setLocaitonName =(liveLocation)=>{
+    const setLocaitonName = (liveLocation) => {
         sendLocation({ latitude: liveLocation?.latitude, longitude: liveLocation.longitude });
         if (liveLocation?.latitude && liveLocation?.longitude) {
             Geocoder.from(liveLocation.latitude, liveLocation.longitude)
@@ -88,13 +89,19 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
             transparent={true}
             onRequestClose={() => setModalVisible(false)} // Handle back button on Android
         >
-             <View style={styles.modalContainer}>
+            <View style={styles.modalContainer}>
                 <View style={styles.headerContainer}>
                     <HeaderTwo navigation={navigation} title={"Select Address"} />
                 </View>
 
-                {/* <AddressAutocomplete
-                    setMarkerPosition={setMarkerPosition}
+                {placeholderModal && <AddressAutocomplete
+                    setMarkerPosition={(latitude, longitude) => {
+                        setMarkerPosition({
+                            latitude,
+                            longitude,
+                        })
+                        setplaceholderModal(false)
+                    }}
                     setRegion={setRegion}
                     setAddress={setAddress}
                     setLocationName={setLocationName}
@@ -102,26 +109,28 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
                     onFocus={() => setMapPointerEvents('none')}
                     onBlur={() => setMapPointerEvents('auto')}
                     liveLocation={markerPosition}
-                /> */}
+                />}
 
                 <Pressable
-                onPress={()=>{
-                    setplaceholderModal(true)
-                }}
-                style={{flexDirection:'row',
-                position:'absolute',
-                alignItems:'center',backgroundColor:'#fff',borderRadius:15,width:'90%',
-            height:60,
-            paddingHorizontal:10,
+                    onPress={() => {
+                        setplaceholderModal(true)
+                    }}
+                    style={{
+                        flexDirection: 'row',
+                        position: 'absolute',
+                        alignItems: 'center', backgroundColor: '#fff', borderRadius: 15, width: '90%',
+                        height: 60,
+                        paddingHorizontal: 10,
 
-                zIndex:1,
-                marginTop:'20%'}}>
+                        zIndex: 1,
+                        marginTop: '20%'
+                    }}>
 
-                    <Text style={{color:'#000',fontSize:12,fontWeight:'500',}}>{address?address?.substring(0,60):'Enter address'}</Text>
+                    <Text style={{ color: '#000', fontSize: 12, fontWeight: '500', }}>{address ? address?.substring(0, 60) : 'Enter address'}</Text>
 
                 </Pressable>
 
-                <MapView
+                {!placeholderModal && <MapView
                     style={styles.map}
                     region={region}
                     onRegionChangeComplete={(newRegion) => {
@@ -132,27 +141,29 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
                         });
                         setRegion(newRegion); // Save the new region
                     }}
-                />
-                
-                <View style={styles.markerFixed}>
+                />}
+
+                {!placeholderModal && <View style={styles.markerFixed}>
                     <Image source={require('../assets/locationpin.png')} style={{ height: 40, width: 40 }} />
                 </View>
-
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute', bottom: 150, right: 30,
-                        height: 40, width: 40, alignItems: 'center', justifyContent: 'center',
-                        backgroundColor: '#919b9d', borderRadius: 15
-                    }}
-                    onPress={getCurrentLocation2}
-                >
-                    <Image source={require('../assets/target.png')} style={{ height: 25, width: 25 }} />
-                </TouchableOpacity>
+                }
+                {!placeholderModal &&
+                    <TouchableOpacity
+                        style={{
+                            position: 'absolute', bottom: 150, right: 30,
+                            height: 40, width: 40, alignItems: 'center', justifyContent: 'center',
+                            backgroundColor: '#919b9d', borderRadius: 15
+                        }}
+                        onPress={getCurrentLocation2}
+                    >
+                        <Image source={require('../assets/target.png')} style={{ height: 25, width: 25 }} />
+                    </TouchableOpacity>
+                }
                 <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmLocation}>
                     <Text style={styles.confirmButtonText}>Confirm Location</Text>
                 </TouchableOpacity>
 
-               
+
             </View>
         </Modal>
     );

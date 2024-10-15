@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Pressable, StyleSheet, View ,Text, BackHandler} from 'react-native';
+import { Pressable, StyleSheet, View ,Text, BackHandler, Image} from 'react-native';
 import WebView from 'react-native-webview';
 import MyStatusBar from '../../elements/MyStatusBar';
 import HeaderTwo from '../../components/Header';
@@ -9,15 +9,19 @@ import { successToast } from '../../utils/customToast';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import BackNav from "../../assets/svg/BackNav.svg"
 import ExitConfirmationModal from './ExitConfirmationModal';
-const WebViewScreen = ({ route, navigation }) => {
+const WebViewScreen = ({ route,  }) => {
     const userDetails = useSelector((state) => state?.user?.user)
-    const { url, details, shipping_charge, wallet, amount } = route?.params
+    const { url, details, shipping_charge, wallet, amount,payINper } = route?.params
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [webView, setwebView] = useState(true);
+const navigation = useNavigation()
     const onNavigationStateChange = navState => {
         const filename = navState?.url?.split('/')?.pop()?.split('?')[0].split('#')[0];
         if (filename == "handle-checkout-success") {
+
+            setwebView(false)
             if (wallet) {
+                setwebView(false)
                 const requestOptions = {
                     method: "GET",
                     redirect: "follow"
@@ -51,7 +55,28 @@ const WebViewScreen = ({ route, navigation }) => {
                         }
                     })
                     .catch((error) => console.error(error));
-            } else {
+            }
+            
+         else  if(payINper){
+            setwebView(false)
+            const requestOptions = {
+                method: "GET",
+                redirect: "follow"
+            };
+            fetch(navState?.url, requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                  
+                    if (result?.session?.payment_status == "paid") {
+                        navigation.navigate('CreateMettingScreen', { details, shipping_charge,amount,payment_intent:result?.session?.payment_intent })
+             
+                    }
+                })
+                .catch((error) => console.error(error));
+
+
+            }
+            else {
                 const requestOptions = {
                     method: "GET",
                     redirect: "follow"
@@ -59,7 +84,7 @@ const WebViewScreen = ({ route, navigation }) => {
                 fetch(navState?.url, requestOptions)
                     .then((response) => response.json())
                     .then((result) => {
-                        console.log("result", result)
+                      
                         if (result?.session?.payment_status == "paid") {
                             var formdata = new FormData();
                             formdata.append("user_id", userDetails?.id);
@@ -120,7 +145,7 @@ const WebViewScreen = ({ route, navigation }) => {
             </Pressable>
             <Text  style={{ color: "#000",fontWeight:'700',fontSize:20 }} >Payment</Text>
         </View>
-            <WebView
+    { webView &&       <WebView
                 source={{ uri: url }}
                 javaScriptEnabled
                 onNavigationStateChange={onNavigationStateChange}
@@ -133,7 +158,15 @@ const WebViewScreen = ({ route, navigation }) => {
                 injectedJavaScript={`
                 document.getElementsByClassName("elementor-search-form__container")[0].style="padding:10px 10px";`}
             />
+}
 
+
+{!webView &&
+   <View style={{flex:1,backgroundColor:'#fff',alignItems:'center',justifyContent:'center'}}>
+    <Image   source={require('../../assets/paymentdone.png')}  style={{height:'80%',width:'80%'}}
+    resizeMode='contain'/>
+   </View>  
+}
 <ExitConfirmationModal 
         modalVisible={modalVisible} 
         setModalVisible={setModalVisible} 

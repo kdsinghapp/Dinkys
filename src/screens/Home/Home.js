@@ -35,7 +35,7 @@ const Home = ({ navigation }) => {
 
     const [searchHistory, setSearchHistroy] = useState([])
 
-    console.log('searchHistory?.length', searchHistory?.length);
+    console.log('searchHistory?.length', userDetailData);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -374,7 +374,12 @@ const Home = ({ navigation }) => {
                     marginVertical: 12
                 }}>
                     <SearchSvg width={16} height={16} style={{ paddingLeft: 30 }} />
-                    <TextInput value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder='Search here...' style={{ width: "75%" }} />
+                    <TextInput
+                    
+                    placeholderTextColor={'#000'}
+                    value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder='Search here...'
+                    
+                    style={{ width: "75%",color:'#000' }} />
                     {searchVal && <TouchableOpacity
                         onPress={() => {
                             _get_search_product()

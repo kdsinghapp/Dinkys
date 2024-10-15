@@ -123,19 +123,23 @@ const EditProfile = ({ route }) => {
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
                             {"Full Name"}
                         </Text >
-                        <TextInput value={name} keyboardType="default" onChangeText={(e) => setName(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Name' placeholderTextColor={"#000"} />
+                        <TextInput value={name} keyboardType="default" 
+                        
+                        onChangeText={(e) => setName(e)} style={{ width: "100%", borderRadius: 10,color:'#000' }} 
+                        placeholder='Enter Name' placeholderTextColor={"#000"} />
                     </View>
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
                             {"Email"}
                         </Text >
-                        <TextInput value={email} keyboardType="default" style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Email' placeholderTextColor={"#000"} />
+                        <TextInput value={email} keyboardType="default" style={{ width: "100%",color:'#000', borderRadius: 10 }} placeholder='Enter Email' placeholderTextColor={"#000"} />
                     </View>
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
                             {"Location"}
                         </Text >
-                        <TextInput value={address} keyboardType="default" onChangeText={(e) => setAddress(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Location' placeholderTextColor={"#000"} />
+                        <TextInput value={address} keyboardType="default" onChangeText={(e) => setAddress(e)} 
+                        style={{ width: "100%",color:'#000', borderRadius: 10 }} placeholder='Enter Location' placeholderTextColor={"#000"} />
                     </View>
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
@@ -143,11 +147,11 @@ const EditProfile = ({ route }) => {
                         </Text >
                         <TextInput value={gender} keyboardType="default" onChangeText={(e) => setGender(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Gender' placeholderTextColor={"#000"} />
                     </View>
-                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
+                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15,color:'#000',  marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
                             {"Birthdate"}
                         </Text >
-                        <TextInput value={dob} keyboardType="default" onChangeText={(e) => setDob(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Dob' placeholderTextColor={"#000"} />
+                        <TextInput value={dob} keyboardType="default" onChangeText={(e) => setDob(e)} style={{color:'#000',  width: "100%", borderRadius: 10 }} placeholder='Enter Dob' placeholderTextColor={"#000"} />
                     </View>
                     {/* <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>

@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 5,
     fontSize: 16,
+    color:'#000'
   },
   buttonGroup: {
     flexDirection: 'row',

@@ -112,18 +112,19 @@ export default function AddReviewModal({ item, visible, onClose }) {
                             multiline
                             style={styles.commentInput}
                             placeholder="Comment your review."
+                            placeholderTextColor={'#000'}
                             value={comment}
                             onChangeText={(text) => setComment(text)}
                         />
                     </View>
 
-                    {/* <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-                        <Text style={styles.submitButtonText}>Submit</Text>
-                    </TouchableOpacity> */}
+                    <TouchableOpacity style={{position:'absolute',top:10,right:15}} onPress={onClose}>
+                        <Text style={{color:'#000',fontSize:22,fontWeight:'700'}}>X</Text>
+                    </TouchableOpacity>
 
                     <MyButton onPress={() => {_addReview()}}
-                        textStyle={{ fontWeight: '700' }}
-                        title={"Submit"} style={{ borderRadius: 12,paddingHorizontal:60}} />
+                        textStyle={{ fontWeight: '700',fontSize:16 ,}}
+                        title={"Submit"} style={{ borderRadius: 12,width:'85%',alignSelf:'center',marginTop:10}} />
                     
 
                    

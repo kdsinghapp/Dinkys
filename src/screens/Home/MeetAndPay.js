@@ -1,14 +1,21 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Pressable } from 'react-native';
 import HeaderTwo from '../../components/Header';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import MyButton from '../../elements/MyButton';
 import { hp } from '../../utils/Constant';
 import { errorToast } from '../../utils/customToast';
+import PayinPersonModal from './PayinpersonModal';
+
+import PayBeforeMeetingModal from './PayBeforeMeetingModal';
+import PersonPaymentModal from './PersonPaymentModal';
 
 const MeetAndPay = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 const route = useRoute()
+const [payInpersonModal,setpayInpersonModal] = useState(false)
+const [payBeforemetting,setpayBeforemetting] = useState(false)
+const [AmoutModalVisible,setAmoutModalVisible] = useState(false)
 
 const {details, address ,shipping_charge } = route.params
   const handleOptionSelect = (option) => {
@@ -21,7 +28,15 @@ const {details, address ,shipping_charge } = route.params
   const _next = () => {
 
 
-    navigation.navigate("PersionPayment", { details, address,shipping_charge })
+    if(selectedOption !== 'beforeMeeting'){
+
+      setAmoutModalVisible(true)
+    }
+    else{
+
+      navigation.navigate("PersionPayment", { details, address,shipping_charge })
+    }
+
 
 }
   
@@ -62,10 +77,16 @@ const {details, address ,shipping_charge } = route.params
             • We protect your money. The seller will receive the payment when you confirm that you get the item.
           </Text>
           <View style={[styles.iconAndText,{marginTop:10}]}>
+          <Pressable
+            onPress={()=>{
+              setpayBeforemetting(true)
+            }}
+            >
               <Image
               source={require('../../assets/letteri.png')}
               style={{height:20,width:20}}
             />
+            </Pressable>
                    <Text style={styles.moreInfo}>More information</Text>
             </View>
         </TouchableOpacity>
@@ -99,10 +120,17 @@ const {details, address ,shipping_charge } = route.params
 
           
           <View style={[styles.iconAndText,{marginTop:10}]}>
+            <Pressable
+            onPress={()=>{
+              setpayInpersonModal(true)
+            }}
+            >
+
               <Image
               source={require('../../assets/letteri.png')}
               style={{height:20,width:20}}
-            />
+              />
+              </Pressable>
                    <Text style={styles.moreInfo}>More information</Text>
             </View>
      
@@ -119,7 +147,7 @@ const {details, address ,shipping_charge } = route.params
                         </Text >
                       
                         <Text  style={{ color: "#C3C6C9",fontWeight:'500',fontSize:14 }}>
-                            Colour: Made Blue
+                            Colour: {details?.color}
                         </Text >
                  
                         <Text  style={{ color: "#04CFA4",fontWeight:'700',fontSize:16 }}>
@@ -131,6 +159,12 @@ const {details, address ,shipping_charge } = route.params
         {/* Continue Button */}
         <MyButton onPress={_next} title={"Continue"} style={{ borderRadius: 12, marginVertical:10, width: "95%", alignSelf: "center" }} />
       </View>
+
+      <PayinPersonModal    modalVisible={payInpersonModal}  setModalVisible={setpayInpersonModal}/>
+      <PayBeforeMeetingModal    modalVisible={payBeforemetting}  setModalVisible={setpayBeforemetting}/>
+      <PersonPaymentModal modalVisible={AmoutModalVisible} setModalVisible={setAmoutModalVisible}  price={199}
+      withdraw={false}
+      data={{ details, address,shipping_charge }}/>
     </ScrollView>
   );
 };

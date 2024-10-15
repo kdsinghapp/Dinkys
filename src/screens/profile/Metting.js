@@ -7,42 +7,49 @@ import MyText from '../../elements/MyText'
 import { useSelector } from 'react-redux'
 import MyStatusBar from '../../elements/MyStatusBar'
 import HeaderTwo from '../../components/Header'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import Pig from "../../assets/svg/pig.svg"
 import SearchSvg from "../../assets/svg/search.svg"
 
 
 
-const ChatScreen = ({ navigation }) => {
+const Metting = ({ navigation }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const [show, setShow] = useState("Products")
     const [chatList, setChatList] = useState([])
     const [loading, setLoading] = useState(false)
     const [searchVal, setSearchVal] = useState('');
     const [filterData, setFilterData] = useState([]);
-    const[notificationList,setnotificationList] = useState([])
+    const[meetingRequestList,setmeetingRequestList] = useState([])
+
+    const isFocuse = useIsFocused()
     useFocusEffect(
         React.useCallback(() => {
-            _getChatC()
-            get_notification_list()
-        }, [])
+            _get_my_request()
+            get_meeting_request()
+        }, [isFocuse])
     )
 
-    const _getChatC = () => {
+
+    useEffect(()=>{
+        _get_my_request()
+        get_meeting_request()
+    },[isFocuse])
+    const _get_my_request = () => {
         setLoading(true)
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${userDetails?.access_token}`);
         var formdata = new FormData();
-        formdata.append("receiver_id", userDetails?.id);
+        formdata.append("user_id", userDetails?.id);
         const requestOptions = {
             method: "POST",
             body: formdata,
             headers: myHeaders,
             redirect: "follow"
         };
-        fetch(`${DOMAIN}get-conversation`, requestOptions)
+        fetch(`${DOMAIN}get_my_meetings`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
                 if (res.status == "1") {
@@ -70,7 +77,7 @@ const ChatScreen = ({ navigation }) => {
     };
 
 
-    const get_notification_list =()=>{
+    const get_meeting_request =()=>{
 
         const token = userDetails?.access_token
         const myHeaders = new Headers();
@@ -78,6 +85,7 @@ myHeaders.append("Authorization", `Bearer ${token}`);
 
 const formdata = new FormData();
 formdata.append("user_id", userDetails?.id);
+formdata.append("status", 'Pending');
 
 const requestOptions = {
   method: "POST",
@@ -86,15 +94,15 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://api.dkyss.es/api/get_notification", requestOptions)
+fetch("https://api.dkyss.es/api/get_meeting_request", requestOptions)
   .then((response) => response.text())
   .then((result) => {
 
-    console.log('result',result);
+
     const res = JSON.parse(result)
 
     if(res?.status){
-        setnotificationList(res?.data)
+        setmeetingRequestList(res?.result)
     }
   
 
@@ -133,8 +141,8 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" ,padding: 20, paddingTop: 5}}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo back={true} navigation={navigation} title={"Message"} />
-            <ScrollView >
+            <HeaderTwo  navigation={navigation} title={"Metting Request"}  Metting={false}/>
+            <ScrollView  showsVerticalScrollIndicator={false}>
             <View style={{ backgroundColor: "#F3F4F5", width: "100%", borderRadius: 30, 
                 height:52,
                 flexDirection: "row", alignItems: "center", paddingHorizontal: 8, justifyContent: "space-between",
@@ -149,63 +157,72 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
                     <Pressable onPress={() => setShow("Products")} style={{ width: "48%", padding: 18,
                      backgroundColor: show == "Products" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Products" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                            Message
+                            My Request
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => setShow("Searches")} style={{ width: "48%", padding: 18, backgroundColor: show == "Searches" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                 
                         <Text style={{ color: show == "Searches" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                            Notification
+                        Request
                         </Text >
                     </Pressable>
 
                 </View>
                 {show == "Products" ?
                     <View style={{ width: "100%", marginTop: 20 }}>
-                        <Text style={{ color: "#000",fontSize:22,fontWeight:'800' }}>Chat</Text>
+
                         {chatList?.length == 0 ? null
                             :
                             chatList.map((item, index) => {
                                 return (
-                                    <Pressable onPress={() => navigation.navigate("ChattingScreen", {
-                                        item: {
-                                            image: item?.image,
-                                            name: item?.user_name,
-                                            product_id: item?.product_id,
-                                            reciever_id: item?.sender_id
-                                        }
-                                    })} key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", borderColor: "#949494", paddingVertical: 20 }}>
-                                        <View style={{ width: 60, height: 60, borderRadius: 40 / 2, backgroundColor: "#CACACA40" }}>
-                                            <Image source={{ uri: item?.image }} style={{ width: "100%", height: "100%", borderRadius: 40 / 2, }} />
-                                        
-                                       
-                                        </View>
-                                        <View style={{ width: "78%" }}>
-                                        <Text style={{fontSize:15,color:'#000',fontWeight:'700'}} >{item.user_name}</Text>
-                                        <Text style={{fontSize:14,color:'#949494',fontWeight:'500'}} >{item?.last_message}</Text>
-                                        </View>
-                                        {/* <MyText h6 regular style={{ color: "#949494" }}>2 hours ago</MyText> */}
-                                    </Pressable>
+                                    <Pressable 
+                                    onPress={()=>{
+                                        navigation.navigate('MeetingInforMation',{item})
+                                    }}
+                                    key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", borderColor: "#949494", paddingVertical: 20 }}>
+                                    <View style={{alignItems:'center',justifyContent:'center', width: 60, height: 60, borderRadius: 40 / 2, backgroundColor: "#CACACA40" }}>
+                                    
+                                  
+                                          <Image   source={require('../../assets/people.png')} style={{height:45,width:45}} />
+                                     
+                                    </View>
+                                    <View style={{ width: "60%" ,marginLeft:10}}>
+                                        <Text style={{fontSize:14,color:'#000',fontWeight:'700'}} >Meeting with {item?.product_owner?.user_name}</Text>
+                                        <Text style={{fontSize:10,color:'#949494',fontWeight:'500'}} >{item?.location}</Text>
+                                    </View>
+                                    <Text style={{fontSize:12,color:'#949494',fontWeight:'500'}} >{timeAgo(item?.created_at)}</Text>
+                                    <Text style={{fontSize:12,color:'#fff',fontWeight:'600',paddingHorizontal:10,
+                                       textAlign:'center',paddingVertical:5,position:'absolute',right:2,bottom:2,
+                                        backgroundColor:'#0BD89E',borderRadius:30}} >{item?.status}</Text>
+                                </Pressable>
                                 )
                             })}
                     </View>
                     :
                     <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", marginVertical: 20 }}>
-                        {notificationList?.map((item, index) => {
+                        {meetingRequestList?.map((item, index) => {
                             return (
-                                <View key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", borderColor: "#949494", paddingVertical: 20 }}>
+                                <Pressable
+                                onPress={()=>{
+                                    navigation.navigate('MeetingInforMation',{item})
+                                }}
+                                key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", borderColor: "#949494", paddingVertical: 20 }}>
                                     <View style={{alignItems:'center',justifyContent:'center', width: 60, height: 60, borderRadius: 40 / 2, backgroundColor: "#CACACA40" }}>
                                     
                                   
-                                            <Pig  height={80} />
+                                          <Image   source={require('../../assets/people.png')} style={{height:45,width:45}} />
                                      
                                     </View>
-                                    <View style={{ width: "58%" ,marginLeft:10}}>
-                                        <Text style={{fontSize:15,color:'#000',fontWeight:'700'}} >{item?.title}</Text>
-                                        <Text style={{fontSize:12,color:'#949494',fontWeight:'500'}} >{item?.body}</Text>
+                                    <View style={{ width: "60%" ,marginLeft:10}}>
+                                        <Text style={{fontSize:14,color:'#000',fontWeight:'700'}} >Meeting with {item?.organizer?.user_name}</Text>
+                                        <Text style={{fontSize:10,color:'#949494',fontWeight:'500'}} >{item?.location}</Text>
+                                   
                                     </View>
-                                    <Text style={{fontSize:14,color:'#949494',fontWeight:'500'}} >{timeAgo(item?.updated_at)}</Text>
-                                </View>
+                                    <Text style={{fontSize:12,color:'#fff',fontWeight:'600',paddingHorizontal:10,
+                                       textAlign:'center',paddingVertical:5,position:'absolute',right:2,bottom:2,
+                                        backgroundColor:'#0BD89E',borderRadius:30}} >{item?.status}</Text>
+                                    <Text style={{fontSize:12,color:'#949494',fontWeight:'500'}} >{timeAgo(item?.created_at)}</Text>
+                                </Pressable>
                             )
                         })}
                     </View>
@@ -216,4 +233,4 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
     )
 }
 
-export default ChatScreen
+export default Metting

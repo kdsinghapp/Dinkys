@@ -100,7 +100,9 @@ const SingleExperties = ({
                             justifyContent: 'center',
                         }}>
                         <View style={{ width: "100", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: 15 }}>
-                            <TextInput value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder={"Search Expertise"} style={{ width: "100%", padding: 15, borderWidth: 1, borderColor: "#F5F5F5", borderRadius: 12 }} />
+                            <TextInput value={searchVal}
+                            placeholderTextColor={'#000'}
+                            onChangeText={(e) => searchHandler(e)} placeholder={"Search Expertise"} style={{ width: "100%", padding: 15, borderWidth: 1, borderColor: "#F5F5F5", borderRadius: 12 }} />
                         </View>
                         {loading ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                             <ActivityIndicator size={"small"} />

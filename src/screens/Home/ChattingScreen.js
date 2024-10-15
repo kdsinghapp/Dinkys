@@ -225,7 +225,8 @@ const ChattingScreen = ({ navigation, route }) => {
                     paddingHorizontal: 12, justifyContent: "space-between", margin: 15
                 }}>
                     {/* <AttachedSvg width={16} height={16} /> */}
-                    <TextInput style={{ width: "75%", height: "100%" }}
+                    <TextInput style={{ width: "75%", height: "100%" ,color:'#000'}}
+                    placeholderTextColor={'#000'}
                         value={send} onChangeText={(e) => setsend(e)} placeholder='Typing message...' />
                     {loading ? (
                         <ActivityIndicator size={'small'} />

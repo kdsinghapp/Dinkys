@@ -27,6 +27,9 @@ const AddressAutocomplete = ({ setMarkerPosition, setRegion, setAddress, setLoca
                 sendLocation({ latitude: lat, longitude: lng });
             }
         }}
+        textInputProps={{
+            placeholderTextColor: "#000"
+        }}
         enablePoweredByContainer={false}
         query={{
             key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',

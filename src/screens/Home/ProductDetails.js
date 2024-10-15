@@ -27,6 +27,8 @@ import Ratting from '../Delivery/Ratting'
 import ProductReview from './Productreview'
 import AddReview from './AddReview'
 import AddReviewModal from './AddReview'
+import Share from 'react-native-share';
+
 const { width } = Dimensions.get('window');
 
 const ProductDetails = ({ navigation, route }) => {
@@ -188,7 +190,21 @@ const [reviewCount,setreviewCount] = useState(3)
     });
 
     const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
-
+    const handleShare = async () => {
+        const shareOptions = {
+          title: 'Share Title',
+          message: 'Check out this awesome content!',
+          url: 'https://example.com', // URL to share
+          // You can add more options like social: Share.Social.WHATSAPP
+        };
+    
+        try {
+          await Share.open(shareOptions);
+        } catch (error) {
+          console.log('Error sharing:', error);
+        }
+      };
+    
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -209,7 +225,9 @@ const [reviewCount,setreviewCount] = useState(3)
                                     width: width, // Full width of the screen for each image
                                     height: hp(50),
                                     marginLeft: 10,
+                         
                                 }}
+                                resizeMode='contain'
                             />
                         )}
                         onViewableItemsChanged={onViewRef.current}
@@ -239,7 +257,15 @@ const [reviewCount,setreviewCount] = useState(3)
                             <BackNav width={32} height={32} />
                         </Pressable>
                         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
+                           <Pressable
+                           onPress={()=>{
+                            handleShare()
+                           }}
+                           >
+
                             <ShareSvg width={28} height={28} />
+                           </Pressable>
+
                             <Pressable onPress={() => details?.favourite == false && add_fav()}>
                                 {loading ? <ActivityIndicator size={"small"} />
                                     :

@@ -91,7 +91,7 @@ const Purchases = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} title={"Purchases"} />
-            <ScrollView contentContainerStyle={{ backgroundColor: "#fff", flex: 1, padding: 20 }}>
+       
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                 <Pressable onPress={() => setShow("Pending")} style={{
                         width: "48%", padding: 18,
@@ -113,6 +113,7 @@ const Purchases = ({ navigation }) => {
                    
 
                 </View>
+                <ScrollView contentContainerStyle={{ backgroundColor: "#fff", flex: 1, padding: 20 }}>
                 {show == "Complete" ?
                     loading ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <ActivityIndicator size={"small"} />

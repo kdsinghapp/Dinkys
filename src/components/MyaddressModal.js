@@ -77,9 +77,7 @@ const MyaddressModal = ({ sendLocation, setLocationName, modalVisible, setModalV
     const handleConfirmLocation = () => {
         setModalVisible(false); // Close modal when user confirms location
     };
-  
 
-    console.log('nearbyLocations',nearbyLocations[0]?.name);
     return (
         <Modal
             visible={modalVisible}
@@ -94,6 +92,7 @@ const MyaddressModal = ({ sendLocation, setLocationName, modalVisible, setModalV
                 <View style={{ alignSelf:'center',position:'absolute',width:'100%' }}>
                 <AddressAutocomplete
                     setMarkerPosition={setMarkerPosition}
+                    
                     setRegion={setRegion}
                     setAddress={setAddress}
                     setLocationName={setLocationName}
@@ -113,18 +112,24 @@ const MyaddressModal = ({ sendLocation, setLocationName, modalVisible, setModalV
             keyExtractor={(item, index) => index.toString()} // Use a unique key for each item
             renderItem={({ item }) => (
                 <TouchableOpacity
-                    style={styles.locationItem}
+                    style={[styles.locationItem,{borderColor:address == item?.vicinity ?'green':'#fff',borderWidth:address == item?.vicinity?1:0,borderRadius:15,paddingHorizontal:10}]}
                     onPress={() => {
                         setLocationName(item?.name);
+                        sendLocation({
+                            latitude: item.geometry.location.lat,
+                            longitude: item.geometry.location.lng,
+                        })
                         setAddress(item?.vicinity); // or another property you want to display
                         setMarkerPosition({
                             latitude: item.geometry.location.lat,
                             longitude: item.geometry.location.lng,
                         });
+
+                     
                     }}
                 >
-                    <Text style={styles.locationText}>{item?.name}</Text>
-                    <Text style={styles.locationVicinity}>{item?.vicinity}</Text>
+                    <Text style={{color:'#000',fontWeight:'600',fontSize:14}}>{item?.name}</Text>
+                    <Text style={[styles.locationVicinity,{color:'#000',}]}>{item?.vicinity}</Text>
                 </TouchableOpacity>
             )}
         />

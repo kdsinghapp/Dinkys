@@ -50,8 +50,10 @@ const ShippingAddress = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} title={"Address"} />
+            <ScrollView>
             <View style={{ flex: 1, padding: 25 }}>
                 {loading ?
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -64,7 +66,7 @@ const ShippingAddress = ({ navigation }) => {
                         :
                         address?.map((item, index) => {
                             return (
-                                <View key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", padding: 15, justifyContent: "space-between", elevation: 5, borderRadius: 12 }}>
+                                <View key={index} style={{ alignItems: "center",marginTop:10,backgroundColor: "#fff", flexDirection: "row", padding: 15, justifyContent: "space-between", elevation: 5, borderRadius: 12 }}>
                                     <AddressSvg width={59} height={59} />
                                     <View style={{ width: "68%" }}>
                                         <Text style={{fontSize:20,color:'#000',fontWeight:'700'}}>{item?.type}</Text>
@@ -79,7 +81,7 @@ const ShippingAddress = ({ navigation }) => {
 
             </View>
             <MyButton onPress={() => navigation.navigate("AddAddress")} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30 }} style={{ borderRadius: 16, width: "95%", alignSelf: "center", margin: 10 }} title={"Add Address"} />
-
+            </ScrollView>
         </View >
     )
 }

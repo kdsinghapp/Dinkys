@@ -1,10 +1,10 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Pressable, Image, View, TouchableOpacity, TextInput, ScrollView, ImageBackground, FlatList, Text
 } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+
 import MyStatusBar from '../../elements/MyStatusBar'
 import HeaderTwo from '../../components/Header'
 import MyText from '../../elements/MyText'
@@ -17,17 +17,22 @@ import HistorySvg from "../../assets/svg/history.svg"
 import { useSelector } from 'react-redux'
 import AddMoneyModal from './WalletAmount'
 import { DOMAIN } from '../../services/Config'
+import PersonPaymentModal from '../Home/PersonPaymentModal'
+
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 
 
 const Wallet = ({ route }) => {
     const { user } = route?.params
-
-    const userDetails = useSelector((state) => state.user.user)
+    const [AmoutModalVisible,setAmoutModalVisible] = useState(false)
+    const userDetails = useSelector((state) => state?.user?.user)
+   
     const navigation = useNavigation()
     const [amount, setAmount] = useState()
     const [loading, setLoading] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
+    const [User, setUser] = useState(0)
   
     const add_wallet = () => {
       if (!amount) {
@@ -58,6 +63,35 @@ const Wallet = ({ route }) => {
       }
     }
   
+    useEffect(()=>{
+      get_user()
+    },[AmoutModalVisible])
+    
+
+
+  const get_user =()=>{
+    const token = userDetails?.access_token
+
+    const myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${token}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch("https://api.dkyss.es/api/get-profile", requestOptions)
+  .then((response) => response.text())
+  .then((result) => {
+
+    const res = JSON.parse(result)
+
+    setUser(res.data)
+
+  })
+  .catch((error) => console.error(error));
+  }
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
@@ -65,7 +99,7 @@ const Wallet = ({ route }) => {
             <View style={{ flex: 1, padding: 20 }}>
                 <View style={{ padding: 20, width: "100%", borderRadius: 15, elevation: 5, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" }}>
                 <Text  style={{color:'#04CFA4',fontWeight:'600',fontSize:16,marginTop:10}}>Principal. Euro</Text>
-                <Text  style={{color:'#04CFA4',fontWeight:'700',fontSize:22,marginTop:10}}>€ {user?.wallet}</Text>
+                <Text  style={{color:'#04CFA4',fontWeight:'700',fontSize:22,marginTop:10}}>€ {User?.wallet}</Text>
                     <View style={{ width: "100%",
                     alignItems:'center',justifyContent:'center',
                     borderRadius: 15, marginTop: 15, flexDirection: "row", backgroundColor: "#fff", alignItems: "center" }}>
@@ -78,7 +112,15 @@ const Wallet = ({ route }) => {
                             <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Pay</Text>
                         </View> */}
                         <View style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
+
+                          <Pressable 
+                          onPress={()=>{
+                            setAmoutModalVisible(true)
+                          }}
+                          >
+
                             <WithDraw width={41} height={41} />
+                          </Pressable>
                   
                                 
                             <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Withdraw</Text>
@@ -105,6 +147,12 @@ const Wallet = ({ route }) => {
                 </Pressable>
 
             </View >
+
+            <PersonPaymentModal modalVisible={AmoutModalVisible} setModalVisible={setAmoutModalVisible}
+            price={User?.wallet}
+            
+           withdraw={true} />
+      
             <AddMoneyModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

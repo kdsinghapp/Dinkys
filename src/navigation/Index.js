@@ -54,6 +54,9 @@ import MyaddressModal from '../components/MyaddressModal';
 import PersionPayment from '../screens/Home/PersionPayment';
 import Help from '../components/Help';
 import BankDetails from '../screens/Home/AddBankDetails';
+import Metting from '../screens/profile/Metting';
+import MeetingInforMation from '../screens/profile/MeetingInformation';
+import CreateMettingScreen from '../screens/Home/CreateMettingScreen';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -151,6 +154,12 @@ export default function Navigation() {
                 <Stack.Screen name="Help" component={Help} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="BankDetails" component={BankDetails} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="Metting" component={Metting} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="MeetingInforMation" component={MeetingInforMation} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="CreateMettingScreen" component={CreateMettingScreen} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

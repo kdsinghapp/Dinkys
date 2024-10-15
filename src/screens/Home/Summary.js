@@ -56,11 +56,15 @@ const Summary = ({ navigation, route }) => {
                 setLoading(false)
             })
     }
-console.log('shipping_charge',shipping_charge);
+
+
+
     const payment_wallet = () => {
-        if ((Number(details?.price) + shipping_charge) > Wallet) {
-            errorToast("Please Add Money in wallet")
-        } else {
+        if ((Number(details?.price) + Number(shipping_charge)) > Wallet) {
+         return   errorToast("Please Add Money in wallet")
+        }
+        
+        else {
             setLoading(true)
             var formdata = new FormData();
             formdata.append("user_id", userDetails?.id);

@@ -271,3 +271,38 @@ export const get_payment_request = async postdata => {
   const URL = DOMAIN + `get_payment_request?doctor_id=${postdata?.doctor_id}&consultant_id=${postdata?.consultant_id}`;
   return authAxios.get(URL)
 };
+export const ge_faq = async (token) => {
+  const URL = `${DOMAIN}get-fqa`;
+
+  try {
+    const response = await authAxios.get(URL, {
+      headers: {
+        Authorization: `Bearer ${token}` // Send token in Authorization header
+      }
+    });
+
+    // Log the full response before parsing it to check what is being returned
+    console.log('Full Response:', response);
+
+    // If the response is already in JSON format, return the parsed data
+    if (response && response.data) {
+      return response.data;  // Assuming response.data is JSON
+    } else {
+      console.log("Unexpected response format:", response);
+    }
+
+  } catch (error) {
+    // Log the full error object to investigate the issue
+    console.error('Error fetching FAQ:', error);
+
+    // Check if the error has a response object and log it
+    if (error.response) {
+      console.error('Error Response Data:', error.response.data);
+      console.error('Error Response Status:', error.response.status);
+    } else {
+      console.error('Error Message:', error.message);
+    }
+
+    throw error;  // Re-throw the error to be handled by the caller
+  }
+};

@@ -82,6 +82,7 @@ const AddAddress = ({ navigation, route }) => {
                         scrollEnabled={false}
                         fetchDetails={true}
                         GooglePlacesDetailsQuery={{ fields: 'geometry' }}
+                        
                         placeholder={"Enter Location"}
                         onPress={(data, details = null) => {
                             setPickupLocationlat({ ...PickupLocationlat, lat: details?.geometry?.location?.lat, lng: details?.geometry?.location?.lng, place: data.description });
@@ -94,6 +95,7 @@ const AddAddress = ({ navigation, route }) => {
                             },
                             container: {
                                 padding: 5,
+                                
                             },
                             textInput: {
                                 fontSize: 13,
