@@ -46,7 +46,7 @@ const AddCardDetails = ({ route }) => {
                     console.log("res", res)
                     if (res.status == "1") {
                         successToast("Added Card Successfully", 3000)
-                        navigation.navigate("Bottomtab")
+                        navigation.navigate("BankDetails")
                     }
                 }).catch((err) => {
                     console.log("err", err)

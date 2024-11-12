@@ -57,6 +57,7 @@ import BankDetails from '../screens/Home/AddBankDetails';
 import Metting from '../screens/profile/Metting';
 import MeetingInforMation from '../screens/profile/MeetingInformation';
 import CreateMettingScreen from '../screens/Home/CreateMettingScreen';
+import AddBankDetails from '../screens/Home/AddBankAccount';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -160,6 +161,8 @@ export default function Navigation() {
                 <Stack.Screen name="MeetingInforMation" component={MeetingInforMation} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="CreateMettingScreen" component={CreateMettingScreen} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="AddBankDetails" component={AddBankDetails} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

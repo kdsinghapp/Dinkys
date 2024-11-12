@@ -17,12 +17,15 @@ const BankDetails = ({ route }) => {
     const userDetails = useSelector((state) => state.user.user)
     const [account, setAccount] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [BankAccount, setBankAccount] = useState(null)
 
 
 
     useFocusEffect(
         React.useCallback(() => {
             _accountDetails()
+           
+
         }, [])
     )
     const _accountDetails = () => {
@@ -47,6 +50,9 @@ const BankDetails = ({ route }) => {
                 setLoading(false)
             })
     }
+
+
+  
     const lastFourDigits = account?.card_number.slice(-4);
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -60,7 +66,7 @@ const BankDetails = ({ route }) => {
                     <Text style={{ color: "#000", fontWeight: '600', fontSize: 18 }}>Credit or debit card</Text>
                     <RechargeSvg width={41} height={41} style={{ marginTop: 20 }} />
                 </Pressable>
-                <Pressable onPress={() => navigation.navigate("AddCardDetails")}
+                <Pressable onPress={() => navigation.navigate("AddBankDetails")}
                     style={{
                         height: 206, width: "100%", borderRadius: 15, elevation: 5,
 

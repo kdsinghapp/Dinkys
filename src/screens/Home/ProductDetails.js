@@ -234,6 +234,7 @@ const [reviewCount,setreviewCount] = useState(3)
                         onViewableItemsChanged={onViewRef.current}
                         viewabilityConfig={viewConfigRef.current}
                     />
+                    
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                         {item?.product_images?.map((_, index) => (
                             <View
