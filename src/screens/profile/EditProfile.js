@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
-import { TextInput, View, Pressable, ScrollView, Image, Platform,Text } from 'react-native'
+import { TextInput, View, Pressable, ScrollView, Image, Platform, Text } from 'react-native'
 import MyText from '../../elements/MyText'
 import { useNavigation } from '@react-navigation/core'
 import MyButton from '../../elements/MyButton'
@@ -15,6 +15,8 @@ import UploadImageModal from '../../components/UpdateProfileModal'
 import { successToast } from '../../utils/customToast'
 import HeaderTwo from '../../components/Header'
 import { DOMAIN } from '../../services/Config'
+import localizationStrings from '../Localization/Localization'
+import { hp } from '../../utils/Constant'
 const EditProfile = ({ route }) => {
     const { userDetails } = route?.params
     const userDetailData = useSelector((state) => state.user.user)
@@ -28,6 +30,9 @@ const EditProfile = ({ route }) => {
     const [uplaodImageModal, setUploadImageModal] = useState(false);
     const [gender, setGender] = useState(userDetails?.gender)
     const [address, setAddress] = useState(userDetails?.address)
+
+console.log('userDetailData',userDetailData?.label);
+
 
     const dispatch = useDispatch()
 
@@ -75,8 +80,7 @@ const EditProfile = ({ route }) => {
             width: 500,
             height: 500,
             cropping: true,
-            cropperCircleOverlay: true,
-            includeExif: true,
+
         })
             .then(image => {
                 setImage(image)
@@ -92,8 +96,7 @@ const EditProfile = ({ route }) => {
             width: 500,
             height: 500,
             cropping: true,
-            cropperCircleOverlay: true,
-            includeExif: true,
+
         })
             .then(image => {
                 setImage(image)
@@ -107,7 +110,7 @@ const EditProfile = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Edit Profile"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.edit_profile} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
                 <View style={{ backgroundColor: "#fff", flex: 1 }}>
                     {image?.length === 0 ?
@@ -119,39 +122,56 @@ const EditProfile = ({ route }) => {
                             {image?.length === 0 ? null : <Image source={{ uri: image.path }} style={{ width: "100%", height: "100%" }} />}
                         </Pressable>
                     }
+
+                    <View style={{position:'absolute',top:hp(11),left:hp(22)}}>
+                    {userDetailData?.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:30,width:30,marginLeft:20}} />}
+                    </View>
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15 }}>
-                        <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
-                            {"Full Name"}
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                            {localizationStrings.full_name}
                         </Text >
-                        <TextInput value={name} keyboardType="default" 
+                        <TextInput value={name} keyboardType="default"
+
+                            onChangeText={(e) => setName(e)} style={{ width: "100%", borderRadius: 10, color: '#000' }}
+                            placeholder={localizationStrings.full_name} placeholderTextColor={"#000"} />
+                    </View>
+                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                        {localizationStrings.email}
+                        </Text >
+                        <TextInput value={email} keyboardType="default" style={{ width: "100%", color: '#000', borderRadius: 10 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
+                    </View>
+                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                        {localizationStrings.location}
+                        </Text >
+                        <TextInput value={address} keyboardType="default" onChangeText={(e) => setAddress(e)}
+                            style={{ width: "100%", color: '#000', borderRadius: 10 }} placeholder= {localizationStrings.location} placeholderTextColor={"#000"} />
+                    </View>
+                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                        {localizationStrings.gender}
+                        </Text >
+                        <TextInput value={gender} keyboardType="default" onChangeText={(e) => setGender(e)}
                         
-                        onChangeText={(e) => setName(e)} style={{ width: "100%", borderRadius: 10,color:'#000' }} 
-                        placeholder='Enter Name' placeholderTextColor={"#000"} />
+                        
+                        style={{ width: "100%", borderRadius: 10,color:'#000' }} placeholder={localizationStrings.gender} placeholderTextColor={"#000"} />
                     </View>
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
-                        <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
-                            {"Email"}
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                        {localizationStrings.mobile_number}
                         </Text >
-                        <TextInput value={email} keyboardType="default" style={{ width: "100%",color:'#000', borderRadius: 10 }} placeholder='Enter Email' placeholderTextColor={"#000"} />
+                        <TextInput value={number} keyboardType="default" 
+                        onChangeText={(e) => setNumber(e)} 
+                        style={{ width: "100%", borderRadius: 10,color: '#000', }}
+                         placeholder= {localizationStrings.mobile_number} placeholderTextColor={"#000"} />
                     </View>
-                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
-                        <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
-                            {"Location"}
+                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, color: '#000', marginTop: 15 }}>
+                        <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
+                        {localizationStrings.bidobrth}
                         </Text >
-                        <TextInput value={address} keyboardType="default" onChangeText={(e) => setAddress(e)} 
-                        style={{ width: "100%",color:'#000', borderRadius: 10 }} placeholder='Enter Location' placeholderTextColor={"#000"} />
-                    </View>
-                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
-                        <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
-                            {"Gender"}
-                        </Text >
-                        <TextInput value={gender} keyboardType="default" onChangeText={(e) => setGender(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Gender' placeholderTextColor={"#000"} />
-                    </View>
-                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15,color:'#000',  marginTop: 15 }}>
-                        <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
-                            {"Birthdate"}
-                        </Text >
-                        <TextInput value={dob} keyboardType="default" onChangeText={(e) => setDob(e)} style={{color:'#000',  width: "100%", borderRadius: 10 }} placeholder='Enter Dob' placeholderTextColor={"#000"} />
+                        <TextInput value={dob} keyboardType="default" onChangeText={(e) => setDob(e)}
+                         style={{ color: '#000', width: "100%", borderRadius: 10 }} placeholder= {localizationStrings.bidobrth} placeholderTextColor={"#000"} />
                     </View>
                     {/* <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{fontSize:16,color:'#000',fontWeight:'600'}}>
@@ -160,16 +180,18 @@ const EditProfile = ({ route }) => {
                         <TextInput value={number} keyboardType="default" onChangeText={(e) => setNumber(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='Enter Dob' placeholderTextColor={"#000"} />
                     </View> */}
                 </View>
-<View    style={{height:60}}/>
+                <View style={{ height: 60 }} />
             </ScrollView >
-            <MyButton loading={loading} onPress={updateProfile} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30 }} style={{ borderRadius: 16, width: "95%", alignSelf: "center", margin: 10 }} title={"Save"} />
+            <MyButton loading={loading} onPress={updateProfile} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30 }} style={{ borderRadius: 16, width: "95%", alignSelf: "center", margin: 10 }} title={localizationStrings.save} />
             <UploadImageModal
                 shown={uplaodImageModal}
                 onPressCamera={_launchCamera}
                 onPressGallery={_launchGallery}
                 onBackdropPress={() => setUploadImageModal(false)}
             />
-        </View>)
+        </View>
+
+    )
 }
 
 export default EditProfile

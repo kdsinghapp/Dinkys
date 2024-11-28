@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import MyButton from '../../elements/MyButton';
 import Theme from '../../theme';
 import { errorToast, successToast } from '../../utils/customToast';
+import localizationStrings from '../Localization/Localization';
 
 
 const AddAddress = ({ navigation, route }) => {
@@ -57,7 +58,7 @@ const AddAddress = ({ navigation, route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Add Address"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.add_address} />
             <View style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
                 <View
                     style={{

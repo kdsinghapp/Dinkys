@@ -6,6 +6,7 @@ import NotiOn from "../../assets/svg/Toggle.svg"
 import NotiOff from "../../assets/svg/Toggle_back.svg"
 import { _get_profile, _update_notiification } from "../../services/Auth";
 import { useDispatch, useSelector } from "react-redux";
+import localizationStrings from "../Localization/Localization";
 
 const Notification = ({ navigation, route }) => {
     const userData = useSelector((state) => state?.user)
@@ -52,31 +53,31 @@ const Notification = ({ navigation, route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Notification"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.notification} />
             <View style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
 
                 <Row
-                    label={"General Notification"}
+                    label={localizationStrings.general_notification}
                     value={userData?.general}
                     onChange={value => _onChange('general', value)}
                 />
                 <Row
-                    label={"Sound"}
+                     label={localizationStrings.sound}
                     value={userData?.sound}
                     onChange={value => _onChange('sound', value)}
                 />
                 <Row
-                    label={"Vibrate"}
+                    label={localizationStrings.Vibrate}
                     value={userData?.vibrate}
                     onChange={value => _onChange('vibrate', value)}
                 />
                 <Row
-                    label={"App Updates"}
+                   label={localizationStrings.app_updates}
                     value={userData?.appupdate}
                     onChange={value => _onChange('app_update', value)}
                 />
                 <Row
-                    label={"Tips Available"}
+                     label={localizationStrings.tips_avail}
                     value={userData?.newTip}
                     onChange={value => _onChange('tips_available', value)}
                 />

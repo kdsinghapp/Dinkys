@@ -88,7 +88,7 @@ const ChattingScreen = ({ navigation, route }) => {
     };
     const productImage = product?.product_images[0]?.image
 
-    console.log('item',item);
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
@@ -129,7 +129,7 @@ const ChattingScreen = ({ navigation, route }) => {
 
                     </View>
                     <View style={{ width: "67%" }}>
-                        <Text style={{ fontSize:14, color: '#000', fontWeight: '500' ,marginLeft:15}} >{item?.name?.substring(0, 30)}</Text>
+                        <Text style={{ fontSize:14, color: '#000', fontWeight: '500' ,marginLeft:15}} >{item?.name?.substring(0, 30)}  {item?.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}</Text>
                        
            
                     </View>

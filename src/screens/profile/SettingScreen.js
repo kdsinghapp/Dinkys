@@ -12,48 +12,49 @@ import ProRight from "../../assets/svg/proright.svg"
 import HeaderTwo from '../../components/Header'
 import { useFocusEffect } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
+import LocalizedStrings from 'react-native-localization'
+import localizationStrings from '../Localization/Localization'
 
-const Data = [
-    {
-        id: 1,
-        name: "Edit Profile",
-        path: "EditProfile"
-    },
-    {
-        id: 2,
-        name: "Change Password",
-        path: "ChangePassword"
-    },
-    {
-        id: 3,
-        name: "Shipping Address",
-        path: "ShippingAddress"
-    },
-    {
-        id: 4,
-        name: "Notification",
-        path: "Notification"
-    },
-    {
-        id: 5,
-        name: "FAQ",
-        path: "FAQ"
-    },
-    {
-        id: 6,
-        name: "About us",
-        path: "About"
-    },
-    {
-        id: 7,
-        name: "Privacy Policy",
-        path: "Privacy"
-    }
-]
 
 const SettingScreen = ({ navigation, route }) => {
     const { userDetails } = route?.params
-
+    const Data = [
+        {
+            id: 1,
+            name: `${localizationStrings.edit_profile}`,
+            path: "EditProfile"
+        },
+        {
+            id: 2,
+            name:  `${localizationStrings.change_password}`,
+            path: "ChangePassword"
+        },
+        {
+            id: 3,
+            name:  `${localizationStrings.ship_adderess}`,
+            path: "ShippingAddress"
+        },
+        {
+            id: 4,
+            name: `${localizationStrings.notification}`,
+            path: "Notification"
+        },
+        {
+            id: 5,
+            name:  `${localizationStrings.faq}`,
+            path: "FAQ"
+        },
+        {
+            id: 6,
+            name:  `${localizationStrings['About us']}`,
+            path: "About"
+        },
+        {
+            id: 7,
+            name:  `${localizationStrings.privacy_policy}`,
+            path: "Privacy"
+        }
+    ]
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />

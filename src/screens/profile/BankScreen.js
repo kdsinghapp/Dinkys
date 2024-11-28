@@ -12,6 +12,7 @@ import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import { successToast } from '../../utils/customToast'
 import { hp } from '../../utils/Constant'
+import localizationStrings from '../Localization/Localization'
 
 
 const BankScreen = ({ route }) => {
@@ -131,7 +132,7 @@ const BankScreen = ({ route }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-      <HeaderTwo title={"Bank Details"} navigation={navigation} />
+      <HeaderTwo title={localizationStrings.bank_details} navigation={navigation} />
       <View style={{ flex: 1, padding: 20 }}>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
@@ -161,7 +162,7 @@ const BankScreen = ({ route }) => {
           :
           account == null ?
             <View style={{ borderWidth: 1, height: hp(20), borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ color: '#000', fontWeight: '700' }}>No Card</Text>
+              <Text style={{ color: '#000', fontWeight: '700' }}>{localizationStrings.purchase}</Text>
             </View>
             : <>
               <View style={styles.cardContainer}>

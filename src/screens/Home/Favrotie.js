@@ -13,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import Ratting from '../Delivery/Ratting'
 import HeartColorSvg from "../../assets/svg/heartColor.svg"
+import localizationStrings from '../Localization/Localization'
 
 
 const Favrotie = ({ navigation }) => {
@@ -209,12 +210,12 @@ const Favrotie = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo back={true} navigation={navigation} title={"Favrotie"} />
+            <HeaderTwo back={true} navigation={navigation} title={localizationStrings.favorites} />
             <ScrollView style={{ backgroundColor: "#fff", flex: 1, padding: 20, paddingTop: 5 }}>
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                     <Pressable onPress={() => setShow("Products")} style={{ width: "33.33%", padding: 18, backgroundColor: show == "Products" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Products" ? "#fff" : "#757575", fontSize: 14, fontWeight: '700' }}>
-                            Products
+                        {localizationStrings.products}
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => {
@@ -223,12 +224,12 @@ const Favrotie = ({ navigation }) => {
                         setShow("Searches")
                     }} style={{ width: "33.33%", padding: 18, backgroundColor: show == "Searches" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Searches" ? "#fff" : "#757575", fontSize: 14, fontWeight: '700' }}>
-                            Searches
+                        {localizationStrings.searches}
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => setShow("Profile")} style={{ width: "33.33%", padding: 18, backgroundColor: show == "Profile" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Profile" ? "#fff" : "#757575", fontSize: 14, fontWeight: '700' }}>
-                            Profile
+                        {localizationStrings.profile}
                         </Text >
                     </Pressable>
                 </View>
@@ -239,7 +240,7 @@ const Favrotie = ({ navigation }) => {
                         {favData?.length == 0 ? <View style={{
                             flex: 1,
                         }}>
-                            <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>No Favorite Product Found</Text>
+                            <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>{localizationStrings.no_data_here}</Text>
 
                         </View>
                             :
@@ -349,7 +350,7 @@ resizeMode='contain'                                            />
                                                     color: "#000",
                                                     fontSize: 14, fontWeight: '600'
                                                 }}>
-                                                    {item?.user_data?.user_name}
+                                                    {item?.user_data?.user_name}  {item?.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}
                                                 </Text >
                                                 <View style={{
                                                     flexDirection: 'row', marginLeft: -8, marginTop: 5,
@@ -384,7 +385,7 @@ resizeMode='contain'                                            />
                                 <View style={{
                                     flex: 1,
                                 }}>
-                                    <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>No Favorite Profile Found</Text>
+                                    <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>{localizationStrings.no_pr_found}</Text>
 
                                 </View>
                             }
@@ -435,7 +436,7 @@ resizeMode='contain'                                            />
                                 <View style={{
                                     flex: 1,
                                 }}>
-                                    <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>No Favorite Search Found</Text>
+                                    <Text style={{ fontSize: 14, color: '#000', fontWeight: '600', marginTop: 60 }}>{localizationStrings.no_favorite}</Text>
 
                                 </View>
                             }

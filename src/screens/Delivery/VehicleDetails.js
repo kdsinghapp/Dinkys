@@ -15,6 +15,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import ImagePicker from 'react-native-image-crop-picker';
 import ProfileHeader from '../../components/ProfileHeader';
+import localizationStrings from '../Localization/Localization';
 
 export default function VehicleDetails() {
   const [serviceType, setServiceType] = useState('');
@@ -86,7 +87,7 @@ export default function VehicleDetails() {
       {/* {isLoading ? <Loading /> : null}
       */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ProfileHeader name={'Add Vehicle Details'} Dwidth={'46%'} />
+        <ProfileHeader name={localizationStrings.vehicle_details} Dwidth={'46%'} />
         <TouchableOpacity
           style={[
             styles.imageUploadContainer,

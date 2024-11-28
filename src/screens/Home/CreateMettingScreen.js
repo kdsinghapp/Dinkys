@@ -59,7 +59,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-await fetch("https://api.dkyss.es/api/create_meeting", requestOptions)
+await fetch("https://panel.dkyss.es/api/create_meeting", requestOptions)
   .then((response) => response.text())
   .then((result) => {
 const res = JSON.parse(result)

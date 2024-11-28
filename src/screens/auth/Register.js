@@ -12,10 +12,12 @@ import { useDispatch } from 'react-redux'
 import EmailSvg from "../../assets/svg/Email.svg"
 import PasswordSvg from "../../assets/svg/Password.svg"
 import EyesSvg from "../../assets/svg/eye.svg"
+import Mobile from "../../assets/svg/gMobile.svg"
 import LogoSvg from "../../assets/svg/Logo_Black.svg"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { DOMAIN } from '../../services/Config'
 import { useFocusEffect } from '@react-navigation/native'
+import localizationStrings from '../Localization/Localization'
 
 
 
@@ -111,10 +113,10 @@ const Register = ({ route, navigation }) => {
                 </View>
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <MyText h4 bold style={{ color: "#000" }}>
-                        {"Register"}
+                        {localizationStrings.regiter}
                     </MyText>
                     <MyText h5 regular style={{ color: "#9DB2BF", marginVertical: 5 }}>
-                        {"Enter Your User Details"}
+                    {localizationStrings.enter_user_details}
                     </MyText>
                 </View>
 
@@ -124,23 +126,21 @@ const Register = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: name?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                            {"Full Name"}
+                        {localizationStrings.full_name}
                         </MyText>
-                        <TextInput value={name} keyboardType="default" onChangeText={(e) => setName(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Name' placeholderTextColor={"#000"} />
+                        <TextInput value={name} keyboardType="default" onChangeText={(e) => setName(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.full_name} placeholderTextColor={"#000"} />
                     </View>
                 </View>
 
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: number?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
                     <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
-                        <MyText h5 semibold style={{ color: "#000", margin: 0, marginBottom: 0 }}>
-                            {"+91"}
-                        </MyText>
+                       <Mobile width={24} height={24} />
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: number?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                            {"Phone Number"}
+                        {localizationStrings.enter_number}
                         </MyText>
-                        <TextInput value={number} keyboardType="numeric" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Number' placeholderTextColor={"#000"} />
+                        <TextInput value={number} keyboardType="numeric" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder=         {localizationStrings.enter_number} placeholderTextColor={"#000"} />
                     </View>
                 </View>
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
@@ -149,9 +149,9 @@ const Register = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: email?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                            {"Email"}
+                        {localizationStrings.email}
                         </MyText>
-                        <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Email' placeholderTextColor={"#000"} />
+                        <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
                     </View>
                 </View>
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
@@ -160,15 +160,15 @@ const Register = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: "58%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                            {"Password"}
+                        {localizationStrings.password}
                         </MyText>
-                        <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Password' placeholderTextColor={"#000"} />
+                        <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
                     </View>
                     <View style={{ width: "15%", justifyContent: "center", alignItems: "center", height: "100%" }}>
                         <EyesSvg width={24} height={24} />
                     </View>
                 </View>
-                <MyButton onPress={signupHandler} loading={loading} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "100%", alignSelf: "center", marginVertical: 15 }} title={"Signup"} />
+                <MyButton onPress={signupHandler} loading={loading} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "100%", alignSelf: "center", marginVertical: 15 }} title={localizationStrings.signup} />
                 <View
                     style={{
                         alignItems: 'center',
@@ -180,7 +180,7 @@ const Register = ({ route, navigation }) => {
                         <MyText h6 regular style={{
                             color: '#000',
                         }}>
-                            Don’t have an account?
+                   {localizationStrings.have_a}
                         </MyText>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Login")}
@@ -192,7 +192,7 @@ const Register = ({ route, navigation }) => {
                             <MyText h5 semibold style={{
                                 color: '#04CFA4',
                             }}>
-                                Log in
+                                {localizationStrings.login}
                             </MyText>
                         </TouchableOpacity>
                     </View>

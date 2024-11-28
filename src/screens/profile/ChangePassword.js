@@ -13,6 +13,7 @@ import HeaderTwo from '../../components/Header'
 import NewPassword from '../auth/NewPassword'
 import { errorToast, successToast } from '../../utils/customToast'
 import { DOMAIN } from '../../services/Config'
+import localizationStrings from '../Localization/Localization'
 const ChangePassword = ({ route }) => {
     const userDetails = useSelector((state) => state.user.user)
     const navigation = useNavigation()
@@ -59,7 +60,7 @@ const ChangePassword = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Change Password"} />
+            <HeaderTwo navigation={navigation} title= {localizationStrings.change_password} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
                 <View style={{
                     paddingHorizontal: 12, paddingVertical: 5,
@@ -67,7 +68,7 @@ const ChangePassword = ({ route }) => {
                     borderWidth: 1, borderColor: "#04CFA4", borderRadius: 15
                 }}>
                     <MyText h6 bold style={{ color: "#04CFA4" }}>
-                        {"Current Password"}
+                    {localizationStrings.current_pass}
                     </MyText >
                     <TextInput secureTextEntry={true} value={password} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='*****' placeholderTextColor={"#000"} />
                 </View>
@@ -77,7 +78,7 @@ const ChangePassword = ({ route }) => {
                     borderWidth: 1, borderColor: "#04CFA4", borderRadius: 15
                 }}>
                     <MyText h6 bold style={{ color: "#04CFA4" }}>
-                        {"New Password"}
+                    {localizationStrings.new_password}
                     </MyText >
                     <TextInput secureTextEntry={true} value={newPassword} keyboardType="default" onChangeText={(e) => setNewPassword(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='*****' placeholderTextColor={"#000"} />
                 </View>
@@ -88,12 +89,12 @@ const ChangePassword = ({ route }) => {
                     borderWidth: 1, borderColor: "#04CFA4", borderRadius: 15
                 }}>
                     <MyText h6 bold style={{ color: "#04CFA4" }}>
-                        {"Confirm New Password"}
+                    {localizationStrings.confirm_password}
                     </MyText >
                     <TextInput secureTextEntry={true} value={ConfirmPassword} keyboardType="default" onChangeText={(e) => setConfirmPassword(e)} style={{ width: "100%", borderRadius: 10 }} placeholder='*****' placeholderTextColor={"#000"} />
                 </View>
             </ScrollView >
-            <MyButton loading={loading} onPress={_change_password} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30 }} style={{ borderRadius: 16, width: "95%", alignSelf: "center", margin: 10 }} title={"Save"} />
+            <MyButton loading={loading} onPress={_change_password} textStyle={{ fontSize: 18, fontWeight: "700", fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30 }} style={{ borderRadius: 16, width: "95%", alignSelf: "center", margin: 10 }} title={localizationStrings.save} />
 
         </View>)
 }

@@ -300,7 +300,7 @@ const [reviewCount,setreviewCount] = useState(3)
                         </View>
                         <View style={{ width: "65%" }}>
                             <Text style={{ color: "#1C1B1B", fontSize: 14, fontWeight: '600' }}>
-                                {details?.user_data?.user_name}
+                                {details?.user_data?.user_name}  {details?.user_data.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}
                             </Text >
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5, marginTop: 5 }}>
                                 <Ratting Ratting={details?.ratting} />

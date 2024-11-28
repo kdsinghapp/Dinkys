@@ -8,6 +8,7 @@ import { errorToast } from '../../utils/customToast';
 import { useDispatch, useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import localizationStrings from '../Localization/Localization';
 const DriverProfile = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false)
@@ -57,7 +58,7 @@ const DriverProfile = () => {
     if (result === 'granted') {
      console.log('granted');
     } else {
-      Alert.alert('Permission Denied', 'You need to give permission to access the gallery.');
+     // Alert.alert('Permission Denied', 'You need to give permission to access the gallery.');
     }
   };
   // Function to open the image picker
@@ -152,7 +153,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
           <Back />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Driver Details</Text>
+        <Text style={styles.title}>{localizationStrings.driver_details}</Text>
       </View>
 
       <View style={styles.profileContainer}>
@@ -277,7 +278,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
-    marginLeft: '30%',
+   flex:1,
+  marginLeft:'25%'
   },
   profileContainer: {
     alignItems: 'center',

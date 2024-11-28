@@ -20,6 +20,7 @@ import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/n
 import { styles } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { DOMAIN } from '../../../../services/Config';
+import localizationStrings from '../../../Localization/Localization';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -32,7 +33,34 @@ export default function Home() {
   const dispatch = useDispatch()
   const userDetailData = useSelector((state) => state.user.user)
 
-
+  const status = [
+    {
+      name: localizationStrings.new_order,
+      status: 'New Order'
+    },
+    {
+      name: localizationStrings.all,
+      status: 'All'
+    },
+    {
+      name: localizationStrings.Accepted,
+      status: 'Accepted'
+    },
+    {
+      name: localizationStrings.Pickuped,
+      status: 'Pickuped'
+    },
+    {
+      name: localizationStrings.deliver,
+      status: 'Delivered'
+    },
+  
+    {
+      name: localizationStrings.cancel,
+      status: 'Cancelled'
+    },
+  
+  ]
 
   function formatDate(timestamp) {
     const date = new Date(timestamp);
@@ -64,6 +92,7 @@ export default function Home() {
     }, [])
   )
   const _get_profile = () => {
+   
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
@@ -328,7 +357,7 @@ export default function Home() {
 
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Welcome,</Text>
+          <Text style={styles.title}>{localizationStrings.welcome},</Text>
           <Text style={styles.status}>johne</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -488,31 +517,3 @@ export default function Home() {
 
 
 
-const status = [
-  {
-    name: 'New Order',
-    status: 'New Order'
-  },
-  {
-    name: 'All',
-    status: 'All'
-  },
-  {
-    name: 'Accepted',
-    status: 'Accepted'
-  },
-  {
-    name: 'Pickuped',
-    status: 'Pickuped'
-  },
-  {
-    name: 'Completed',
-    status: 'Delivered'
-  },
-
-  {
-    name: 'Cancelled',
-    status: 'Cancelled'
-  },
-
-]

@@ -14,6 +14,7 @@ import Theme from '../../theme'
 
 import Shipment from "../../assets/svg/shipment.svg"
 import { successToast } from '../../utils/customToast'
+import localizationStrings from '../Localization/Localization'
 
 
 const Purchases = ({ navigation }) => {
@@ -90,7 +91,7 @@ const Purchases = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Purchases"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.purchase} />
        
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                 <Pressable onPress={() => setShow("Pending")} style={{
@@ -98,7 +99,7 @@ const Purchases = ({ navigation }) => {
                         backgroundColor: show == "Pending" ? Theme.BUTTON_PRIMARY_COLOR : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10
                     }}>
                         <Text style={{ color: show == "Pending" ? "#fff" : "#757575", fontWeight: '600', fontSize: 16 }}>
-                            Ongoing
+                        {localizationStrings.ongoing}
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => setShow("Complete")}
@@ -107,7 +108,7 @@ const Purchases = ({ navigation }) => {
                             backgroundColor: show == "Complete" ? Theme.BUTTON_PRIMARY_COLOR : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10
                         }}>
                         <Text style={{ color: show == "Complete" ? "#fff" : "#757575", fontWeight: '600', fontSize: 16 }}>
-                            Completed
+                        {localizationStrings.complete}
                         </Text >
                     </Pressable>
                    
@@ -120,7 +121,7 @@ const Purchases = ({ navigation }) => {
                     </View>
                         :
                         purchase?.length == 0 ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <MyText>No data here...</MyText>
+                            <MyText>{localizationStrings.no_data_here}</MyText>
                         </View>
                             :
 

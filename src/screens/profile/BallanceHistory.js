@@ -15,6 +15,7 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
   } from 'react-native-responsive-screen';
+import localizationStrings from '../Localization/Localization'
 const BallanceHistory = ({ route }) => {
     const navigation = useNavigation()
     const userDetails = useSelector((state) => state?.user?.user)
@@ -80,7 +81,7 @@ const BallanceHistory = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo title={"Ballance History"} navigation={navigation} />
+            <HeaderTwo title={localizationStrings.balance_history} navigation={navigation} />
             <ScrollView contentContainerStyle={{ flex: 1, padding: 20 }}>
                 {loading ?
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { heightPercentageToDP } from 'react-native-responsive-screen'
 import { hp } from '../../utils/Constant'
 import CloseSvg from "../../assets/svg/Close.svg"
+import localizationStrings from '../Localization/Localization'
 
 const Home = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
@@ -329,7 +330,7 @@ const Home = ({ navigation }) => {
                 }}>
                     <Pressable style={{ paddingVertical: 10 }}>
                         <Text style={{ color: "#04CFA4", fontWeight: '700', fontSize: 25 }}>
-                            Welcome
+                          {localizationStrings.welcome}
                         </Text >
                         <Text style={{ color: "#666666", fontWeight: '700', fontSize: 18 }}>
                             {user?.user_name}
@@ -362,7 +363,12 @@ const Home = ({ navigation }) => {
                         style={{ paddingVertical: 10 }}>
                             <Bag width={28} height={28} />
                         </Pressable>
-                        <Pressable style={{ width: 40, backgroundColor:'#f0f0f0',
+                        <Pressable 
+                        
+                        onPress={()=>{
+                             navigation.navigate('EditProfile', { userDetails: user })
+                        }}
+                        style={{ width: 40, backgroundColor:'#f0f0f0',
                             alignItems:'center',justifyContent:'center',
                             height: 40,  borderRadius: 40 / 2 }}>
                             {user?.image !== 'https://api.dkyss.es/public/uploads/users/'? <Image source={{ uri: user?.image }} style={{ width: "100%", height: "100%", borderRadius: 40 / 2 }} />:<Text style={{color:'#000',fontWeight:'600',fontSize:14}}>{user?.user_name[0]?.toUpperCase()}</Text>}
@@ -379,7 +385,7 @@ const Home = ({ navigation }) => {
                     <TextInput
                     
                     placeholderTextColor={'#000'}
-                    value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder='Search here...'
+                    value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder={localizationStrings.search_here}
                     
                     style={{ width: "75%",color:'#000' }} />
                     {searchVal && <TouchableOpacity
@@ -424,11 +430,11 @@ const Home = ({ navigation }) => {
 
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between", }}>
                     <Text style={{ color: "#1C1B1B", fontWeight: '700', fontSize: 18 }}>
-                        Categories
+                    {localizationStrings.categories}
                     </Text >
                     <Pressable onPress={() => navigation.navigate("AllCategories", { categories })} style={{ paddingVertical: 10 }}>
                         <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 13 }}>
-                            View All
+                        {localizationStrings.recent_item}
                         </Text >
                     </Pressable>
                 </View>
@@ -465,7 +471,7 @@ const Home = ({ navigation }) => {
                     }
                 </View>
                 <Text style={{ color: "#1C1B1B", fontWeight: '700', fontSize: 18 }}>
-                    Recent items
+                {localizationStrings.recent_item}
                 </Text >
                 <View style={{ flex: 1 }}>
                     {/* {product?.length == 0 ? null
@@ -578,7 +584,7 @@ const Home = ({ navigation }) => {
                         )}
                     /> :
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600', marginTop: 60 }}>No Product Founded</Text>
+                            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600', marginTop: 60 }}>{localizationStrings.no_p_f}</Text>
                         </View>
                     }
                 </View>

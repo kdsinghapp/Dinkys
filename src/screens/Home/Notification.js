@@ -10,6 +10,7 @@ import MyText from '../../elements/MyText'
 import { useFocusEffect } from '@react-navigation/native'
 import { get_notification } from '../../services/Auth'
 import { useSelector } from 'react-redux'
+import localizationStrings from '../Localization/Localization'
 const Notification = () => {
     const userDetails = useSelector((state) => state.user.user)
     const navigation = useNavigation()
@@ -46,7 +47,7 @@ const Notification = () => {
                         <AntDesign name={"arrowleft"} size={25} color="#000" />
                     </Pressable>
                     <MyText h4 bold style={{ color: "#000" }}>
-                        Notification
+                        {localizationStrings.notification}
                     </MyText>
                     <Pressable style={{ padding: 10 }}>
                         <MaterialCommunityIcons name={"bell-badge-outline"} size={25} color="#fff" />

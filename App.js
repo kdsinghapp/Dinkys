@@ -8,6 +8,7 @@ import toastConfig from './src/utils/customToast';
 import { notificationListener, requestUserPermission } from './src/utils/Notification';
 import messaging from '@react-native-firebase/messaging';
 import { LogBox } from 'react-native';
+import { LanguageProvider } from './src/screens/Localization/LanguageContext';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 const App = () => {
@@ -29,8 +30,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+      <LanguageProvider>
         <Navigation />
         <Toast config={toastConfig} />
+   </LanguageProvider>
       </PersistGate>
     </Provider>
   );

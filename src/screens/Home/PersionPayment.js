@@ -5,7 +5,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import MyButton from '../../elements/MyButton';
-import { successToast } from '../../utils/customToast';
+import { errorToast, successToast } from '../../utils/customToast';
 
 const PersionPayment = () => {
     const navigation = useNavigation()
@@ -48,11 +48,12 @@ const PersionPayment = () => {
             })
     }
     const payment_wallet = () => {
-        setpaymentSuccess(true)
-        if ((Number(details?.price) + Number(shipping_charge)) > Wallet) {
-            return errorToast("Please Add Money in wallet");
-
-        }
+    //   setpaymentSuccess(true)
+     
+      if ((Number(details?.price)) > Wallet) {
+        return errorToast("Please add more money to your wallet.");
+    }
+    
         else {
             try {
                 setLoading(true)

@@ -5,6 +5,7 @@ import Home from './screen/Home';
 
 import Profile from '../../profile/Profile';
 import Wallet from '../../profile/Wallet';
+import localizationStrings from '../../Localization/Localization';
 
 const Tab = createBottomTabNavigator();
 
@@ -65,7 +66,7 @@ export default function TabNavigator() {
               }} 
             />
         }
-            <Text style={{color:focused?'#0BD89E':'#9E9E9E',lineHeight:15,fontWeight:'600',fontSize:10,marginTop:5}}>Home</Text>
+            <Text style={{color:focused?'#0BD89E':'#9E9E9E',lineHeight:15,fontWeight:'600',fontSize:10,marginTop:5}}>{localizationStrings.home}</Text>
             </>
           ),
         
@@ -129,7 +130,7 @@ export default function TabNavigator() {
                 
               }} 
             />}
-            <Text style={{color:focused?'#0BD89E':'#9E9E9E',lineHeight:15,fontWeight:'600',fontSize:10,marginTop:5}}>Profile</Text>
+            <Text style={{color:focused?'#0BD89E':'#9E9E9E',lineHeight:15,fontWeight:'600',fontSize:10,marginTop:5}}>{localizationStrings.profile}</Text>
             </>
           ),
          

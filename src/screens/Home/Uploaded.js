@@ -13,6 +13,7 @@ import { DOMAIN } from '../../services/Config'
 import HeaderTwo from '../../components/Header'
 import MyButton from '../../elements/MyButton'
 import { useSelector } from 'react-redux'
+import localizationStrings from '../Localization/Localization'
 
 const Uploaded = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
@@ -86,8 +87,8 @@ const Uploaded = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo back={true} navigation={navigation} title={"Own Product"} />
-            <MyButton title={"Add Product"} onPress={() => navigation.navigate("AddProduct")} style={{ borderRadius: 12, width: "95%", alignSelf: "center" }} />
+            <HeaderTwo back={true} navigation={navigation} title={localizationStrings.own_product} />
+            <MyButton title={localizationStrings.add_product} onPress={() => navigation.navigate("AddProduct")} style={{ borderRadius: 12, width: "95%", alignSelf: "center" }} />
             <ScrollView contentContainerStyle={{ backgroundColor: "#fff", flex: 1, padding: 20 }}>
                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                     {loading ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

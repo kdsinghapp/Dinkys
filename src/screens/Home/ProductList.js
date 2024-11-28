@@ -9,6 +9,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import HeaderTwo from '../../components/Header'
 import Heart from "../../assets/svg/Heart2.svg"
+import localizationStrings from '../Localization/Localization'
 const ProductList = ({ navigation, route }) => {
     const { item } = route?.params
     const [loading, setLoading] = useState(false)
@@ -47,7 +48,7 @@ const ProductList = ({ navigation, route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Product List"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.product_list} />
             <ScrollView style={{ backgroundColor: "#fff", flex: 1, padding: 20, paddingTop: 5 }}>
                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                     {loading ? <View style={{ height: Dimensions.get("screen").height / 2, width: Dimensions.get("screen").width * 0.9, justifyContent: "center", alignItems: "center" }}>
@@ -56,7 +57,7 @@ const ProductList = ({ navigation, route }) => {
                         :
                         product?.length == 0 ? <View style={{ height: Dimensions.get("screen").height / 2, width: Dimensions.get("screen").width * 0.9, justifyContent: "center", alignItems: "center" }}>
                             <MyText h5 bold style={{ color: "#000" }}>
-                                No product here...
+                         {localizationStrings.no_data_here}
                             </MyText >
                         </View>
                             :

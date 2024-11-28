@@ -135,7 +135,7 @@ const MeetingInforMation = () => {
       redirect: "follow"
     };
 
-    fetch("https://api.dkyss.es/api/change_meeting_status", requestOptions)
+    fetch("https://panel.dkyss.es/api/change_meeting_status", requestOptions)
       .then((response) => response.text())
       .then((result) => {
 

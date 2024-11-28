@@ -24,6 +24,7 @@ import { DOMAIN } from '../../services/Config';
 import { errorToast, successToast } from '../../utils/customToast';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import { width } from '../../utils/Constant';
+import localizationStrings from '../Localization/Localization';
 export default function OrderDetails() {
   const [activeIndex, setActiveIndex] = useState(0); // State to track the active index
 
@@ -257,7 +258,7 @@ position:'absolute',top:35,zIndex:1,
                     lineHeight: 24,
                     fontWeight: '500',
                   }}>
-                  ORDER DETAILS
+                 {localizationStrings.order_details}
                 </Text>
                 <Text
                   style={{
@@ -398,7 +399,7 @@ position:'absolute',top:35,zIndex:1,
 
         <View style={{ marginTop: 20 }}>
           <View>
-            <Text style={{ fontWeight: '600', fontSize: 18, lineHeight: 20, color: '#111111' }}>Customer</Text>
+            <Text style={{ fontWeight: '600', fontSize: 18, lineHeight: 20, color: '#111111' }}>{localizationStrings.custmore}</Text>
           </View>
           <View
             style={[
@@ -519,7 +520,7 @@ position:'absolute',top:35,zIndex:1,
         }}>
           <View>
 
-            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>Product Price</Text>
+            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>{localizationStrings.product_price}</Text>
 
           </View>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>£ {item?.total_amount}</Text>
@@ -528,19 +529,19 @@ position:'absolute',top:35,zIndex:1,
              paddingHorizontal:10,
         alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
 
-          <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>Shipping charges</Text>
+          <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}> {localizationStrings.Shipping_charges}</Text>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>£ {item.shipping_charge}</Text>
         </View>
         <View style={{ flexDirection: 'row',      paddingHorizontal:10, alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
 
-          <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>Late Night Surcharges</Text>
+          <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}> {localizationStrings.late_night}</Text>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>£ {item.late_night_charges}</Text>
         </View>
 
         <View style={{ flexDirection: 'row',       paddingHorizontal:10,alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
           <View>
 
-            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>Discount</Text>
+            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}> {localizationStrings.discount}</Text>
            {item.discount != 0 && <Text style={{ fontSize: 12, color: '#1F1D1A', fontWeight: '600' }}>Promo Code: 554dffd</Text>}
           </View>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>£ {item.discount}</Text>
@@ -553,7 +554,7 @@ position:'absolute',top:35,zIndex:1,
         }}>
           <View>
 
-            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>Total</Text>
+            <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}> {localizationStrings.order_details}</Text>
 
           </View>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '700' }}>£ {item?.total_amount}</Text>

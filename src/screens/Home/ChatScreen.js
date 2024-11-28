@@ -11,6 +11,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import Pig from "../../assets/svg/pig.svg"
 import SearchSvg from "../../assets/svg/search.svg"
+import localizationStrings from '../Localization/Localization'
 
 
 
@@ -86,7 +87,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://api.dkyss.es/api/get_notification", requestOptions)
+fetch("https://panel.dkyss.es/api/get_notification", requestOptions)
   .then((response) => response.text())
   .then((result) => {
 
@@ -129,11 +130,12 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
       
         return "Just now";
       };
+      console.log('chatList',chatList);
       
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" ,padding: 20, paddingTop: 5}}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo back={true} navigation={navigation} title={"Message"} />
+            <HeaderTwo back={true} navigation={navigation} title={localizationStrings.message} />
             <ScrollView >
             <View style={{ backgroundColor: "#F3F4F5", width: "100%", borderRadius: 30, 
                 height:52,
@@ -142,27 +144,27 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
                     <SearchSvg width={16} height={16} style={{ paddingLeft: 30 }} />
                     <TextInput value={searchVal} 
                     placeholderTextColor={'#000'}
-                    onChangeText={(e) => searchHandler(e)} placeholder='Search here...' style={{ width: "95%" }} />
+                    onChangeText={(e) => searchHandler(e)} placeholder={localizationStrings.search_here} style={{ width: "95%" }} />
                    
                 </View>
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                     <Pressable onPress={() => setShow("Products")} style={{ width: "48%", padding: 18,
                      backgroundColor: show == "Products" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Products" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                            Message
+                        {localizationStrings.message}
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => setShow("Searches")} style={{ width: "48%", padding: 18, backgroundColor: show == "Searches" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                 
                         <Text style={{ color: show == "Searches" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                            Notification
+                        {localizationStrings.notification}
                         </Text >
                     </Pressable>
 
                 </View>
                 {show == "Products" ?
                     <View style={{ width: "100%", marginTop: 20 }}>
-                        <Text style={{ color: "#000",fontSize:22,fontWeight:'800' }}>Chat</Text>
+                        <Text style={{ color: "#000",fontSize:22,fontWeight:'800' }}>{localizationStrings.chats}</Text>
                         {chatList?.length == 0 ? null
                             :
                             chatList.map((item, index) => {
@@ -172,7 +174,9 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
                                             image: item?.image,
                                             name: item?.user_name,
                                             product_id: item?.product_id,
-                                            reciever_id: item?.sender_id
+                                            reciever_id: item?.sender_id,
+                                            label:item?.label
+
                                         }
                                     })} key={index} style={{ alignItems: "center", backgroundColor: "#fff", flexDirection: "row", justifyContent: "space-between", borderColor: "#949494", paddingVertical: 20 }}>
                                         <View style={{ width: 60, height: 60, borderRadius: 40 / 2, backgroundColor: "#CACACA40" }}>
@@ -181,7 +185,7 @@ fetch("https://api.dkyss.es/api/get_notification", requestOptions)
                                        
                                         </View>
                                         <View style={{ width: "78%" }}>
-                                        <Text style={{fontSize:15,color:'#000',fontWeight:'700'}} >{item.user_name}</Text>
+                                        <Text style={{fontSize:15,color:'#000',fontWeight:'700'}} >{item.user_name} {item?.name?.substring(0, 30)}  {item?.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}</Text>
                                         <Text style={{fontSize:14,color:'#949494',fontWeight:'500'}} >{item?.last_message}</Text>
                                         </View>
                                         {/* <MyText h6 regular style={{ color: "#949494" }}>2 hours ago</MyText> */}

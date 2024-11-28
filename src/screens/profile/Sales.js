@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react'
-import { Image, Pressable, ScrollView, Alert, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Linking } from 'react-native'
+import { Image, Pressable, ScrollView, Alert, Text, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Linking, StyleSheet } from 'react-native'
 import MyText from '../../elements/MyText'
 import { useSelector } from 'react-redux'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -17,6 +17,7 @@ import { hp } from '../../utils/Constant'
 import MyButton from '../../elements/MyButton'
 
 import Heart from "../../assets/svg/Heart2.svg"
+import localizationStrings from '../Localization/Localization'
 const Sales = ({ navigation }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const [show, setShow] = useState("wind")
@@ -98,22 +99,22 @@ const Sales = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Sales"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.sales} />
             <ScrollView contentContainerStyle={{ backgroundColor: "#fff", flex: 1, padding: 20 }}>
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                     <Pressable onPress={() => setShow("wind")} style={{ width: "33.33%", padding: 18, backgroundColor: show == "wind" ? "#04CFA4" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <MyText h6 semibold style={{ color: show == "wind" ? "#fff" : "#757575" }}>
-                            In wind
+                        {localizationStrings.in_wind}
                         </MyText >
                     </Pressable>
                     <Pressable onPress={() => setShow("inprogress")} style={{ width: "33.33%", padding: 18, backgroundColor: show == "inprogress" ? "#04CFA4" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <MyText h6 semibold style={{ color: show == "inprogress" ? "#fff" : "#757575" }}>
-                            In progress
+                        {localizationStrings.in_progress}
                         </MyText >
                     </Pressable>
                     <Pressable onPress={() => setShow("Complete")} style={{ width: "33.33%", padding: 18, backgroundColor: show == "Complete" ? "#04CFA4" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <MyText h6 semibold style={{ color: show == "Complete" ? "#fff" : "#757575" }}>
-                            Finished
+                        {localizationStrings.finished}
                         </MyText >
                     </Pressable>
                 </View>
@@ -124,7 +125,7 @@ const Sales = ({ navigation }) => {
                     :
                     purchase?.length == 0 ?
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <MyText>No data here...</MyText>
+                            <MyText>{localizationStrings.no_data_here}</MyText>
                         </View>
                         :
                         <View style={{ flex: 1, width: "100%", 
@@ -237,7 +238,7 @@ const Sales = ({ navigation }) => {
                                                 width: '30%'
                                             }}  >
 
-                                                <Text style={{ fontSize: 14, color: '#fff', fontWeight: '600' }}>In progress</Text>
+                                                <Text style={{ fontSize: 14, color: '#fff', fontWeight: '600' }}>{localizationStrings.purchase}</Text>
                                             </Pressable>
 
                                         </View>
@@ -429,3 +430,5 @@ const Sales = ({ navigation }) => {
 }
 
 export default Sales
+
+

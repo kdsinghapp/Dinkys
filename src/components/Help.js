@@ -4,6 +4,7 @@ import HeaderTwo from './Header'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import MyStatusBar from '../elements/MyStatusBar'
 import { useSelector } from 'react-redux'
+import localizationStrings from '../screens/Localization/Localization'
 
 export default function Help() {
     const navigation = useNavigation()
@@ -27,7 +28,7 @@ export default function Help() {
             redirect: "follow"
         };
 
-        fetch("https://api.dkyss.es/api/get_help", requestOptions)
+        fetch("https://panel.dkyss.es/api/get_help", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 const res = JSON.parse(result)
@@ -48,7 +49,7 @@ export default function Help() {
     <View style={{flex:1,backgroundColor:'#fff',}}>
           <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
       <View style={styles.headerContainer}>
-                    <HeaderTwo navigation={navigation} title={"Help"} />
+                    <HeaderTwo navigation={navigation} title={localizationStrings.help} />
                 </View>
 
                 <View style={{flex:1,padding:20}}>
@@ -57,7 +58,7 @@ export default function Help() {
                     </Text>
                     <Text style={{color:'#000',fontSize:14,marginTop:10}}>Dinkys-  {helpData?.number}
                     </Text>
-                    <Text style={{color:'#000',fontSize:14}}>Email -  {helpData?.email}
+                    <Text style={{color:'#000',fontSize:14}}>{localizationStrings.email} -  {helpData?.email}
                     </Text>
 
                 </View>

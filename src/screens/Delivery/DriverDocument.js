@@ -20,6 +20,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import ProfileHeader from '../../components/ProfileHeader';
 import { DOMAIN } from '../../services/Config';
 import { useDispatch, useSelector } from 'react-redux';
+import localizationStrings from '../Localization/Localization';
 
 export default function DriverDocument() {
   const [serviceType, setServiceType] = useState('');
@@ -138,7 +139,7 @@ const _get_profile = () => {
       {/* {isLoading ? <Loading /> : null}
       */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ProfileHeader name={'Vehicle Details'} Dwidth={'32%'} />
+        <ProfileHeader name={localizationStrings.vehicle_details}  />
         <TouchableOpacity
           style={[
             styles.imageUploadContainer,
@@ -252,7 +253,7 @@ const _get_profile = () => {
         handleNextPress()
       }}
       style={styles.continueButton}>
-        <Text style={styles.continueButtonText}>Next</Text>
+        <Text style={styles.continueButtonText}>{localizationStrings.next}</Text>
       </TouchableOpacity>
 
         <View  style={{height:20}}/>

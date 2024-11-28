@@ -66,7 +66,7 @@ const token = userDetailData?.access_token
           redirect: "follow"
         };
         
-        fetch("https://api.dkyss.es/api/get-fqa", requestOptions)
+        fetch("https://panel.dkyss.es/api/get-fqa", requestOptions)
           .then((response) => response.text())
           .then((result) => {
              const res = JSON.parse(result)

@@ -11,6 +11,7 @@ import MyText from '../../elements/MyText'
 import HeaderTwo from '../../components/Header'
 import { useFocusEffect } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
+import localizationStrings from '../Localization/Localization'
 const Privacy = ({ navigation }) => {
 
     const [faqData, setFaqData] = useState([])
@@ -32,7 +33,7 @@ const Privacy = ({ navigation }) => {
             redirect: "follow"
         };
 
-        fetch("https://api.dkyss.es/api/get-privacy-policy", requestOptions)
+        fetch("https://panel.dkyss.es/api/get-privacy-policy", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 const res = JSON.parse(result)
@@ -53,7 +54,7 @@ const Privacy = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Privacy Policy"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.privacy_policy} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, paddingTop: 0, padding: 20 }}>
          
                         <View>

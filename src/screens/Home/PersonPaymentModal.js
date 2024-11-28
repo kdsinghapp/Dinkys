@@ -48,7 +48,7 @@ const PersonPaymentModal = ({ modalVisible, setModalVisible, price = 199, curren
                 redirect: "follow"
             };
 
-            await fetch("https://api.dkyss.es/api//withdraw_amount", requestOptions)
+            await fetch("https://panel.dkyss.es/api//withdraw_amount", requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
                     const res = JSON.parse(result)

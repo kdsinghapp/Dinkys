@@ -11,6 +11,7 @@ import MyText from '../../elements/MyText'
 import HeaderTwo from '../../components/Header'
 import { useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
+import localizationStrings from '../Localization/Localization'
 const About = ({ navigation }) => {
 
 
@@ -33,7 +34,7 @@ const About = ({ navigation }) => {
             redirect: "follow"
         };
 
-        fetch("https://api.dkyss.es/api/get_about_us", requestOptions)
+        fetch("https://panel.dkyss.es/api/get_about_us", requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 const res = JSON.parse(result)
@@ -52,7 +53,7 @@ const About = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"About Us"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.About_us} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, paddingTop: 0, padding: 20 }}>
                 <FlatList
                     showsVerticalScrollIndicator={false}

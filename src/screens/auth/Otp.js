@@ -15,6 +15,7 @@ import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from
 import BackNav from "../../assets/svg/BackNav.svg"
 import Theme from '../../theme'
 import { DOMAIN } from '../../services/Config'
+import localizationStrings from '../Localization/Localization'
 const CELL_COUNT = 4;
 const Otp = ({ route }) => {
     const { showNumber, email, number } = route?.params
@@ -65,10 +66,10 @@ const Otp = ({ route }) => {
                 </Pressable>
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <MyText h3 bold style={{ color: "#000" }}>
-                        {`Check your ${showNumber ? "sms" : "mail"}`}
+                       {localizationStrings.Check_sms}
                     </MyText>
                     <MyText h5 regular style={{ color: "#9DB2BF", marginVertical: 5 }}>
-                        {`${"Please put the 6 digits sent to you"}`}
+                    {localizationStrings.please_details}
                     </MyText>
                 </View>
                 <CodeField
@@ -92,7 +93,7 @@ const Otp = ({ route }) => {
                     )}
                 />
             </View>
-            <MyButton loading={loading} onPress={otpHandler} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "95%", alignSelf: "center", margin: 5 }} title={"Submit"} />
+            <MyButton loading={loading} onPress={otpHandler} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "95%", alignSelf: "center", margin: 5 }} title={localizationStrings.submit} />
 
         </View>
     )

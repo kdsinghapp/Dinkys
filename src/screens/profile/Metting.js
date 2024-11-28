@@ -11,6 +11,7 @@ import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import Pig from "../../assets/svg/pig.svg"
 import SearchSvg from "../../assets/svg/search.svg"
+import localizationStrings from '../Localization/Localization'
 
 
 
@@ -94,7 +95,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://api.dkyss.es/api/get_meeting_request", requestOptions)
+fetch("https://panel.dkyss.es/api/get_meeting_request", requestOptions)
   .then((response) => response.text())
   .then((result) => {
 
@@ -141,7 +142,7 @@ fetch("https://api.dkyss.es/api/get_meeting_request", requestOptions)
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" ,padding: 20, paddingTop: 5}}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo  navigation={navigation} title={"Metting Request"}  Metting={false}/>
+            <HeaderTwo  navigation={navigation} title={localizationStrings.metting_request}  Metting={false}/>
             <ScrollView  showsVerticalScrollIndicator={false}>
             <View style={{ backgroundColor: "#F3F4F5", width: "100%", borderRadius: 30, 
                 height:52,
@@ -150,20 +151,20 @@ fetch("https://api.dkyss.es/api/get_meeting_request", requestOptions)
                     <SearchSvg width={16} height={16} style={{ paddingLeft: 30 }} />
                     <TextInput value={searchVal} 
                     placeholderTextColor={'#000'}
-                    onChangeText={(e) => searchHandler(e)} placeholder='Search here...' style={{ width: "95%" }} />
+                    onChangeText={(e) => searchHandler(e)} placeholder={localizationStrings.search_here} style={{ width: "95%" }} />
                    
                 </View>
                 <View style={{ backgroundColor: "#FBFBFB", flexDirection: "row", alignItems: "center" }}>
                     <Pressable onPress={() => setShow("Products")} style={{ width: "48%", padding: 18,
                      backgroundColor: show == "Products" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                         <Text style={{ color: show == "Products" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                            My Request
+                        {localizationStrings.my_request}
                         </Text >
                     </Pressable>
                     <Pressable onPress={() => setShow("Searches")} style={{ width: "48%", padding: 18, backgroundColor: show == "Searches" ? "#0BD89E" : "transparent", justifyContent: "center", alignItems: "center", borderRadius: 10 }}>
                 
                         <Text style={{ color: show == "Searches" ? "#fff" : "#757575",fontWeight:'600',fontSize:15 }}>
-                        Request
+                        {localizationStrings.request}
                         </Text >
                     </Pressable>
 

@@ -58,6 +58,9 @@ import Metting from '../screens/profile/Metting';
 import MeetingInforMation from '../screens/profile/MeetingInformation';
 import CreateMettingScreen from '../screens/Home/CreateMettingScreen';
 import AddBankDetails from '../screens/Home/AddBankAccount';
+import AdsPlan from '../screens/Home/AdsPlan';
+import ViewCart from '../screens/Home/AdsCart';
+import AdsWebview from '../screens/Home/AdsWebview';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -163,6 +166,12 @@ export default function Navigation() {
                 <Stack.Screen name="CreateMettingScreen" component={CreateMettingScreen} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="AddBankDetails" component={AddBankDetails} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="AdsPlan" component={AdsPlan} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="ViewCart" component={ViewCart} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="AdsWebview" component={AdsWebview} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

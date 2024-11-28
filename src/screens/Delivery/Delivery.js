@@ -8,6 +8,7 @@ import { errorToast } from '../../utils/customToast';
 import { useDispatch, useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import localizationStrings from '../Localization/Localization';
 const DeliveryScreen = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false)
@@ -21,7 +22,9 @@ const DeliveryScreen = () => {
   const [user, setUser] = useState(null)
   const dispatch = useDispatch()
   const userDetailData = useSelector((state) => state.user.user)
-
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cifNif, setCifNif] = useState('');
 
   // State management for the profile image
   const [profileImage, setProfileImage] = useState(null);
@@ -45,7 +48,7 @@ const DeliveryScreen = () => {
     if (result === 'granted') {
      console.log('granted');
     } else {
-      Alert.alert('Permission Denied', 'You need to give permission to access the gallery.');
+      //Alert.alert('Permission Denied', 'You need to give permission to access the gallery.');
     }
   };
   // Function to open the image picker
@@ -92,8 +95,12 @@ const DeliveryScreen = () => {
 
 
   const checkAllFileld =()=>{
-if(!firstName || !lastName || !mobileNumber ||!city|| !homeAddress1|| !homeAddress2 ||!profileImage || !homeAddress1?.lat ||!homeAddress1?.lng) {
+if(!firstName || !lastName || !mobileNumber ||!city||  !homeAddress2 ||!email || !cifNif ||!companyName ) {
     return errorToast('all fields are mandatory')
+
+}
+if(!profileImage  ) {
+    return errorToast('Profile photo is require')
 
 }
 setLoading(true)
@@ -101,12 +108,15 @@ var formdata = new FormData();
 formdata.append("user_id", user?.id);
 formdata.append("driver_first_name", firstName);
 formdata.append("driver_last_name", lastName);
-formdata.append("driver_address_1", homeAddress1?.place);
+formdata.append("driver_address_1", homeAddress1?.place?homeAddress1?.place:'');
 formdata.append("driver_address_2", homeAddress2);
 formdata.append("driver_mobile_number", mobileNumber);
 formdata.append("driver_city", city);
-formdata.append("driver_lat", homeAddress1?.lat);
-formdata.append("driver_long", homeAddress1?.lng);
+formdata.append("driver_lat", homeAddress1?.lat?homeAddress1?.lat:'');
+formdata.append("driver_long", homeAddress1?.lng?homeAddress1?.lat:'');
+formdata.append("driver_email", email);
+formdata.append("driver_company_name", companyName);
+formdata.append("driver_cif_nif", cifNif);
 formdata.append("driver_images", profileImage);
 const requestOptions = {
     method: "POST",
@@ -140,7 +150,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
           <Back />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Delivery</Text>
+        <Text style={styles.title}>{localizationStrings.deliver}</Text>
       </View>
 
       <View style={styles.profileContainer}>
@@ -212,22 +222,48 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
         placeholder="First Name" 
         value={firstName} 
         onChangeText={setFirstName} 
+        placeholderTextColor={"#000"}
       />
       <TextInput 
         style={styles.input} 
         placeholder="Last Name" 
         value={lastName} 
         onChangeText={setLastName} 
+        placeholderTextColor={"#000"}
       />
+      <TextInput
+          style={styles.input}
+          placeholder="Company Name (if applicable)"
+          value={companyName}
+          onChangeText={setCompanyName}
+          placeholderTextColor="#000"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor="#000"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="CIF/NIF"
+          value={cifNif}
+          onChangeText={setCifNif}
+          placeholderTextColor="#000"
+        />
       <TextInput 
         style={styles.input} 
         placeholder="Mobile Number" 
         value={mobileNumber} 
         onChangeText={setMobileNumber} 
+        placeholderTextColor={"#000"}
         keyboardType="phone-pad" 
       />
       <TextInput 
         style={styles.input} 
+        placeholderTextColor={"#000"}
         placeholder="City" 
         value={city} 
         onChangeText={setCity} 
@@ -236,6 +272,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
       <TextInput 
         style={styles.input} 
         placeholder="Home Address 2" 
+        placeholderTextColor={"#000"}
         value={homeAddress2} 
         onChangeText={setHomeAddress2} 
       />

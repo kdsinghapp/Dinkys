@@ -115,7 +115,7 @@ export default function UserProfile() {
                         color: "#1C1B1B", textAlign: 'center',
                         fontSize: 18, fontWeight: '800'
                     }}>
-                        {Saller?.user_name}
+                        {Saller?.user_name}  {Saller?.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}
                     </Text >
                     <Text style={{
                         color: "#C9C9C9", textAlign: 'center',

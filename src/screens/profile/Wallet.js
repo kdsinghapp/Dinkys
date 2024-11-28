@@ -20,6 +20,7 @@ import { DOMAIN } from '../../services/Config'
 import PersonPaymentModal from '../Home/PersonPaymentModal'
 
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import localizationStrings from '../Localization/Localization'
 
 
 
@@ -81,7 +82,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://api.dkyss.es/api/get-profile", requestOptions)
+fetch("https://panel.dkyss.es/api/get-profile", requestOptions)
   .then((response) => response.text())
   .then((result) => {
 
@@ -95,17 +96,17 @@ fetch("https://api.dkyss.es/api/get-profile", requestOptions)
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-            <HeaderTwo title={"Wallet"} navigation={navigation} />
+            <HeaderTwo title={localizationStrings.wallet} navigation={navigation} />
             <View style={{ flex: 1, padding: 20 }}>
                 <View style={{ padding: 20, width: "100%", borderRadius: 15, elevation: 5, backgroundColor: "#fff", justifyContent: "center", alignItems: "center" }}>
-                <Text  style={{color:'#04CFA4',fontWeight:'600',fontSize:16,marginTop:10}}>Principal. Euro</Text>
+                <Text  style={{color:'#04CFA4',fontWeight:'600',fontSize:16,marginTop:10}}>{localizationStrings.principal_e}</Text>
                 <Text  style={{color:'#04CFA4',fontWeight:'700',fontSize:22,marginTop:10}}>€ {User?.wallet}</Text>
                     <View style={{ width: "100%",
                     alignItems:'center',justifyContent:'center',
                     borderRadius: 15, marginTop: 15, flexDirection: "row", backgroundColor: "#fff", alignItems: "center" }}>
                         <Pressable onPress={() => {setModalVisible(true)}} style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
                             <RechargeSvg width={41} height={41} />
-                            <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Recharge</Text>
+                            <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>{localizationStrings.recharge}</Text>
                         </Pressable>
                         {/* <View style={{ width: "33%", justifyContent: "center", alignItems: "center" }}>
                             <PaySvg width={41} height={41} />
@@ -123,7 +124,7 @@ fetch("https://api.dkyss.es/api/get-profile", requestOptions)
                           </Pressable>
                   
                                 
-                            <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>Withdraw</Text>
+                            <Text  style={{color:'#04CFA4',fontWeight:'500',fontSize:14,marginTop:10}}>{localizationStrings.withdraw}</Text>
                         </View>
                     </View>
                 </View>
@@ -132,7 +133,7 @@ fetch("https://api.dkyss.es/api/get-profile", requestOptions)
                         <HistorySvg width={24} height={24} />
                     </View>
                     <View style={{ width: "75%" }}>
-                    <Text  style={{color:'#000',fontWeight:'500',fontSize:16}}>Balance History</Text>
+                    <Text  style={{color:'#000',fontWeight:'500',fontSize:16}}>{localizationStrings.balance_history}</Text>
                     </View>
                     <ProRight width={16} height={16} />
                 </Pressable>
@@ -141,7 +142,7 @@ fetch("https://api.dkyss.es/api/get-profile", requestOptions)
                         <BankSvg width={24} height={24} />
                     </View>
                     <View style={{ width: "75%" }}>
-                    <Text  style={{color:'#000',fontWeight:'600',fontSize:16}}>Bank Details</Text>
+                    <Text  style={{color:'#000',fontWeight:'600',fontSize:16}}>{localizationStrings.bank_details}</Text>
                     </View>
                     <ProRight width={16} height={16} />
                 </Pressable>

@@ -18,12 +18,14 @@ import CityModal from '../../components/CityModal'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import UploadImageModal from '../../components/UpdateProfileModal'
 import ImagePicker from 'react-native-image-crop-picker';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import localizationStrings from '../Localization/Localization'
 
 const AddProduct = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
     const [title, setTitle] = useState()
     const [des, setDes] = useState()
+    const [user, setUser] = useState(null)
     const [price, setPrice] = useState()
     const [zip, setZip] = useState("")
     const [categories, setCategories] = useState([]);
@@ -52,14 +54,38 @@ const AddProduct = ({ navigation }) => {
     const [status, setStatus] = useState("")
     const [imageOpen, setImageOpen] = useState(false)
     const [imageData, setImageData] = useState([])
-
+ const dispatch = useDispatch()
     useFocusEffect(
         React.useCallback(() => {
             _get_allCatergories()
             _get_Country()
             _get_Hastag()
+            _get_profile()
         }, [])
     )
+
+    console.log('user',user);
+    
+    const _get_profile = () => {
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+        fetch(`${DOMAIN}get-profile`, requestOptions)
+            .then((response) => response.json())
+            .then(async (res) => {
+                if (res.status == "1") {
+                    dispatch({ type: "WALLET", payload: res?.data?.wallet });
+                    setUser(res?.data)
+                }
+            }).catch((err) => {
+                console.log("err", err)
+            })
+    }
     const _get_Hastag = () => {
         setLoading(true)
         const requestOptions = {
@@ -171,13 +197,25 @@ const AddProduct = ({ navigation }) => {
     }
 
     const uploadHandler = () => {
+    
+     
+        
         if (!title || !des || !price) {
             errorToast("All Fields Required", 3000)
-        } else if (PickupLocationlat?.place?.length == 0) {
-            errorToast("Please enter location", 3000)
-        } else if (imageData?.length == 0) {
+        }
+        //  else if (PickupLocationlat?.place?.length == 0) {
+        //     errorToast("Please enter location", 3000)
+        // } 
+       
+        else if (imageData?.length == 0) {
             errorToast("Please upload at least 1 image")
-        } else {
+        }
+        else if(user?.ads_count == 0){
+
+
+            navigation.navigate('AdsPlan')
+        }
+        else {
             setLoading(true)
             var formdata = new FormData();
             formdata.append("user_id", userDetailData?.id);
@@ -191,9 +229,9 @@ const AddProduct = ({ navigation }) => {
             formdata.append("brand", brand);
             formdata.append("color", color);
             formdata.append("hashtag_id", hastagData?.id);
-            formdata.append("product_location", PickupLocationlat?.place);
-            formdata.append("lat", PickupLocationlat?.lat);
-            formdata.append("long", PickupLocationlat?.lng);
+            formdata.append("product_location", PickupLocationlat?.place?PickupLocationlat?.place:'');
+            formdata.append("lat", PickupLocationlat?.lat?PickupLocationlat?.lat:'');
+            formdata.append("long", PickupLocationlat?.lng?PickupLocationlat?.lng:'');
             formdata.append("description", des)
             imageData.forEach((image, index) => {
                 return (
@@ -257,7 +295,7 @@ const AddProduct = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"#fff"} barStyle={"dark-content"} />
-            <HeaderTwo navigation={navigation} title={"Add Product"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.add_product} />
             <Text style={{fontSize:18,color:'#000',marginHorizontal:20,marginVertical:10,fontWeight:'700'}}> Product Location</Text>
             <View
                     style={{
@@ -274,7 +312,7 @@ const AddProduct = ({ navigation }) => {
                         scrollEnabled={false}
                         fetchDetails={true}
                         GooglePlacesDetailsQuery={{ fields: 'geometry' }}
-                        placeholder={"Product Location"}
+                        placeholder={localizationStrings.product_location}
                         onPress={(data, details = null) => {
                             setPickupLocationlat({ ...PickupLocationlat, lat: details?.geometry?.location?.lat, lng: details?.geometry?.location?.lng, place: data.description });
                         }}
@@ -298,14 +336,14 @@ const AddProduct = ({ navigation }) => {
                             placeholderTextColor: "#000"
                         }}
                         query={{
-                            key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',
+                            key: 'AIzaSyDVGu8kdO0adFI__fwaV1m0ftSqEpD5NA8',
                             language: 'en',
                         }}
                         enablePoweredByContainer={false}
                     />
                 </View>
             <ScrollView style={{ flex: 1, padding: 20, paddingTop: 0 }}>
-                <MyText h4 bold style={{ color: "#000" }}>Photo</MyText>
+                <MyText h4 bold style={{ color: "#000" }}>{localizationStrings.photo}</MyText>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginVertical: 12, flexWrap: "wrap", gap: 10 }}>
                     <Pressable onPress={() => setImageOpen(true)} style={{}}>
                         {!imageData?.[0]?.path ?
@@ -379,40 +417,40 @@ const AddProduct = ({ navigation }) => {
                     </Pressable>
                 </View>
                
-                <TextInput value={title} placeholder='Title' placeholderTextColor={"#000"}
+                <TextInput value={title} placeholder={localizationStrings.titile}placeholderTextColor={"#000"}
                  onChangeText={(e) => setTitle(e)} style={{ borderColor: "#EBEBEB",color:'#000', borderWidth: 1, borderRadius: 12, padding: 15 }} />
-                <TextInput  multiline value={des} placeholder='Discription' placeholderTextColor={"#000"} 
+                <TextInput  multiline value={des} placeholder={localizationStrings.description} placeholderTextColor={"#000"} 
                 
                 onChangeText={(e) => setDes(e)} style={{ borderColor: "#EBEBEB", color:'#000',
                 borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 12 }} />
             
                 <Pressable onPress={() => setopenCate(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <MyText h6 regular style={{ color: "#000" }}>{!categoriesData?.category_name ? "Category" : categoriesData?.category_name}</MyText>
+                    <MyText h6 regular style={{ color: "#000" }}>{!categoriesData?.category_name ? localizationStrings.categories : categoriesData?.category_name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
                 <Pressable onPress={() => setCountryOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <MyText h6 regular style={{ color: "#000" }}>{!countryData?.name ? "Country" : countryData?.name}</MyText>
+                    <MyText h6 regular style={{ color: "#000" }}>{!countryData?.name ? localizationStrings.country : countryData?.name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
                 <Pressable onPress={() => setStateOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <MyText h6 regular style={{ color: "#000" }}>{!stateData?.name ? "State" : stateData?.name}</MyText>
+                    <MyText h6 regular style={{ color: "#000" }}>{!stateData?.name ? localizationStrings.state : stateData?.name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
                 <Pressable onPress={() => setCityOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <MyText h6 regular style={{ color: "#000" }}>{!cityData?.name ? "City" : cityData?.name}</MyText>
+                    <MyText h6 regular style={{ color: "#000" }}>{!cityData?.name ? localizationStrings.city: cityData?.name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
-                <TextInput value={zip} placeholder='Zip Code' placeholderTextColor={"#000"}
+                <TextInput value={zip} placeholder={localizationStrings.zip_code} placeholderTextColor={"#000"}
                 
                 onChangeText={(e) => setZip(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15, marginVertical: 15, }} />
-                <TextInput value={brand} placeholder='Brand' placeholderTextColor={"#000"} 
+                <TextInput value={brand} placeholder={localizationStrings.brand} placeholderTextColor={"#000"} 
                 onChangeText={(e) => setBrand(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15 }} />
-                <TextInput value={color} placeholder='Color' placeholderTextColor={"#000"} 
+                <TextInput value={color} placeholder={localizationStrings.color} placeholderTextColor={"#000"} 
                 onChangeText={(e) => setcolor(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1, color:'#000',borderRadius: 12, padding: 15 ,marginTop:10}} />
-                <TextInput value={status} placeholder='Products Status' 
+                <TextInput value={status} placeholder={localizationStrings.product_status}
                 placeholderTextColor={"#000"} onChangeText={(e) => setStatus(e)} style={{ color:'#000',borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginVertical: 15, }} />
                 <Pressable onPress={() => sethastagOpen(true)} style={{ borderColor: "#EBEBEB", borderWidth: 1, borderRadius: 12, padding: 15, marginBottom: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <MyText h6 regular style={{ color: "#000" }}>{!hastagData?.hash_tag_name ? "Hastag" : hastagData?.hash_tag_name}</MyText>
+                    <MyText h6 regular style={{ color: "#000" }}>{!hastagData?.hash_tag_name ? localizationStrings.hastag: hastagData?.hash_tag_name}</MyText>
                     <ProRight width={12} height={12} />
                 </Pressable>
                 {hastagOpen && (
@@ -431,7 +469,7 @@ const AddProduct = ({ navigation }) => {
                 <TextInput value={price} placeholder='Price' placeholderTextColor={"#000"}
                 
                 onChangeText={(e) => setPrice(e)} style={{ borderColor: "#EBEBEB", borderWidth: 1,color:'#000', borderRadius: 12, padding: 15, marginVertical: 15, }} />
-                <MyButton title={"Post Add"} loading={loading} onPress={uploadHandler} style={{ borderRadius: 12 }} />
+                <MyButton title={localizationStrings.post} loading={loading} onPress={uploadHandler} style={{ borderRadius: 12 }} />
          
          <View  style={{height:60}} />
             </ScrollView>

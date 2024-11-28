@@ -17,7 +17,8 @@ export const parseResponse = async response => {
 };
 
 const base_url = {
-    baseUrl: 'https://api.dkyss.es/api/'
+    //baseUrl: 'https://panel.dkyss.es/api/'
+    baseUrl: 'https://panel.dkyss.es/api/'
 };
 
 export const DOMAIN = base_url.baseUrl;

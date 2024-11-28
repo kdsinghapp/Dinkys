@@ -15,6 +15,7 @@ import Favrotie from './Home/Favrotie';
 import Profile from './profile/Profile';
 import ChatScreen from './Home/ChatScreen';
 import Uploaded from './Home/Uploaded';
+import localizationStrings from './Localization/Localization';
 
 export default function TabScreen({ navigation }) {
     const [currentPage, setCurrentPage] = useState(0);
@@ -54,7 +55,7 @@ export default function TabScreen({ navigation }) {
                         ? <HomeColorSvg width={24} height={24} />
                         : <HomeBlackSvg width={24} height={24} />
                     }
-                    <Text style={{ color: currentPage == 0 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >Home</Text>
+                    <Text style={{ color: currentPage == 0 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >{localizationStrings.home}</Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -69,7 +70,7 @@ export default function TabScreen({ navigation }) {
                         ? <FavColorSvg width={24} height={24} />
                         : <FavBlackSvg width={24} height={24} />
                     }
-                    <Text style={{ color: currentPage == 1 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >Favorites</Text>
+                    <Text style={{ color: currentPage == 1 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >{localizationStrings.favorites}</Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -96,7 +97,7 @@ export default function TabScreen({ navigation }) {
                         ? <ChatColorSvg width={24} height={24} />
                         : <ChatBlackSvg width={24} height={24} />
                     }
- <Text style={{ color: currentPage == 3 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >Chats</Text>
+ <Text style={{ color: currentPage == 3 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >{localizationStrings.chats}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setCurrentPage(4)}
@@ -110,7 +111,7 @@ export default function TabScreen({ navigation }) {
                         ? <ProfileColorSvg width={24} height={24} />
                         : <ProfileBlackSvg width={24} height={24} />
                     }
-                    <Text style={{ color: currentPage == 4 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >Profile</Text>
+                    <Text style={{ color: currentPage == 4 ? "#04CFA4" : "#000", marginTop: 5,fontWeight:'600',fontSize:12}} >{localizationStrings.profile}</Text>
                 </TouchableOpacity>
             </View>
         </View>

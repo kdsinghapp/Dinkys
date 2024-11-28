@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
-import { TextInput, View, TouchableOpacity, Pressable, ScrollView, BackHandler, Alert } from 'react-native'
+import { TextInput, View, TouchableOpacity, Pressable, ScrollView, BackHandler, Alert, Image } from 'react-native'
 import MyText from '../../elements/MyText'
 import MyButton from '../../elements/MyButton'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -20,7 +20,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { errorToast } from '../../utils/customToast'
 import { DOMAIN } from '../../services/Config'
 import { useFocusEffect } from '@react-navigation/native'
-
+import localizationStrings from '../Localization/Localization'
+import Mobile from "../../assets/svg/gMobile.svg"
 const Login = ({ route, navigation }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -114,26 +115,29 @@ const Login = ({ route, navigation }) => {
                 </View>
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <MyText h4 bold style={{ color: "#000" }}>
-                        {"Login"}
+                       {localizationStrings.login}
                     </MyText>
                     <MyText h5 regular style={{ color: "#9DB2BF", marginVertical: 5 }}>
-                        {`Enter Your ${showNumber ? "Phone Number" : "Email"}`}
+                        {showNumber ? localizationStrings.enter_number:localizationStrings.enter_email }
+
+
                     </MyText>
                 </View>
                 {showNumber ?
                     <>
                         <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 5, borderColor: number?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
-                            <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
-                                {/* <EmailSvg width={30} height={30} /> */}
-                                <MyText h5 semibold style={{ color: "#000", margin: 0, marginBottom: 0 }}>
-                                    {"+91"}
-                                </MyText>
+                            <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", 
+                                
+                                justifyContent: "center", alignItems: "center", height: "100%" }}>
+                               <Mobile width={24} height={24} />
+                              
+                             
                             </View>
                             <View style={{ width: "78%", backgroundColor: "#fff", }}>
                                 <MyText semibold h6 style={{ color: number?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
-                                    {"Phone Number"}
+                                    {localizationStrings.enter_number}
                                 </MyText>
-                                <TextInput value={number} keyboardType="default" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Number' placeholderTextColor={"#000"} />
+                                <TextInput value={number} keyboardType="default" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.enter_number} placeholderTextColor={"#000"} />
                             </View>
                         </View>
                         <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
@@ -142,9 +146,9 @@ const Login = ({ route, navigation }) => {
                             </View>
                             <View style={{ width: "58%", backgroundColor: "#fff", }}>
                                 <MyText semibold h6 style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
-                                    {"Password"}
+                                {localizationStrings.password}
                                 </MyText>
-                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 12, color: "#000", height: 34 }} placeholder='Enter Your Password' placeholderTextColor={"#000"} />
+                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 12, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
                             </View>
                             <View style={{ width: "15%", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <EyesSvg width={24} height={24} />
@@ -159,9 +163,9 @@ const Login = ({ route, navigation }) => {
                             </View>
                             <View style={{ width: "78%", backgroundColor: "#fff", }}>
                                 <MyText semibold h6 style={{ color: email?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, }}>
-                                    {"Email"}
+                                {localizationStrings.email}
                                 </MyText>
-                                <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Email' placeholderTextColor={"#000"} />
+                                <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
                             </View>
                         </View>
                         <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
@@ -170,9 +174,9 @@ const Login = ({ route, navigation }) => {
                             </View>
                             <View style={{ width: "58%", backgroundColor: "#fff", }}>
                                 <MyText semibold h6 style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
-                                    {"Password"}
+                                {localizationStrings.password}
                                 </MyText>
-                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder='Enter Your Password' placeholderTextColor={"#000"} />
+                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
                             </View>
                             <View style={{ width: "15%", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <EyesSvg width={24} height={24} />
@@ -182,10 +186,10 @@ const Login = ({ route, navigation }) => {
                 }
                 <Pressable onPress={() => navigation.navigate("ResetPassByNumber", { showNumber })} >
                     <MyText h5 regular style={{ color: "#000000", marginVertical: 10 }}>
-                        Reset Password ?
+                    {localizationStrings.reset_passowrd} ?
                     </MyText >
                 </Pressable>
-                <MyButton loading={loading} onPress={loginHandler} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "100%", alignSelf: "center", marginVertical: 8 }} title={"Login"} />
+                <MyButton loading={loading} onPress={loginHandler} textStyle={{ fontSize: 18, fontFamily: Theme.FONT_FAMILY_SEMIBOLD, lineHeight: 30, fontWeight: "800" }} style={{ borderRadius: 15, width: "100%", alignSelf: "center", marginVertical: 8 }} title={localizationStrings.login} />
                 {/* <MyText h4 semibold style={{ textAlign: "center", color: "#000000", marginVertical: 18 }}>
                     Or
                 </MyText > */}
@@ -204,7 +208,7 @@ const Login = ({ route, navigation }) => {
                 <Pressable onPress={() => setShowNumber(!showNumber)} style={{ width: "100%", padding: 18, borderWidth: 1, borderColor: "#EBEBEB", borderRadius: 15, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
                     {showNumber ? <SMSSvg width={24} height={24} /> : <MobileSvg width={24} height={24} />}
                     <MyText h5 semibold style={{ color: "#00000054" }}>
-                        {showNumber ? "Login with Email" : "Sign up with Phone"}
+                        {showNumber ? localizationStrings.sign_up_with_email : localizationStrings.sign_up_with_phone}
                     </MyText >
                 </Pressable>
                 <View
@@ -218,7 +222,7 @@ const Login = ({ route, navigation }) => {
                         <MyText h6 regular style={{
                             color: '#000',
                         }}>
-                            Don’t have an account?
+                           {localizationStrings.dont_have_a}?
                         </MyText>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Register")}
@@ -230,7 +234,7 @@ const Login = ({ route, navigation }) => {
                             <MyText h5 semibold style={{
                                 color: '#04CFA4',
                             }}>
-                                Sign up
+                                {localizationStrings.signup}
                             </MyText>
                         </TouchableOpacity>
                     </View>
