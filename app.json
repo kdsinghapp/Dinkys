@@ -1,4 +1,8 @@
 {
   "name": "Dinkys",
-  "displayName": "Dinkys"
+  "displayName": "Dinkys",
+  "react-native-google-mobile-ads": {
+ "android_app_id": "ca-app-pub-3193951768942482~5144742436"
+    
+  }
 }

@@ -1,8 +1,8 @@
 
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react'
-import { Image, Pressable, ScrollView, Alert, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Text, Modal, StyleSheet } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Image, Pressable, ScrollView, Alert, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Text, Modal, StyleSheet, Platform } from 'react-native'
 import MyText from '../../elements/MyText'
 import { get_doctorList } from '../../services/Auth'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,7 +21,13 @@ import { heightPercentageToDP } from 'react-native-responsive-screen'
 import { hp } from '../../utils/Constant'
 import CloseSvg from "../../assets/svg/Close.svg"
 import localizationStrings from '../Localization/Localization'
+import { BannerAd, BannerAdSize, InterstitialAd, TestIds, useForeground,AdEventType } from 'react-native-google-mobile-ads';
 
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-3193951768942482/5357890654';
+const adUnitId2 = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3193951768942482/3501985130';
+const interstitial = InterstitialAd.createForAdRequest(adUnitId2, {
+    keywords: ['fashion', 'clothing'],
+  });
 const Home = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
     const [loading, setLoading] = useState(false)
@@ -33,7 +39,46 @@ const Home = ({ navigation }) => {
     const [user, setUser] = useState(null)
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
-
+    const bannerRef = useRef<BannerAd>(null);
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => {
+        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+          setLoaded(true);
+        });
+    
+        // const unsubscribeOpened = interstitial.addAdEventListener(AdEventType.OPENED, () => {
+        //   if (Platform.OS === 'ios') {
+        //     // Prevent the close button from being unreachable by hiding the status bar on iOS
+        //     StatusBar.setHidden(true)
+        //   }
+        // });
+    
+        // const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+        //   if (Platform.OS === 'ios') {
+        //     StatusBar.setHidden(false)
+        //   }
+        // });
+    
+        // Start loading the interstitial straight away
+        interstitial.load();
+    
+        // Unsubscribe from events on unmount
+        return () => {
+          unsubscribeLoaded();
+         
+        };
+      }, []);
+    
+      // No advert ready to show yet
+      if (!loaded) {
+       console.log('addd not loaded');
+       
+      }
+    // (iOS) WKWebView can terminate if app is in a "suspended state", resulting in an empty banner when app returns to foreground.
+    // Therefore it's advised to "manually" request a new ad when the app is foregrounded (https://groups.google.com/g/google-admob-ads-sdk/c/rwBpqOUr8m8).
+    useForeground(() => {
+      Platform.OS === 'ios' && bannerRef.current?.load();
+    })
     const [searchHistory, setSearchHistroy] = useState([])
 
     console.log('searchHistory?.length', userDetailData);
@@ -532,7 +577,12 @@ const Home = ({ navigation }) => {
                         data={filterData}
                         renderItem={({ item, index }) => (
                             <Pressable
-                                onPress={() => navigation.navigate("ProductDetails", { item })}
+                            
+                                onPress={() => {
+                                    interstitial.show()
+                                    navigation.navigate("ProductDetails", { item })
+                                }
+                                }
                                 key={index} style={{
                                     width: "46%",
                                     borderRadius: 12,
@@ -588,7 +638,17 @@ const Home = ({ navigation }) => {
                         </View>
                     }
                 </View>
-            </ScrollView>
+                </ScrollView>
+                <View style={{position:'absolute',bottom:0}}>
+                <BannerAd  
+                unitId={adUnitId} 
+                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} 
+                requestOptions={{
+                    requestNonPersonalizedAdsOnly:true
+                }}
+                />
+                </View>
+      
 
         </View>
     )

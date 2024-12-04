@@ -24,9 +24,10 @@
       android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
 
+
        <meta-data
      android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyDVGu8kdO0adFI__fwaV1m0ftSqEpD5NA8"/>
+     android:value="AIzaSyAEz1GB0IZP9hCmfBSqV8GNtwQmh9xScuA"/>
 
       <activity
         android:name=".MainActivity"

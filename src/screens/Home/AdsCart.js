@@ -115,7 +115,7 @@ const ViewCart = () => {
             <Text style={styles.itemSubtitle}>{item.description}</Text>
             <Text style={styles.itemLimit}>Ad Limit: {item.limit}</Text>
           </View>
-          <View style={styles.quantityContainer}>
+          {/* <View style={styles.quantityContainer}>
             <TouchableOpacity
               onPress={() => setQuantity(Math.max(1, quantity - 1))}
               style={styles.quantityButton}
@@ -129,7 +129,7 @@ const ViewCart = () => {
             >
               <Text style={styles.quantityText}>+</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <Text style={styles.itemPrice}>₹ {item.price}</Text>
         </View>
 

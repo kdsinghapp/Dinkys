@@ -28,12 +28,52 @@ import ProductReview from './Productreview'
 import AddReview from './AddReview'
 import AddReviewModal from './AddReview'
 import Share from 'react-native-share';
+import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
 
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3193951768942482/3501985130';
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+    keywords: ['fashion', 'clothing'],
+  });
 const { width } = Dimensions.get('window');
 
 const ProductDetails = ({ navigation, route }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const { item } = route?.params
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => {
+        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+          setLoaded(true);
+        });
+    
+        // const unsubscribeOpened = interstitial.addAdEventListener(AdEventType.OPENED, () => {
+        //   if (Platform.OS === 'ios') {
+        //     // Prevent the close button from being unreachable by hiding the status bar on iOS
+        //     StatusBar.setHidden(true)
+        //   }
+        // });
+    
+        // const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+        //   if (Platform.OS === 'ios') {
+        //     StatusBar.setHidden(false)
+        //   }
+        // });
+    
+        // Start loading the interstitial straight away
+        interstitial.load();
+    
+        // Unsubscribe from events on unmount
+        return () => {
+          unsubscribeLoaded();
+         
+        };
+      }, []);
+    
+      // No advert ready to show yet
+      if (!loaded) {
+       console.log('addd not loaded');
+       
+      }
+    
 console.log('item',item);
     const [details, setDetails] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -205,6 +245,8 @@ const [reviewCount,setreviewCount] = useState(3)
           console.log('Error sharing:', error);
         }
       };
+    //ads 
+
     
 
     return (
@@ -292,6 +334,7 @@ const [reviewCount,setreviewCount] = useState(3)
                     </Text >
                     <TouchableOpacity 
                     onPress={()=>{
+                        interstitial.show()
                         navigation.navigate('UserProfile',{item:details?.user_data})
                     }}
                     style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
@@ -513,6 +556,7 @@ const [reviewCount,setreviewCount] = useState(3)
                     <TouchableOpacity
                     onPress={()=>{
                         setReviewModal(true)
+                        interstitial.show()
                     }}
                     >
 

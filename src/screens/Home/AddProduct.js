@@ -196,6 +196,9 @@ const AddProduct = ({ navigation }) => {
             })
     }
 
+
+    console.log('user',user?.ads_count);
+    
     const uploadHandler = () => {
     
      
@@ -210,7 +213,7 @@ const AddProduct = ({ navigation }) => {
         else if (imageData?.length == 0) {
             errorToast("Please upload at least 1 image")
         }
-        else if(user?.ads_count == 0){
+        else if(user?.ads_count == '0'){
 
 
             navigation.navigate('AdsPlan')
@@ -336,7 +339,7 @@ const AddProduct = ({ navigation }) => {
                             placeholderTextColor: "#000"
                         }}
                         query={{
-                            key: 'AIzaSyDVGu8kdO0adFI__fwaV1m0ftSqEpD5NA8',
+                            key: 'AIzaSyAEz1GB0IZP9hCmfBSqV8GNtwQmh9xScuA',
                             language: 'en',
                         }}
                         enablePoweredByContainer={false}
