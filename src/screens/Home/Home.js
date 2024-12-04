@@ -13,7 +13,7 @@ import Heart from "../../assets/svg/Heart2.svg"
 import HeartSvg from "../../assets/svg/heart.svg"
 import HeartColorSvg from "../../assets/svg/heartColor.svg"
 import CameraSvg from "../../assets/svg/camera.svg"
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { errorToast } from '../../utils/customToast'
 import { DOMAIN } from '../../services/Config'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -41,6 +41,7 @@ const Home = ({ navigation }) => {
     const [showModal, setShowModal] = useState(false);
     const bannerRef = useRef<BannerAd>(null);
     const [loaded, setLoaded] = useState(false);
+    const isFocus = useIsFocused()
     useEffect(() => {
         const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
           setLoaded(true);
@@ -67,13 +68,14 @@ const Home = ({ navigation }) => {
           unsubscribeLoaded();
          
         };
-      }, []);
+      }, [isFocus]);
     
       // No advert ready to show yet
       if (!loaded) {
-       console.log('addd not loaded');
+       console.log('addd not loaded',loaded);
        
       }
+      
     // (iOS) WKWebView can terminate if app is in a "suspended state", resulting in an empty banner when app returns to foreground.
     // Therefore it's advised to "manually" request a new ad when the app is foregrounded (https://groups.google.com/g/google-admob-ads-sdk/c/rwBpqOUr8m8).
     useForeground(() => {
@@ -81,7 +83,6 @@ const Home = ({ navigation }) => {
     })
     const [searchHistory, setSearchHistroy] = useState([])
 
-    console.log('searchHistory?.length', userDetailData);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -579,7 +580,10 @@ const Home = ({ navigation }) => {
                             <Pressable
                             
                                 onPress={() => {
-                                    interstitial.show()
+                                    if(loaded){
+
+                                        interstitial.show()
+                                    }
                                     navigation.navigate("ProductDetails", { item })
                                 }
                                 }

@@ -17,7 +17,7 @@ import Globe from "../../assets/svg/Gloab.svg"
 import Iicon from "../../assets/svg/ICon.svg"
 import BlackPin from "../../assets/svg/BlackPin.svg"
 import MyButton from '../../elements/MyButton'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { DOMAIN } from '../../services/Config'
 import { AirbnbRating } from 'react-native-ratings';
 import Theme from '../../theme'
@@ -40,6 +40,8 @@ const ProductDetails = ({ navigation, route }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const { item } = route?.params
     const [loaded, setLoaded] = useState(false);
+
+    const isFocus = useIsFocused()
     useEffect(() => {
         const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
           setLoaded(true);
@@ -66,7 +68,7 @@ const ProductDetails = ({ navigation, route }) => {
           unsubscribeLoaded();
          
         };
-      }, []);
+      }, [isFocus]);
     
       // No advert ready to show yet
       if (!loaded) {
@@ -74,7 +76,7 @@ const ProductDetails = ({ navigation, route }) => {
        
       }
     
-console.log('item',item);
+
     const [details, setDetails] = useState(null)
     const [loading, setLoading] = useState(false)
     const [rating, setRating] = useState("3")
@@ -334,7 +336,10 @@ const [reviewCount,setreviewCount] = useState(3)
                     </Text >
                     <TouchableOpacity 
                     onPress={()=>{
-                        interstitial.show()
+          if(loaded){
+
+                                        interstitial.show()
+                                    }
                         navigation.navigate('UserProfile',{item:details?.user_data})
                     }}
                     style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
