@@ -45,7 +45,7 @@ const ChooseLanguage = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#000", justifyContent: "center", alignItems: "center" }}>
             <MyStatusBar backgroundColor={"#000"} barStyle={"ligh-content"} />
-            <LogoSvg width={219.29} height={94.67} />
+      <LogoSvg width={219.29} height={130} />
             <View style={{ justifyContent: "center", alignItems: "center", position: "absolute", bottom: 30, width: "90%" }}>
                 <Text style={{ textAlign: "center", width: "50%", color: "#fff", fontWeight: '800', fontSize: 18 }}>
                   {localizationStrings.Choose_lng}

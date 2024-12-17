@@ -45,7 +45,7 @@ const Splash = ({ route, navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#000", justifyContent: "center", alignItems: "center" }}>
             <MyStatusBar backgroundColor={"#000"} barStyle={"ligh-content"} />
-            <LogoSvg width={219.29} height={94.67} />
+      <LogoSvg width={219.29} height={130} />
         </View>
     )
 }

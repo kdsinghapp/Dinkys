@@ -191,13 +191,13 @@ const EditProfile = ({ route }) => {
                         </Text >
                         <TextInput value={email} keyboardType="default" style={{ width: "100%", color: '#000', borderRadius: 10 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
                     </View>
-                    <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
+                    {/* <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
                         {localizationStrings.location}
                         </Text >
                         <TextInput value={address} keyboardType="default" onChangeText={(e) => setAddress(e)}
                             style={{ width: "100%", color: '#000', borderRadius: 10 }} placeholder= {localizationStrings.location} placeholderTextColor={"#000"} />
-                    </View>
+                    </View> */}
                     <View style={{ padding: 12, borderWidth: 1, borderColor: "#F4F5FD", borderRadius: 15, marginTop: 15 }}>
                         <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>
                         {localizationStrings.gender}

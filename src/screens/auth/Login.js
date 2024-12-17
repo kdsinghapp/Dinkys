@@ -111,7 +111,7 @@ const Login = ({ route, navigation }) => {
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <ScrollView style={{ padding: 20, marginBottom: 20 }}>
                 <View style={{ width: "100%", height: 180, justifyContent: "center", alignItems: "center" }}>
-                    <LogoSvg width={219.29} height={94.67} />
+                    <LogoSvg width={219.29} height={130} />
                 </View>
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <MyText h4 bold style={{ color: "#000" }}>
