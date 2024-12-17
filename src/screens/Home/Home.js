@@ -13,7 +13,7 @@ import Heart from "../../assets/svg/Heart2.svg"
 import HeartSvg from "../../assets/svg/heart.svg"
 import HeartColorSvg from "../../assets/svg/heartColor.svg"
 import CameraSvg from "../../assets/svg/camera.svg"
-import { useFocusEffect, useIsFocused } from '@react-navigation/native'
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native'
 import { errorToast } from '../../utils/customToast'
 import { DOMAIN } from '../../services/Config'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -22,6 +22,8 @@ import { hp } from '../../utils/Constant'
 import CloseSvg from "../../assets/svg/Close.svg"
 import localizationStrings from '../Localization/Localization'
 import { BannerAd, BannerAdSize, InterstitialAd, TestIds, useForeground,AdEventType } from 'react-native-google-mobile-ads';
+import { getCurrentLocation, locationPermission } from '../Location/helperFunction'
+import { useLocation } from '../Location/LocationContext'
 
 const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-3193951768942482/5357890654';
 const adUnitId2 = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3193951768942482/3501985130';
@@ -42,6 +44,48 @@ const Home = ({ navigation }) => {
     const bannerRef = useRef<BannerAd>(null);
     const [loaded, setLoaded] = useState(false);
     const isFocus = useIsFocused()
+    const { locationName, setLocationName } = useLocation(); // Get locationName and setLocationName from context
+ 
+
+
+    useEffect(() => {
+        // Fetch live location and update locationName
+        const fetchLiveLocation = async () => {
+            const locPermissionDenied = await locationPermission();
+            if (locPermissionDenied) {
+                const { latitude, longitude } = await getCurrentLocation();
+                const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0`;
+                try {
+                    const res = await fetch(url);
+                    const json = await res.json();
+                    const city = findCityName(json);
+                    setLocationName(city);
+                } catch (e) {
+                    console.log("Error fetching location:", e);
+                }
+            }
+        };
+
+        fetchLiveLocation();
+    }, []);
+
+    function findCityName(response) {
+        const results = response.results;
+        for (let i = 0; i < results.length; i++) {
+            const addressComponents = results[i].address_components;
+            for (let j = 0; j < addressComponents.length; j++) {
+                const types = addressComponents[j].types;
+                if (types.includes('locality') || types.includes('administrative_area_level_2')) {
+                    return addressComponents[j].long_name; // Return the city name
+                }
+            }
+        }
+        return null; // Return null if city name not found
+    }
+
+
+
+
     useEffect(() => {
         const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
           setLoaded(true);
@@ -378,9 +422,18 @@ const Home = ({ navigation }) => {
                         <Text style={{ color: "#04CFA4", fontWeight: '700', fontSize: 25 }}>
                           {localizationStrings.welcome}
                         </Text >
-                        <Text style={{ color: "#666666", fontWeight: '700', fontSize: 18 }}>
-                            {user?.user_name}
+                       <TouchableOpacity 
+                       onPress={()=>{
+                        navigation.navigate('SelectLocation')
+                       }}
+                       style={{flexDirection:'row',alignItems:'center',marginTop:5}}>
+
+                        <Image  source={require('../../assets/location.png')}  style={{height:15,width:15,tintColor:'#0BD89E'}}/>
+                        <Text style={{ color: "#04CFA4", fontWeight: '700', fontSize:12,marginHorizontal:5 }}>
+                        {locationName ? locationName.substring(0, 15) : 'fetching..'}
                         </Text >
+                        <Image  source={require('../../assets/down.png')}  style={{height:15,width:15,tintColor:'#0BD89E',marginTop:2}}/>
+                       </TouchableOpacity>
                     </Pressable>
                     <View style={{ flexDirection: "row", justifyContent: "center", gap: 15, alignItems: "center" }}>
                         <Pressable

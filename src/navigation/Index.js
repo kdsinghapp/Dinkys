@@ -61,6 +61,7 @@ import AddBankDetails from '../screens/Home/AddBankAccount';
 import AdsPlan from '../screens/Home/AdsPlan';
 import ViewCart from '../screens/Home/AdsCart';
 import AdsWebview from '../screens/Home/AdsWebview';
+import SelectLocation from '../screens/Location/SelectLocation';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -172,6 +173,8 @@ export default function Navigation() {
                 <Stack.Screen name="ViewCart" component={ViewCart} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="AdsWebview" component={AdsWebview} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="SelectLocation" component={SelectLocation} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

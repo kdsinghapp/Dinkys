@@ -9,6 +9,9 @@ import { notificationListener, requestUserPermission } from './src/utils/Notific
 import messaging from '@react-native-firebase/messaging';
 import { LogBox } from 'react-native';
 import { LanguageProvider } from './src/screens/Localization/LanguageContext';
+import { LocationProvider } from './src/screens/Location/LocationContext';
+import 'react-native-get-random-values';
+
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 const App = () => {
@@ -30,10 +33,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+      <LocationProvider>
       <LanguageProvider>
         <Navigation />
         <Toast config={toastConfig} />
    </LanguageProvider>
+   </LocationProvider>
       </PersistGate>
     </Provider>
   );

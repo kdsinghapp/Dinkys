@@ -169,13 +169,21 @@
      "brand":"Brand",
      "product_status":"Products Status",
      "hastag":"Hastag",
-     "post":"Post Ads"
+     "post":"Post Ads",
+     "select_location":"Select Location",
+     "save_address":"Save Address",
+     "near_Location":"Near By Locations",
+     "search_location":"Search Location"
 
 
   },
 
 
   "Spanish": {
+    "search_location": "Buscar ubicación",
+    "select_location": "Seleccionar ubicación",
+"save_address": "Guardar dirección",
+"near_Location": "Ubicaciones cercanas",
 "post": "Publicar anuncios",
 
 "photo": "Foto",

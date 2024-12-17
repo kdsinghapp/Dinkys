@@ -4,7 +4,8 @@
 import React, { useEffect, useState } from 'react'
 import {
     Pressable, View, TextInput, ScrollView, Image, Text, TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    ActivityIndicator
 } from 'react-native'
 import MyStatusBar from '../../elements/MyStatusBar'
 import MyText from '../../elements/MyText'
@@ -17,10 +18,11 @@ import { DOMAIN } from '../../services/Config'
 import Ratting from '../Delivery/Ratting'
 import localizationStrings from '../Localization/Localization'
 import { Dropdown } from 'react-native-element-dropdown';
-import { wp } from '../../utils/Constant'
+import { hp, wp } from '../../utils/Constant'
 const Profile = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(null)
     const dispatch = useDispatch()
 
     const [value, setValue] = useState('French');
@@ -50,6 +52,7 @@ const Profile = ({ navigation }) => {
     )
 
     const _get_profile = () => {
+        setLoading(true)
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
         myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
@@ -61,17 +64,27 @@ const Profile = ({ navigation }) => {
         fetch(`${DOMAIN}get-profile`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
+                setLoading(false)
                 if (res.status == "1") {
                     dispatch({ type: "WALLET", payload: res?.data?.wallet });
                     setUser(res?.data)
                 }
             }).catch((err) => {
                 console.log("err", err)
+                setLoading(false)
             })
     }
 
     return (
         <View style={{ flex: 1, backgroundColor: "#F9F9F9" }}>
+
+       {loading?<View style={{flex:1,justifyContent:'center',alignItems:'center',
+        zIndex:2,
+        position:'absolute',alignSelf:'center',top:hp(50)}}>
+
+        <ActivityIndicator size={40} color={'#0BD89E'} />
+        </View>
+        :null}
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} back={true} title={localizationStrings.profile} />
             <ScrollView style={{ flex: 1 }}>

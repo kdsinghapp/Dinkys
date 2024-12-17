@@ -1,10 +1,10 @@
 
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react'
-import { TextInput, View, Pressable, ScrollView, Image, Platform, Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { TextInput, View, Pressable, ScrollView, Image, Platform, Text,ActivityIndicator } from 'react-native'
 import MyText from '../../elements/MyText'
-import { useNavigation } from '@react-navigation/core'
+import { useFocusEffect, useNavigation } from '@react-navigation/core'
 import MyButton from '../../elements/MyButton'
 import MyStatusBar from '../../elements/MyStatusBar'
 import Theme from '../../theme'
@@ -30,8 +30,50 @@ const EditProfile = ({ route }) => {
     const [uplaodImageModal, setUploadImageModal] = useState(false);
     const [gender, setGender] = useState(userDetails?.gender)
     const [address, setAddress] = useState(userDetails?.address)
+    const [user, setUser] = useState(null)
 
-console.log('userDetailData',userDetailData?.label);
+
+    useEffect(()=>{
+        setName(user?.user_name)
+        setNumber(user?.mobile)
+        setDob(user?.dob)
+        setEmail(user?.email)
+        setGender(user?.gender)
+        setAddress(user?.address)
+
+
+
+    },[user])
+    useFocusEffect(
+        React.useCallback(() => {
+            _get_profile()
+        }, [userDetailData])
+    )
+
+    const _get_profile = () => {
+        setLoading(true)
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+        fetch(`${DOMAIN}get-profile`, requestOptions)
+            .then((response) => response.json())
+            .then(async (res) => {
+                setLoading(false)
+                if (res.status == "1") {
+                    dispatch({ type: "WALLET", payload: res?.data?.wallet });
+                    setUser(res?.data)
+                }
+            }).catch((err) => {
+                console.log("err", err)
+                setLoading(false)
+            })
+    }
+
 
 
     const dispatch = useDispatch()
@@ -109,6 +151,14 @@ console.log('userDetailData',userDetailData?.label);
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
+
+{loading?<View style={{flex:1,justifyContent:'center',alignItems:'center',
+        zIndex:2,
+        position:'absolute',alignSelf:'center',top:hp(50)}}>
+
+        <ActivityIndicator size={40} color={'#0BD89E'} />
+        </View>
+        :null}
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo navigation={navigation} title={localizationStrings.edit_profile} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
