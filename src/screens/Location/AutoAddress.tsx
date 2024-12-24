@@ -43,7 +43,7 @@ const GooglePlacesInput = ({ placeholder, onPlaceSelected }) => {
                 onPress={(data, details = null) => {
                     if (details) {
                         try{
-                        console.log('GooglePlacesAutocomplete=>>>>>',details);
+                       /// console.log('GooglePlacesAutocomplete=>>>>>',details);
                         
                         onPlaceSelected(details);
                         }

@@ -14,12 +14,14 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDistance } from 'geolib';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useLocation } from './LocationContext';
 import GooglePlacesInput from './AutoAddress';
 import MyStatusBar from '../../elements/MyStatusBar';
 import HeaderTwo from '../../components/Header';
 import localizationStrings from '../Localization/Localization';
+import { DOMAIN } from '../../services/Config';
+import { useSelector } from 'react-redux';
 
 const GOOGLE_PLACES_API_KEY = 'AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0' // Replace with your actual API key
 
@@ -31,7 +33,13 @@ const SelectLocation = () => {
     const [currentCoords, setCurrentCoords] = useState(null);
     const { setLocationName } = useLocation(); // Get the setLocationName function from context
     const navigation = useNavigation();
+    
+    const userDetailData = useSelector((state) => state.user.user)
 
+    const isFocus = useIsFocused()
+
+    console.log('selele location',userDetailData?.id);
+    
 
 
     useEffect(() => {
@@ -77,7 +85,7 @@ const SelectLocation = () => {
             }
     
             setNearbyLocations(data.results);
-            console.log('Nearby Locations:', data.results);
+            
         } catch (error) {
             console.error('Fetch Nearby Locations Error:', error);
         }
@@ -108,6 +116,7 @@ const SelectLocation = () => {
     const handleSelectLocation = useCallback(
         (details) => {
             const { lat, lng } = details.geometry.location;
+            _update_location(lat,lng)
             setLocation({
                 latitude: lat,
                 longitude: lng,
@@ -152,6 +161,46 @@ const SelectLocation = () => {
         );
     }, [currentCoords]);
 
+
+    const _update_location = (lat,long) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+        const formData = new FormData();
+        formData.append("user_id",userDetailData?.id); // Replace with the actual user_id
+    
+        formData.append("lat", lat); // Replace with the actual user_id
+    
+        formData.append("lon",long); // Replace with the actual user_id
+    
+        const requestOptions = {
+            method: "POST", // Change to POST since you're sending form data
+            headers: myHeaders,
+            body: formData,
+            redirect: "follow",
+        };
+    
+        fetch(`${DOMAIN}update-profile`, requestOptions)
+        .then((response) => {
+            console.log("Raw response:", response);
+            return response.text(); // Use .text() instead of .json() to inspect the raw response
+        })
+        .then((resText) => {
+            console.log("Response text:", resText);
+            // Parse JSON manually if the response is valid JSON
+            try {
+                const res = JSON.parse(resText);
+                if (res.status == "1") {
+                    console.log('Updated successfully:', res);
+                }
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        })
+        .catch((err) => {
+            console.log("Error:", err);
+        });
+    };
     return (
      
         <View style={styles.container}>
@@ -192,6 +241,8 @@ const SelectLocation = () => {
                     Geolocation.getCurrentPosition(
                         position => {
                             const { latitude, longitude } = position.coords;
+
+                            _update_location(latitude, longitude)
                             setLocation({
                                 latitude,
                                 longitude,

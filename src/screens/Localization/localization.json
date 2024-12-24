@@ -173,13 +173,44 @@
      "select_location":"Select Location",
      "save_address":"Save Address",
      "near_Location":"Near By Locations",
-     "search_location":"Search Location"
+     "search_location":"Search Location",
+    "Ads_plan":"Ads Plan",
+    "post_more_ads":"POST MORE ADS",
+    "normal_package":"Normal Packages",
+    "basic":"Basic",
+    "for_ads":"For Ads",
+    "limit":"Limit",
+    "premium_packages":"Premium Packages",
+    "for_advance":"For Advance",
+    "view_cart":"View Cart",
+    "price_details":"Price Details",
+    "price":"Price",
+    "select_payment_method":"Select Payment Method",
+    "pay":"Pay",
+    "Card":"Card",
+    "Company_applicable":"Company Name (if applicable)"
+
 
 
   },
 
 
   "Spanish": {
+      "Company_applicable":"Nombre de la empresa (si corresponde)",
+    "Card":"tarjeta",
+    "price_details": "Detalles de precio",
+"price": "Precio",
+"select_payment_method": "Seleccionar método de pago",
+"pay": "Pagar",
+    "post_more_ads": "PUBLICAR MÁS ANUNCIOS",
+"normal_package": "Paquetes normales",
+"basic": "Básico",
+"for_ads": "Para anuncios",
+"limit": "Límite",
+"premium_packages": "Paquetes premium",
+"for_advance": "Para anuncios avanzados",
+"view_cart": "Ver carrito",
+        "Ads_plan":"Plan de anuncios",
     "search_location": "Buscar ubicación",
     "select_location": "Seleccionar ubicación",
 "save_address": "Guardar dirección",

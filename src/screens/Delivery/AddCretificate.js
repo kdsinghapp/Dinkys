@@ -16,6 +16,7 @@ import { DOMAIN } from '../../services/Config';
 import { useDispatch, useSelector } from 'react-redux';
 import { SuccessToast } from 'react-native-toast-message';
 import { successToast } from '../../utils/customToast';
+import localizationStrings from '../Localization/Localization';
 
 
 export default function AddCertificate() {
@@ -141,7 +142,7 @@ fetch(`${DOMAIN}save-driver-details`, requestOptions)
           <>
             <Image source={require('../../assets/dinkyimg/Upload.png')} style={styles.uploadIcon}  />
             <View style={styles.uploadTextContainer}>
-              <Text style={styles.uploadText}>Upload Insurance</Text>
+              <Text style={styles.uploadText}>{localizationStrings.upload_insurance}</Text>
             </View>
           </>
         )}
@@ -157,7 +158,7 @@ fetch(`${DOMAIN}save-driver-details`, requestOptions)
           <>
             <Image source={require('../../assets/dinkyimg/Upload.png')} style={styles.uploadIcon} />
             <View style={styles.uploadTextContainer}>
-              <Text style={styles.uploadText}>Upload Driving License</Text>
+              <Text style={styles.uploadText}>{localizationStrings.upload_driving}</Text>
             </View>
           </>
         )}
@@ -173,7 +174,7 @@ fetch(`${DOMAIN}save-driver-details`, requestOptions)
           <>
             <Image source={require('../../assets/dinkyimg/Upload.png')} style={styles.uploadIcon} />
             <View style={styles.uploadTextContainer}>
-              <Text style={styles.uploadText}>Transport of People License</Text>
+              <Text style={styles.uploadText}>{localizationStrings.Transport_of}</Text>
             </View>
           </>
         )}
@@ -186,7 +187,7 @@ fetch(`${DOMAIN}save-driver-details`, requestOptions)
        
       }}
       style={styles.continueButton}>
-       {loading?<ActivityIndicator  size={30} color={'#fff'} />:  <Text style={styles.continueButtonText}>Go Home</Text>}
+       {loading?<ActivityIndicator  size={30} color={'#fff'} />:  <Text style={styles.continueButtonText}>€0.60 Pay</Text>}
       </TouchableOpacity>
     </View>
   );

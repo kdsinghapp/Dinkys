@@ -54,6 +54,7 @@ const Home = ({ navigation }) => {
             const locPermissionDenied = await locationPermission();
             if (locPermissionDenied) {
                 const { latitude, longitude } = await getCurrentLocation();
+                _update_location( latitude, longitude)
                 const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0`;
                 try {
                     const res = await fetch(url);
@@ -137,6 +138,48 @@ const Home = ({ navigation }) => {
         }, [])
     )
 
+    console.log(' userDetailData?.user_id', userDetailData?.id);
+    
+    const _update_location = (lat,long) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${userDetailData?.access_token}`);
+        const formData = new FormData();
+        formData.append("user_id",userDetailData?.id); // Replace with the actual user_id
+    
+        formData.append("lat", lat); // Replace with the actual user_id
+    
+        formData.append("lon",long); // Replace with the actual user_id
+    
+        const requestOptions = {
+            method: "POST", // Change to POST since you're sending form data
+            headers: myHeaders,
+            body: formData,
+            redirect: "follow",
+        };
+    
+        fetch(`${DOMAIN}update-profile`, requestOptions)
+        .then((response) => {
+            console.log("Raw response:", response);
+            return response.text(); // Use .text() instead of .json() to inspect the raw response
+        })
+        .then((resText) => {
+            console.log("Response text:", resText);
+            // Parse JSON manually if the response is valid JSON
+            try {
+                const res = JSON.parse(resText);
+                if (res.status == "1") {
+                    console.log('Updated successfully:', res);
+                }
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        })
+        .catch((err) => {
+            console.log("Error:", err);
+        });
+    };
+    
 
     useEffect(()=>{
         _get_searchHistory()
@@ -439,18 +482,18 @@ const Home = ({ navigation }) => {
                         <Pressable
                             onPress={() => {
 
-                                if (user?.driver_register && user?.driver_details) {
-                                    navigation.navigate('TabNavigator')
-                                }
+                                // if (user?.driver_register && user?.driver_details) {
+                                //     navigation.navigate('TabNavigator')
+                                // }
 
-                                else if (!user?.driver_details && user?.driver_register) {
-                                    navigation.navigate('VehicleDetails')
-                                }
-                                else if (user) {
+                                // else if (!user?.driver_details && user?.driver_register) {
+                                //     navigation.navigate('VehicleDetails')
+                                // }
+                                // else if (user) {
 
-                                    navigation.navigate('DeliveryScreen')
-                                }
-                                // navigation.navigate('DeliveryScreen')
+                                //     navigation.navigate('DeliveryScreen')
+                                // }
+                                 navigation.navigate('DeliveryScreen')
                             }}
                             style={{ paddingVertical: 10 }}>
                             <Image source={require('../../assets/dinkyimg/truck.png')} style={{ width: 30, height: 30 }} />

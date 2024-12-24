@@ -131,6 +131,7 @@ export default function Home() {
           setAllOrder(res?.result)
 
         }
+        setLoading(false)
       }).catch((err) => {
         console.log("err", err)
         setLoading(false)
@@ -158,6 +159,8 @@ export default function Home() {
           setLoading(false)
           setStatusOrder(res?.result)
         }
+
+        setLoading(false)
       }).catch((err) => {
         console.log("err", err)
         setLoading(false)
@@ -346,6 +349,9 @@ export default function Home() {
   );
 
 
+
+  console.log('userDetailData',loading);
+  
   return (
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
       {Platform.OS === 'ios' ? (
@@ -358,7 +364,7 @@ export default function Home() {
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>{localizationStrings.welcome},</Text>
-          <Text style={styles.status}>johne</Text>
+          <Text style={styles.status}>{userDetailData?.user_name}</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
@@ -500,8 +506,8 @@ export default function Home() {
       {loading ? (
         <ActivityIndicator size={20} color={'#000'} />
       ) : (
-        <Text style={{ fontSize: 16, color: '#777777', fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>
-          No Order Found
+        <Text style={{ fontSize: 16, color: '#000', fontWeight: '500', alignSelf: 'center', marginTop: hp(30) }}>
+      {localizationStrings.no_data_here}
         </Text>
       )}
     </View>

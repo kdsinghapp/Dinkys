@@ -13,6 +13,7 @@ import HeaderTwo from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import { hp, wp } from "../../utils/Constant";
 import { errorToast } from "../../utils/customToast";
+import localizationStrings from "../Localization/Localization";
 
 const AdsPlan = () => {
   const [adsPackages, setAdsPackages] = useState({
@@ -67,8 +68,8 @@ const AdsPlan = () => {
     style={[styles.adCard,{borderColor:selectedId==item.id?'#0BD89E':'#FFFFFF'}]}>
       <Text style={styles.adTitle}>{item.title}</Text>
       <Text style={styles.adDescription}>{item.description}</Text>
-      <Text style={styles.adLimit}>Limit: {item.limit} Ads</Text>
-      <Text style={styles.adPrice}>₹ {item.price}</Text>
+      <Text style={styles.adLimit}>{localizationStrings.limit}: {item.limit} Ads</Text>
+      <Text style={styles.adPrice}>€ {item.price}</Text>
     </TouchableOpacity>
   );
 
@@ -78,12 +79,12 @@ const AdsPlan = () => {
   return (
     <ScrollView style={styles.container}>
       <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-      <HeaderTwo navigation={navigation} title={"Ads Plan"} />
+      <HeaderTwo navigation={navigation} title={localizationStrings.Ads_plan} />
 
       <View style={{ padding: 16 }}>
         {/* Section Header */}
         <View style={styles.section}>
-          <Text style={styles.sectionHeader}>POST MORE ADS</Text>
+          <Text style={styles.sectionHeader}>{localizationStrings.post_more_ads}</Text>
 
         </View>
 
@@ -93,7 +94,7 @@ const AdsPlan = () => {
         ) : (
           <>
             {/* Normal Ads Packages */}
-            <Text style={styles.subHeader}>Normal Packages</Text>
+            <Text style={styles.subHeader}>{localizationStrings.normal_package}</Text>
             <FlatList
               data={adsPackages.normal}
               numColumns={2}
@@ -102,7 +103,7 @@ const AdsPlan = () => {
             />
 
             {/* Premium Ads Packages */}
-            <Text style={styles.subHeader}>Premium Packages</Text>
+            <Text style={styles.subHeader}>{localizationStrings.premium_packages}</Text>
             <FlatList
               data={adsPackages.premium}
               numColumns={2}
@@ -125,7 +126,7 @@ const AdsPlan = () => {
             }
         }}
         style={[styles.cartButton,{    backgroundColor:cartData? '#0BD89E':"#E0E0E0",}]}>
-          <Text style={[styles.cartButtonText,{color:cartData? '#fff':"#000",}]}>View Cart</Text>
+          <Text style={[styles.cartButtonText,{color:cartData? '#fff':"#000",}]}>{localizationStrings.view_cart}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

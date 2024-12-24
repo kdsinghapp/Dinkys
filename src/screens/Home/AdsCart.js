@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import MyStatusBar from "../../elements/MyStatusBar";
 import HeaderTwo from "../../components/Header";
 import { DOMAIN } from "../../services/Config";
+import localizationStrings from "../Localization/Localization";
 
 const ViewCart = () => {
   const route = useRoute();
@@ -105,7 +106,7 @@ const ViewCart = () => {
 
         {loading?<ActivityIndicator size={20} color={'#0BD89E'} />:null}
       <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
-      <HeaderTwo navigation={navigation} title={"View Cart"} />
+      <HeaderTwo navigation={navigation} title={localizationStrings.view_cart} />
 
       <View style={{ padding: 20 }}>
         {/* Cart Item */}
@@ -113,7 +114,7 @@ const ViewCart = () => {
           <View style={styles.itemDetails}>
             <Text style={styles.itemTitle}>{item.title}</Text>
             <Text style={styles.itemSubtitle}>{item.description}</Text>
-            <Text style={styles.itemLimit}>Ad Limit: {item.limit}</Text>
+            <Text style={styles.itemLimit}>Ad {localizationStrings.limit}: {item.limit}</Text>
           </View>
           {/* <View style={styles.quantityContainer}>
             <TouchableOpacity
@@ -130,30 +131,30 @@ const ViewCart = () => {
               <Text style={styles.quantityText}>+</Text>
             </TouchableOpacity>
           </View> */}
-          <Text style={styles.itemPrice}>₹ {item.price}</Text>
+          <Text style={styles.itemPrice}>€ {item.price}</Text>
         </View>
 
         {/* Price Details */}
         <View style={styles.priceDetails}>
-          <Text style={styles.priceTitle}>PRICE DETAIL</Text>
+          <Text style={styles.priceTitle}>{localizationStrings.price_details}</Text>
           <View style={styles.priceRow}>
-            <Text style={styles.priceLabel}>Price</Text>
-            <Text style={styles.priceValue}>₹ {item.price}</Text>
+            <Text style={styles.priceLabel}>{localizationStrings.price}</Text>
+            <Text style={styles.priceValue}>€ {item.price}</Text>
           </View>
           <View style={styles.priceRow}>
-            <Text style={styles.priceLabel}>Discount</Text>
-            <Text style={styles.priceValue}>₹ 0</Text>
+            <Text style={styles.priceLabel}>{localizationStrings.discount}</Text>
+            <Text style={styles.priceValue}>€ 0</Text>
           </View>
           <View style={styles.divider} />
           <View style={styles.priceRow}>
-            <Text style={styles.priceLabelTotal}>Total</Text>
-            <Text style={styles.priceValueTotal}>₹ {totalPrice}</Text>
+            <Text style={styles.priceLabelTotal}>{localizationStrings.total}</Text>
+            <Text style={styles.priceValueTotal}>€ {totalPrice}</Text>
           </View>
         </View>
 
         {/* Payment Options */}
         <View style={styles.paymentOptions}>
-          <Text style={styles.paymentTitle}>Select Payment Method</Text>
+          <Text style={styles.paymentTitle}>{localizationStrings.select_payment_method}</Text>
           <TouchableOpacity
             style={[
               styles.radioButton,
@@ -161,7 +162,7 @@ const ViewCart = () => {
             ]}
             onPress={() => setPaymentMethod("card")}
           >
-            <Text style={styles.radioText}>Card</Text>
+            <Text style={styles.radioText}>{localizationStrings.Card}</Text>
           {paymentMethod === "card" &&  <View style={{
                 height:15,width:15,borderRadius:7,backgroundColor:'#0BD89E'
             }} />}
@@ -173,7 +174,7 @@ const ViewCart = () => {
             ]}
             onPress={() => setPaymentMethod("wallet")}
           >
-            <Text style={styles.radioText}>Wallet</Text>
+            <Text style={styles.radioText}>{localizationStrings.wallet}</Text>
             {paymentMethod === "wallet" &&  <View style={{
                 height:15,width:15,borderRadius:7,backgroundColor:'#0BD89E'
             }} />}
@@ -183,7 +184,7 @@ const ViewCart = () => {
         {/* Pay Button */}
         <TouchableOpacity style={styles.payButton} onPress={handlePayment}>
           <Text style={styles.payButtonText}>
-            Pay ₹ {totalPrice} ({paymentMethod.toUpperCase()})
+            Pay € {totalPrice} ({paymentMethod.toUpperCase()})
           </Text>
         </TouchableOpacity>
       </View>

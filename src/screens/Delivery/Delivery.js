@@ -219,28 +219,28 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
       <ScrollView showsVerticalScrollIndicator={false}>
       <TextInput 
         style={styles.input} 
-        placeholder="First Name" 
+        placeholder={localizationStrings.first_name}
         value={firstName} 
         onChangeText={setFirstName} 
         placeholderTextColor={"#000"}
       />
       <TextInput 
         style={styles.input} 
-        placeholder="Last Name" 
+        placeholder={localizationStrings.last_name}
         value={lastName} 
         onChangeText={setLastName} 
         placeholderTextColor={"#000"}
       />
       <TextInput
           style={styles.input}
-          placeholder="Company Name (if applicable)"
+          placeholder={localizationStrings.Company_applicable}
           value={companyName}
           onChangeText={setCompanyName}
           placeholderTextColor="#000"
         />
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder={localizationStrings.email}
           value={email}
           onChangeText={setEmail}
           placeholderTextColor="#000"
@@ -255,7 +255,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
         />
       <TextInput 
         style={styles.input} 
-        placeholder="Mobile Number" 
+        placeholder={localizationStrings.mobile_number}
         value={mobileNumber} 
         onChangeText={setMobileNumber} 
         placeholderTextColor={"#000"}
@@ -264,14 +264,14 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
       <TextInput 
         style={styles.input} 
         placeholderTextColor={"#000"}
-        placeholder="City" 
+        placeholder={localizationStrings.city}
         value={city} 
         onChangeText={setCity} 
       />
          
       <TextInput 
         style={styles.input} 
-        placeholder="Home Address 2" 
+        placeholder={localizationStrings.home_ad1}
         placeholderTextColor={"#000"}
         value={homeAddress2} 
         onChangeText={setHomeAddress2} 
@@ -283,7 +283,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
         }} 
         style={styles.continueButton}
       >
-       {loading?<ActivityIndicator  size={30} color={'#fff'} />: <Text style={styles.continueButtonText}>Continue</Text>}
+       {loading?<ActivityIndicator  size={30} color={'#fff'} />: <Text style={styles.continueButtonText}>{localizationStrings.continue}</Text>}
       </TouchableOpacity>
       </ScrollView>
     </View>

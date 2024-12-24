@@ -14,6 +14,7 @@ import { DOMAIN } from '../../services/Config';
 import { successToast } from '../../utils/customToast';
 import { getCurrentLocation } from '../../components/helperFunction';
 import { useDispatch, useSelector } from 'react-redux';
+import localizationStrings from '../Localization/Localization';
 // Replace with your Google Maps API key
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70';
 
@@ -168,6 +169,8 @@ const dispatch = useDispatch()
       })
   }
 
+
+  
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -412,7 +415,7 @@ const dispatch = useDispatch()
         }}
         style={styles.continueButton}
       >
-        {loading ? <ActivityIndicator size={20} color={'#fff'} /> : <Text style={styles.continueButtonText}>Pickup from seller</Text>}
+        {loading ? <ActivityIndicator size={20} color={'#fff'} /> : <Text style={styles.continueButtonText}>{localizationStrings.pickup_from}</Text>}
       </TouchableOpacity>
     </View>
   );

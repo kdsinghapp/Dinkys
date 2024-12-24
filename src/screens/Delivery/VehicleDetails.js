@@ -87,7 +87,7 @@ export default function VehicleDetails() {
       {/* {isLoading ? <Loading /> : null}
       */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ProfileHeader name={localizationStrings.vehicle_details} Dwidth={'46%'} />
+        <ProfileHeader name={localizationStrings.vehicle_details} Dwidth={'32%'} />
         <TouchableOpacity
           style={[
             styles.imageUploadContainer,
@@ -104,16 +104,16 @@ export default function VehicleDetails() {
                 style={styles.uploadIcon}
               />
               <View style={styles.uploadTextContainer}>
-                <Text style={styles.uploadText}>Upload Vehicle Picture</Text>
+                <Text style={styles.uploadText}>{localizationStrings.upload_vehicle}</Text>
               </View>
             </>
           )}
         </TouchableOpacity>
         <View style={styles.inputFieldsContainer}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Service Type</Text>
+            <Text style={styles.label}>{localizationStrings.service_type}</Text>
             <TextInput
-              placeholder="Service Type"
+              placeholder={localizationStrings.service_type}
               placeholderTextColor={'#ADA4A5'}
               style={[
                 styles.textInput,
@@ -125,9 +125,9 @@ export default function VehicleDetails() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Brand</Text>
+            <Text style={styles.label}>{localizationStrings.brand}</Text>
             <TextInput
-              placeholder="Brand (Auto Suggestion)"
+              placeholder={localizationStrings.brand}
               placeholderTextColor={'#ADA4A5'}
               style={[
                 styles.textInput,
@@ -139,9 +139,9 @@ export default function VehicleDetails() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Model</Text>
+            <Text style={styles.label}>{localizationStrings.model_auto}</Text>
             <TextInput
-              placeholder="Model (Auto Suggestion)"
+              placeholder={localizationStrings.model_auto}
               placeholderTextColor={'#ADA4A5'}
               style={[
                 styles.textInput,
@@ -167,9 +167,9 @@ export default function VehicleDetails() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Number Plate</Text>
+            <Text style={styles.label}>{localizationStrings.number_plate}</Text>
             <TextInput
-              placeholder="Number Plate"
+              placeholder={localizationStrings.number_plate}
               placeholderTextColor={'#ADA4A5'}
               style={[
                 styles.textInput,
@@ -181,9 +181,9 @@ export default function VehicleDetails() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Color</Text>
+            <Text style={styles.label}>{localizationStrings.color}</Text>
             <TextInput
-              placeholder="Color"
+              placeholder={localizationStrings.color}
               placeholderTextColor={'#ADA4A5'}
               style={[
                 styles.textInput,
@@ -201,7 +201,7 @@ export default function VehicleDetails() {
         handleNextPress()
       }}
       style={styles.continueButton}>
-        <Text style={styles.continueButtonText}>Next</Text>
+        <Text style={styles.continueButtonText}>{localizationStrings.next}</Text>
       </TouchableOpacity>
 
         <View  style={{height:20}}/>

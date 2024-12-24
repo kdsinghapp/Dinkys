@@ -15,6 +15,7 @@ import { DOMAIN } from '../../services/Config';
 import { errorToast, successToast } from '../../utils/customToast';
 import { getCurrentLocation } from '../../components/helperFunction';
 import { useDispatch, useSelector } from 'react-redux';
+import localizationStrings from '../Localization/Localization';
  // Replace with your Google Maps API key
  const GOOGLE_MAPS_APIKEY = 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70';
  function calculateBearing(startLat, startLng, destLat, destLng) {
@@ -443,7 +444,7 @@ const dispatch =useDispatch()
          }}
          style={styles.continueButton}
        >
-         {loading ?<ActivityIndicator size={20} color={'#fff'}   />:<Text style={styles.continueButtonText}>Product Delivery</Text>}
+         {loading ?<ActivityIndicator size={20} color={'#fff'}   />:<Text style={styles.continueButtonText}>{localizationStrings.Product_Delivery}</Text>}
        </TouchableOpacity>
      </View>
    );

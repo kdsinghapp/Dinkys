@@ -608,7 +608,7 @@ position:'absolute',top:35,zIndex:1,
       }}
       style={{ borderRadius: 15, width: '100%', height: 50, backgroundColor: '#15BE77', alignItems: 'center', justifyContent: 'center' }}
     >
-      {loading ? <ActivityIndicator size={20} color={'#fff'} /> : <Text style={{ fontSize: 16, color: '#fff', fontWeight: '700' }}>Track</Text>}
+      {loading ? <ActivityIndicator size={20} color={'#fff'} /> : <Text style={{ fontSize: 16, color: '#fff', fontWeight: '700' }}>{localizationStrings.track}</Text>}
     </TouchableOpacity>
   </View>
 )}
