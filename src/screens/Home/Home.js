@@ -46,6 +46,7 @@ const Home = ({ navigation }) => {
     const isFocus = useIsFocused()
     const { locationName, setLocationName } = useLocation(); // Get locationName and setLocationName from context
  
+console.log('filterData',filterData);
 
 
     useEffect(() => {
@@ -160,16 +161,16 @@ const Home = ({ navigation }) => {
     
         fetch(`${DOMAIN}update-profile`, requestOptions)
         .then((response) => {
-            console.log("Raw response:", response);
+            // console.log("Raw response:", response);
             return response.text(); // Use .text() instead of .json() to inspect the raw response
         })
         .then((resText) => {
-            console.log("Response text:", resText);
+      
             // Parse JSON manually if the response is valid JSON
             try {
                 const res = JSON.parse(resText);
                 if (res.status == "1") {
-                    console.log('Updated successfully:', res);
+                    // console.log('Updated successfully:', res);
                 }
             } catch (error) {
                 console.error("Error parsing JSON:", error);
@@ -220,6 +221,9 @@ const Home = ({ navigation }) => {
         fetch(`${DOMAIN}get_products`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
+                console.log('=>>>>>>>>>',res);
+    
+                
                 if (res.status == "1") {
                     setProduct(res?.category)
                     setFilterData(res?.category)
@@ -482,18 +486,18 @@ const Home = ({ navigation }) => {
                         <Pressable
                             onPress={() => {
 
-                                // if (user?.driver_register && user?.driver_details) {
-                                //     navigation.navigate('TabNavigator')
-                                // }
+                                if (user?.driver_register && user?.driver_details) {
+                                    navigation.navigate('TabNavigator')
+                                }
 
-                                // else if (!user?.driver_details && user?.driver_register) {
-                                //     navigation.navigate('VehicleDetails')
-                                // }
-                                // else if (user) {
+                                else if (!user?.driver_details && user?.driver_register) {
+                                    navigation.navigate('VehicleDetails')
+                                }
+                                else if (user) {
 
-                                //     navigation.navigate('DeliveryScreen')
-                                // }
-                                 navigation.navigate('DeliveryScreen')
+                                    navigation.navigate('DeliveryScreen')
+                                }
+                               //  navigation.navigate('DeliveryScreen')
                             }}
                             style={{ paddingVertical: 10 }}>
                             <Image source={require('../../assets/dinkyimg/truck.png')} style={{ width: 30, height: 30 }} />

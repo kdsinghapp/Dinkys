@@ -188,7 +188,8 @@
     "select_payment_method":"Select Payment Method",
     "pay":"Pay",
     "Card":"Card",
-    "Company_applicable":"Company Name (if applicable)"
+    "Company_applicable":"Company Name (if applicable)",
+    "Product_Delivery":"Product Delivery"
 
 
 
@@ -196,6 +197,8 @@
 
 
   "Spanish": {
+    
+    "Product_Delivery": "Entrega del producto",
       "Company_applicable":"Nombre de la empresa (si corresponde)",
     "Card":"tarjeta",
     "price_details": "Detalles de precio",

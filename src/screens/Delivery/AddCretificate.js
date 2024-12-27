@@ -60,6 +60,9 @@ const {vehicleDetails} = route.params
       });
   };
 
+
+
+  
   const _get_profile = () => {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -81,50 +84,60 @@ const {vehicleDetails} = route.params
         })
 }
 
-  const Add_Vehical_details =()=>{
-   
-    if(!insuranceImage || !peopleTransportImage ||!licenseImage) {
-      return errorToast('Please Upload All Document')
-  
-  }
 
-setLoading(true)
-var formdata = new FormData();
-formdata.append("driver_id", user?.driver_data?.driver_id);
-formdata.append("vehicle_service_type", vehicleDetails.serviceType);
-formdata.append("vehicle_brand", vehicleDetails.brand);
-formdata.append("vehicle_model", vehicleDetails.model);
-formdata.append("vehicle_buy_date", vehicleDetails.manufacturer);
-formdata.append("vehicle_number_plate", vehicleDetails.numberPlate);
-formdata.append("vehicle_color", vehicleDetails.color);
-formdata.append("driving_license_image", licenseImage);
-formdata.append("transport_license_image", peopleTransportImage);
-formdata.append("insurance_image", insuranceImage);
-formdata.append("vehicle_image", vehicleDetails.vehicleImage);
-const requestOptions = {
+const payment_handler_web = () => {
+  if(!insuranceImage || !peopleTransportImage ||!licenseImage) {
+    return errorToast('Please Upload All Document')
+
+}
+  setLoading(true);
+  var formdata = new FormData();
+  formdata.append("email", user?.email);
+  formdata.append("price",  user?.general_setting?.driver_reg_fee);
+  const requestOptions = {
     method: "POST",
     body: formdata,
-    redirect: "follow"
-};
-fetch(`${DOMAIN}save-driver-details`, requestOptions)
+    redirect: "follow",
+  };
+  fetch(`${DOMAIN}create-checkout-session`, requestOptions)
     .then((response) => response.json())
     .then(async (res) => {
-        if (res.status == "1") {
-            console.log('res.status',res.status);
-            successToast("Driver Details registered successfully!",3000)
-            navigation.navigate('TabNavigator')
-            setLoading(false)
-        } else {
-            errorToast(res?.message, 3000)
-        }
-    }).catch((err) => {
-        console.log("err", err)
-    }).finally(() => {
-        setLoading(false)
+
+      var formdata = new FormData();
+      formdata.append("driver_id", user?.driver_data?.driver_id);
+      formdata.append("vehicle_service_type", vehicleDetails.serviceType);
+      formdata.append("vehicle_brand", vehicleDetails.brand);
+      formdata.append("vehicle_model", vehicleDetails.model);
+      formdata.append("vehicle_buy_date", vehicleDetails.manufacturer);
+      formdata.append("vehicle_number_plate", vehicleDetails.numberPlate);
+      formdata.append("vehicle_color", vehicleDetails.color);
+      formdata.append("driving_license_image", licenseImage);
+      formdata.append("transport_license_image", peopleTransportImage);
+      formdata.append("insurance_image", insuranceImage);
+      formdata.append("vehicle_image", vehicleDetails.vehicleImage);
+      formdata.append("driver_reg_fee", user?.general_setting?.driver_reg_fee);
+      formdata.append("driver_reg_fee_status", 'Yes');
+      
+      
+      
+      if (res?.data?.url) {
+        navigation.navigate("AdsWebview", {
+          formdata: formdata,
+          url: res?.data?.url,
+          driver:true
+     
+        });
+      }
     })
+    .catch((err) => {
+      console.log("err", err);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
 
 
-  }
   return (
     <View style={styles.container}>
       {/* {isLoading && <Loading />}
@@ -183,11 +196,12 @@ fetch(`${DOMAIN}save-driver-details`, requestOptions)
       <View style={{ height: hp(7) }} />
       <TouchableOpacity 
       onPress={()=>{
-        Add_Vehical_details()
+        // Add_Vehical_details()
+        payment_handler_web()
        
       }}
       style={styles.continueButton}>
-       {loading?<ActivityIndicator  size={30} color={'#fff'} />:  <Text style={styles.continueButtonText}>€0.60 Pay</Text>}
+       {loading?<ActivityIndicator  size={30} color={'#fff'} />:  <Text style={styles.continueButtonText}>€0.60 Pay to Register</Text>}
       </TouchableOpacity>
     </View>
   );

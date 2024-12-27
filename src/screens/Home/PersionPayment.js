@@ -56,13 +56,14 @@ const PersionPayment = () => {
     
         else {
             try {
+                const pay = Number(details?.price)+0.35
                 setLoading(true)
                 var formdata = new FormData();
                 formdata.append("user_id", userDetails?.id);
                 formdata.append("product_id", details?.id);
                 formdata.append("shipping_address", details?.product_location);
                 formdata.append("payment_status", "paid");
-                formdata.append("total_amount", details?.price);
+                formdata.append("total_amount", pay);
                 formdata.append("shipping_charge", String(shipping_charge));
                 formdata.append("lat", details?.lat);
                 formdata.append("long", details?.long);
@@ -110,9 +111,11 @@ const PersionPayment = () => {
     }
     const payment_handler_web = () => {
         setLoading(true)
+
+        const pay = Number(details?.price)+0.35
         var formdata = new FormData();
         formdata.append("email", userDetails?.email);
-        formdata.append("price", details?.price);
+        formdata.append("price", pay);
         const requestOptions = {
             method: "POST",
             body: formdata,

@@ -182,7 +182,7 @@ const SelectLocation = () => {
     
         fetch(`${DOMAIN}update-profile`, requestOptions)
         .then((response) => {
-            console.log("Raw response:", response);
+            // console.log("Raw response:", response);
             return response.text(); // Use .text() instead of .json() to inspect the raw response
         })
         .then((resText) => {

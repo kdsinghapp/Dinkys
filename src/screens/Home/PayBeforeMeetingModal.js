@@ -22,6 +22,9 @@ const PayBeforeMeetingModal = ({ modalVisible, setModalVisible }) => {
           <Text style={styles.modalText}>
             3. The seller will only receive the payment when you confirm that you have received the product.
           </Text>
+          <Text style={styles.modalText}>
+            4. Establishment/Meeting Point: €0.35/package.
+          </Text>
 
           <Text style={styles.modalText}>
             If you change your mind, you can cancel the purchase and receive a refund.

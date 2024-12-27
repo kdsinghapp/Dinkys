@@ -1,7 +1,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react'
-import { Image, Pressable, ScrollView, Alert, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator } from 'react-native'
+import { Image, Pressable, ScrollView, Alert, View, FlatList, TouchableOpacity, TextInput, BackHandler, ActivityIndicator, Text } from 'react-native'
 import MyText from '../../elements/MyText'
 import MyStatusBar from '../../elements/MyStatusBar'
 import Bag from "../../assets/svg/bag.svg"
@@ -14,6 +14,7 @@ import HeaderTwo from '../../components/Header'
 import MyButton from '../../elements/MyButton'
 import { useSelector } from 'react-redux'
 import localizationStrings from '../Localization/Localization'
+import HighlightAdsModal from './HighlightAdsModal'
 
 const Uploaded = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
@@ -82,7 +83,25 @@ const Uploaded = ({ navigation }) => {
                 setLoading(false)
             })
     }
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+  
+    const cityLevelOptions = [
+      { duration: "1 Day", price: "€0.75" },
+      { duration: "5 Days", price: "€1.25" },
+      { duration: "15 Days", price: "€5" },
+    ];
+  
+    const nationalLevelOptions = [
+      { duration: "1 Day", price: "€1.25" },
+      { duration: "5 Days", price: "€3" },
+      { duration: "15 Days", price: "€7" },
+    ];
+    const handleOptionSelect = (level, duration, price) => {
+        setSelectedOption({ level, duration, price });
+        console.log(`Selected: ${level}, ${duration}, ${price}`);
+      };
+    
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -140,11 +159,27 @@ const Uploaded = ({ navigation }) => {
                                                 {item?.description}
                                             </MyText >
                                         </View>
+                                        <TouchableOpacity
+                                        onPress={() => setModalVisible(true)}
+                                        style={{height:45,
+                                            width:'80%',
+                                            backgroundColor:'#04CFA4',alignItems:'center',
+                                            justifyContent:'center',borderRadius:5,marginVertical:4,alignSelf:'center'}}
+                                        >
+                                            <Text style={{fontSize:12,fontWeight:'800',color:'#fff'}}>Highlight</Text>
+                                        </TouchableOpacity>
                                     </View>
 
                                 )
                             })}
                 </View>
+                <HighlightAdsModal
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        cityLevelOptions={cityLevelOptions}
+        nationalLevelOptions={nationalLevelOptions}
+        onOptionSelect={handleOptionSelect}
+      />
             </ScrollView>
 
         </View>

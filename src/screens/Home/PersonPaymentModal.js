@@ -15,20 +15,26 @@ const PersonPaymentModal = ({ modalVisible, setModalVisible, price = 199, curren
     const [error, setError] = useState('')
     const navigation = useNavigation()
 
+console.log('userDetails',userDetails);
+
+    
+    
+    
     const continue_fun = async () => {
 
 
         setLoading(true)
         const token = userDetails?.access_token
+        const pay = Number(amount)+0.35
         if (withdraw) {
 
-            if (amount < 100) {
+            if (pay < 100) {
 
                 setError('Minmum Withdraw Amount €100 ')
                 setLoading(false)
                 return errorToast('Minmum Withdraw Amount €100 ')
             }
-            if (Number(amount) > Number(price)) {
+            if (pay > Number(price)) {
                 setError('Insufficient Funds ')
                 setLoading(false)
                 return errorToast('Insufficient Funds ')
@@ -38,7 +44,7 @@ const PersonPaymentModal = ({ modalVisible, setModalVisible, price = 199, curren
             myHeaders.append("Authorization", `Bearer ${token}`);
 
             const formdata = new FormData();
-            formdata.append("amount", amount);
+            formdata.append("amount", pay);
             formdata.append("user_id", userDetails?.id);
 
             const requestOptions = {
@@ -87,11 +93,11 @@ if(Number(amount) < 10)  {
 
 }
 
-
+const pay = Number(amount)+0.35
           
             var formdata = new FormData();
             formdata.append("email", userDetails?.email);
-            formdata.append("price", amount);
+            formdata.append("price",pay);
             const requestOptions = {
                 method: "POST",
                 body: formdata,
@@ -144,7 +150,8 @@ if(Number(amount) < 10)  {
                         </View>
                         {amount != '' && <Text style={styles.currencyText}>{currency}</Text>}
                     </View>
-                    <Text style={styles.infoText}>Maximum payment €2,500.00</Text>
+                    <Text style={[styles.infoText]}>Delivery Person: €0.35 Charges.</Text>
+                    <Text style={[styles.infoText,{marginTop:-5}]}>Maximum payment €2,500</Text>
                     <Text style={[{ color: 'red', fontWeight: '400', fontSize: 14 }]}>{error}</Text>
 
                     {/* Continue Button */}

@@ -89,7 +89,8 @@ export default function Home() {
 
       _get_profile()
       _get_allOrder()
-    }, [])
+      _get_StatusOrder('Pending'); 
+    }, [isFocus])
   )
   const _get_profile = () => {
    
@@ -137,7 +138,12 @@ export default function Home() {
         setLoading(false)
       })
   }
+
+  console.log(' user?.driver_data?.driver_id', user?.driver_data?.driver_id);
+  
   const _get_StatusOrder = async (status) => {
+    console.log('status',status);
+    
     setLoading(true)
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -348,9 +354,6 @@ export default function Home() {
     </TouchableOpacity>
   );
 
-
-
-  console.log('userDetailData',loading);
   
   return (
     <View style={{ flex: 1, backgroundColor: '#FFF' }}>
@@ -452,8 +455,10 @@ export default function Home() {
         if (item.status !== 'New Order') {
           _get_StatusOrder(item.status);  // Call the status API for non-new orders
         } else {
+          _get_StatusOrder('Pending'); 
           _get_allOrder();  // Call the new order API
         }
+        
       }}
       style={{
         paddingHorizontal: 23,

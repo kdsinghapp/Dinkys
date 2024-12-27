@@ -19,6 +19,9 @@ const PayinPersonModal = ({ modalVisible, setModalVisible }) => {
               <Text style={styles.modalText}>
                 3. Complete the payment by showing the seller the QR code you’ll see on the screen.
               </Text>
+              <Text style={styles.modalText}>
+                4. Delivery Person: €0.35/package.
+              </Text>
     
               <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
                 <Text style={styles.buttonText}>X</Text>

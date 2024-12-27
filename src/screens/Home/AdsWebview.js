@@ -14,7 +14,7 @@ import ExitConfirmationModal from './ExitConfirmationModal';
 
 const AdsWebview = ({ route,  }) => {
     const userDetails = useSelector((state) => state?.user?.user)
-    const { url, details, shipping_charge, wallet, amount,payINper } = route?.params
+    const { url, details, shipping_charge, wallet, amount,payINper,driver,formdata } = route?.params
     const [modalVisible, setModalVisible] = useState(false);
     const [webView, setwebView] = useState(true);
 const navigation = useNavigation()
@@ -22,7 +22,7 @@ const navigation = useNavigation()
         const filename = navState?.url?.split('/')?.pop()?.split('?')[0].split('#')[0];
         if (filename == "handle-checkout-success") {
 
-            const requestOptions = {
+           if(!driver) {const requestOptions = {
                 method: "GET",
                 redirect: "follow"
             };
@@ -57,7 +57,35 @@ const navigation = useNavigation()
                 }
             })
             .catch((error) => console.error(error));
-            
+            }
+            else{
+                    console.log('save-driver-details');
+                    
+                    const requestOptions = {
+                        method: "POST",
+                        body: formdata,
+                        redirect: "follow"
+                    };
+                    fetch(`${DOMAIN}save-driver-details`, requestOptions)
+                        .then((response) => response.json())
+                        .then(async (res) => {
+                            if (res.status == "1") {
+                                console.log('res.status',res.status);
+                                successToast("Driver Details registered successfully!",3000)
+                                navigation.navigate('TabNavigator')
+                               
+                            } else {
+                                errorToast(res?.message, 3000)
+                            }
+                        }).catch((err) => {
+                            console.log("err", err)
+                        }).finally(() => {
+                            setLoading(false)
+                        })
+                    
+                    
+                      
+            }
              
         }
     }

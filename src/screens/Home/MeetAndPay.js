@@ -76,6 +76,9 @@ const {details, address ,shipping_charge } = route.params
           <Text style={styles.optionText}>
             • We protect your money. The seller will receive the payment when you confirm that you get the item.
           </Text>
+          <Text style={styles.optionText}>
+            • Establishment/Meeting Point: €0.35/package.
+          </Text>
           <View style={[styles.iconAndText,{marginTop:10}]}>
           <Pressable
             onPress={()=>{
@@ -116,6 +119,9 @@ const {details, address ,shipping_charge } = route.params
           </Text>
           <Text style={styles.optionText}>
             • Pay with Dinkys. No cash. No data sharing. Easy and secure!
+          </Text>
+          <Text style={styles.optionText}>
+            • Delivery Person: €0.35/package.
           </Text>
 
           
@@ -165,6 +171,8 @@ const {details, address ,shipping_charge } = route.params
       <PersonPaymentModal modalVisible={AmoutModalVisible} setModalVisible={setAmoutModalVisible}  price={199}
       withdraw={false}
       data={{ details, address,shipping_charge }}/>
+
+      <View  style={{height:hp(5)}}/>
     </ScrollView>
   );
 };
@@ -173,7 +181,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     backgroundColor: 'white',
-    flex:1
+  
   },
   header: {
     fontSize: 18,
