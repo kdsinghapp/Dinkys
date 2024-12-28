@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { errorToast, successToast } from '../../utils/customToast';
 import { useNavigation } from '@react-navigation/native';
 import { DOMAIN } from '../../services/Config';
+import localizationStrings from '../Localization/Localization';
 
 const PersonPaymentModal = ({ modalVisible, setModalVisible, price = 199, currency = '€', data, withdraw = false }) => {
 
@@ -15,7 +16,7 @@ const PersonPaymentModal = ({ modalVisible, setModalVisible, price = 199, curren
     const [error, setError] = useState('')
     const navigation = useNavigation()
 
-console.log('userDetails',userDetails);
+ 
 
     
     
@@ -140,7 +141,7 @@ const pay = Number(amount)+0.35
                             <TextInput
                                 value={amount}
                                 onChangeText={(txt) => setAmount(txt)}
-                                placeholder='Enter amount'
+                                placeholder={localizationStrings.enter_amount}
 
                                 style={{
                                     fontSize: 20, color: '#000', fontWeight: '600', width: '100%',
@@ -150,13 +151,13 @@ const pay = Number(amount)+0.35
                         </View>
                         {amount != '' && <Text style={styles.currencyText}>{currency}</Text>}
                     </View>
-                    <Text style={[styles.infoText]}>Delivery Person: €0.35 Charges.</Text>
-                    <Text style={[styles.infoText,{marginTop:-5}]}>Maximum payment €2,500</Text>
+                    <Text style={[styles.infoText]}>{localizationStrings.delivery_person}</Text>
+                    <Text style={[styles.infoText,{marginTop:-5}]}>{localizationStrings.max_payment}</Text>
                     <Text style={[{ color: 'red', fontWeight: '400', fontSize: 14 }]}>{error}</Text>
 
                     {/* Continue Button */}
                     <TouchableOpacity style={styles.button} onPress={() => { continue_fun() }}>
-                        {loading ? <ActivityIndicator size={25} color={'#fff'} /> : <Text style={styles.buttonText}>Continue</Text>}
+                        {loading ? <ActivityIndicator size={25} color={'#fff'} /> : <Text style={styles.buttonText}>{localizationStrings.continue}</Text>}
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button1} onPress={() => { setModalVisible(false) }}>
                         <Text style={styles.buttonText1}>X</Text>

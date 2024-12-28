@@ -14,6 +14,7 @@ import HeaderTwo from '../../components/Header'
 import MapPickerModal from '../../components/MapPicker'
 import MyaddressModal from '../../components/MyaddressModal'
 import { errorToast } from '../../utils/customToast'
+import localizationStrings from '../Localization/Localization'
 
 
 const Delivery = ({ navigation, route }) => {
@@ -78,11 +79,11 @@ const Delivery = ({ navigation, route }) => {
                     <PersonSvg width={34} height={34} />
                     <View style={{ width: "70%" }}>
                         <Text  style={{ color: "#000",fontWeight:'700',fontSize:16 }}>
-                            In person
+                           {localizationStrings.pay_per}
                         </Text >
 
                         <Text  style={{ color: "#C3C6C9",fontWeight:'500',fontSize:12 }}>
-                            Meet and pay without leaving the app when you are with the seller
+                            {localizationStrings.person_check}
                         </Text >
                     </View>
                     {show == "person" ? <TargetSvg width={30} height={30} /> : <View style={{ width: 30, height: 30, borderWidth: 1, borderRadius: 30 / 2, borderColor: "#04CFA4" }} />}
@@ -93,10 +94,10 @@ const Delivery = ({ navigation, route }) => {
                     <PickSvg width={34} height={34} />
                     <View style={{ width: "70%" }}>
                {!PickupLocation && <Text  style={{ color: "#000",fontWeight:'700',fontSize:16 }}>
-                        Pick-up point €{details?.at_collection_point}
+                      {localizationStrings.Pick_up} €{details?.at_collection_point}
                     </Text >}
                {PickupLocation && <Text  style={{ color: "#000",fontWeight:'700',fontSize:16 }}>
-                        Pick-up point €{(Number(details?.at_collection_point)*Number(haversine(PickupLocation?.latitude, PickupLocation?.longitude, details?.lat, details?.long)))?.toFixed(2)}
+               {localizationStrings.Pick_up} €{(Number(details?.at_collection_point)*Number(haversine(PickupLocation?.latitude, PickupLocation?.longitude, details?.lat, details?.long)))?.toFixed(2)}
                     </Text >}
 
                         <Text style={{fontSize:10,color:'#424242'}}>{PickupLocationName}</Text>
@@ -109,11 +110,11 @@ const Delivery = ({ navigation, route }) => {
                     <PinSvg width={34} height={34} />
                     <View style={{ width: "70%" }}>
              {!AddressLocation &&       <Text  style={{ color: "#000",fontWeight:'700',fontSize:16 }}>
-                            My address €{details?.at_my_address}
+                            {localizationStrings.my_address} €{details?.at_my_address}
                         </Text >}
                         {AddressLocation && (
     <Text style={{ color: "#000", fontWeight: '700', fontSize: 16 }}>
-        My address €{(Number(details?.at_my_address) * Number(haversine(AddressLocation?.latitude, AddressLocation?.longitude, details?.lat, details?.long))).toFixed(2)}
+        {localizationStrings.my_address} €{(Number(details?.at_my_address) * Number(haversine(AddressLocation?.latitude, AddressLocation?.longitude, details?.lat, details?.long))).toFixed(2)}
     </Text>
 )}
 
@@ -126,7 +127,7 @@ const Delivery = ({ navigation, route }) => {
             <View style={{ backgroundColor: "#fff", margin: 20 }}>
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, elevation: 5 }}>
                     <View style={{ width: 100, height:100, borderRadius: 12, overflow: "hidden" }}>
-                        <Image source={{ uri: details?.product_images?.[0].image }} style={{ width: "100%", height: "100%" }} />
+                        <Image source={{ uri: details?.product_images[0]?.image }} style={{ width: "100%", height: "100%" }} />
                     </View>
                     <View style={{}}>
                     <Text  style={{ color: "#000",fontWeight:'700',fontSize:16 }}>
@@ -143,7 +144,7 @@ const Delivery = ({ navigation, route }) => {
                     </View>
                 </View>
             </View>
-            <MyButton onPress={_next} title={"Continue"} style={{ borderRadius: 12, marginBottom:10, width: "95%", alignSelf: "center" }} />
+            <MyButton onPress={_next} title={localizationStrings.continue} style={{ borderRadius: 12, marginBottom:10, width: "95%", alignSelf: "center" }} />
             <MapPickerModal    setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible}  sendLocation={setPickupLocation} setLocationName={setPickupLocationName}  />
   
             <MyaddressModal    setModalVisible={setaddressModalVisible} modalVisible={addressModalVisible} 

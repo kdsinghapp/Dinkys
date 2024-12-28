@@ -85,23 +85,23 @@ const Uploaded = ({ navigation }) => {
     }
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
-  
+
     const cityLevelOptions = [
-      { duration: "1 Day", price: "€0.75" },
-      { duration: "5 Days", price: "€1.25" },
-      { duration: "15 Days", price: "€5" },
+        { duration: "1 Day", price: "€0.75" },
+        { duration: "5 Days", price: "€1.25" },
+        { duration: "15 Days", price: "€5" },
     ];
-  
+
     const nationalLevelOptions = [
-      { duration: "1 Day", price: "€1.25" },
-      { duration: "5 Days", price: "€3" },
-      { duration: "15 Days", price: "€7" },
+        { duration: "1 Day", price: "€1.25" },
+        { duration: "5 Days", price: "€3" },
+        { duration: "15 Days", price: "€7" },
     ];
     const handleOptionSelect = (level, duration, price) => {
         setSelectedOption({ level, duration, price });
         console.log(`Selected: ${level}, ${duration}, ${price}`);
-      };
-    
+    };
+
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -116,11 +116,13 @@ const Uploaded = ({ navigation }) => {
                         :
                         product?.length == 0 ? null
                             :
-                            product.map((item, index) => {
-                                return (
+                            <FlatList
+                                data={product}
+                                numColumns={2}
+                                renderItem={({ item, index }) => (
                                     <View
                                         key={index} style={{
-                                            width: "48%",
+                                            width: "45%",
                                             borderRadius: 12,
                                             shadowOpacity: 0.8,
                                             shadowRadius: 2,
@@ -128,6 +130,7 @@ const Uploaded = ({ navigation }) => {
                                                 height: 0,
                                                 width: 0
                                             },
+                                            margin:10,
                                             backgroundColor: "#fff",
                                             elevation: 5,
                                             marginBottom: 15
@@ -137,7 +140,7 @@ const Uploaded = ({ navigation }) => {
                                             style={{
                                                 borderRadius: 12,
                                                 backgroundColor: "#fff",
-                                                height: 172,
+                                                height: 150,
                                                 overflow: "hidden"
                                             }}>
                                             <Image source={{ uri: item?.product_images?.[0]?.image }} style={{
@@ -147,39 +150,41 @@ const Uploaded = ({ navigation }) => {
                                         </Pressable>
                                         <View style={{ justifyContent: "center", margin: 5, backgroundColor: "#fff", padding: 8 }}>
                                             <Pressable style={{ padding: 5, position: "absolute", top: 10, right: 5, zIndex: 1 }} onPress={() => _deleteHandler(item?.id)}>
-                                                <DeleteSvg width={25} height={25} />
+                                                <DeleteSvg width={20} height={20} />
                                             </Pressable>
-                                            <MyText h6 bold style={{ color: "#04CFA4" }}>
+                                            <Text style={{ color: "#04CFA4",fontSize:14 }}>
                                                 € {item?.price}
-                                            </MyText >
-                                            <MyText h6 semibold style={{ color: "#000" }}>
+                                            </Text >
+                                            <Text style={{ color: "#000",fontSize:14 }}>
                                                 {item?.brand}
-                                            </MyText >
-                                            <MyText h6 regular style={{ color: "#949494" }}>
-                                                {item?.description}
-                                            </MyText >
+                                            </Text >
+                                            <Text style={{ color: "#ccc",fontSize:10 }}>
+                                                {item?.description?.substring(0,30)}
+                                            </Text >
                                         </View>
                                         <TouchableOpacity
-                                        onPress={() => setModalVisible(true)}
-                                        style={{height:45,
-                                            width:'80%',
-                                            backgroundColor:'#04CFA4',alignItems:'center',
-                                            justifyContent:'center',borderRadius:5,marginVertical:4,alignSelf:'center'}}
+                                            onPress={() => setModalVisible(true)}
+                                            style={{
+                                                height:30,
+                                                width: '80%',
+                                                backgroundColor: '#04CFA4', alignItems: 'center',
+                                                justifyContent: 'center', borderRadius: 5, marginVertical:10, alignSelf: 'center'
+                                            }}
                                         >
-                                            <Text style={{fontSize:12,fontWeight:'800',color:'#fff'}}>Highlight</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: '800', color: '#fff' }}>Highlight</Text>
                                         </TouchableOpacity>
                                     </View>
-
-                                )
-                            })}
+                                )}
+                            />
+                    }
                 </View>
                 <HighlightAdsModal
-        isVisible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        cityLevelOptions={cityLevelOptions}
-        nationalLevelOptions={nationalLevelOptions}
-        onOptionSelect={handleOptionSelect}
-      />
+                    isVisible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    cityLevelOptions={cityLevelOptions}
+                    nationalLevelOptions={nationalLevelOptions}
+                    onOptionSelect={handleOptionSelect}
+                />
             </ScrollView>
 
         </View>

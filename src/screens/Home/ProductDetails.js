@@ -29,11 +29,12 @@ import AddReview from './AddReview'
 import AddReviewModal from './AddReview'
 import Share from 'react-native-share';
 import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+import localizationStrings from '../Localization/Localization'
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3193951768942482/3501985130';
+const adUnitId = 'ca-app-pub-3193951768942482/3501985130';
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     keywords: ['fashion', 'clothing'],
-  });
+});
 const { width } = Dimensions.get('window');
 
 const ProductDetails = ({ navigation, route }) => {
@@ -44,38 +45,38 @@ const ProductDetails = ({ navigation, route }) => {
     const isFocus = useIsFocused()
     useEffect(() => {
         const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-          setLoaded(true);
+            setLoaded(true);
         });
-    
+
         // const unsubscribeOpened = interstitial.addAdEventListener(AdEventType.OPENED, () => {
         //   if (Platform.OS === 'ios') {
         //     // Prevent the close button from being unreachable by hiding the status bar on iOS
         //     StatusBar.setHidden(true)
         //   }
         // });
-    
+
         // const unsubscribeClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
         //   if (Platform.OS === 'ios') {
         //     StatusBar.setHidden(false)
         //   }
         // });
-    
+
         // Start loading the interstitial straight away
         interstitial.load();
-    
+
         // Unsubscribe from events on unmount
         return () => {
-          unsubscribeLoaded();
-         
+            unsubscribeLoaded();
+
         };
-      }, [isFocus]);
-    
-      // No advert ready to show yet
-      if (!loaded) {
-       console.log('addd not loaded');
-       
-      }
-    
+    }, [isFocus]);
+
+    // No advert ready to show yet
+    if (!loaded) {
+        console.log('addd not loaded');
+
+    }
+
 
     const [details, setDetails] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -83,7 +84,7 @@ const ProductDetails = ({ navigation, route }) => {
     const [message, setMessage] = useState()
     const [ratingData, setRatingData] = useState([])
     const [ReviewModal, setReviewModal] = useState(false)
-const [reviewCount,setreviewCount] = useState(3)
+    const [reviewCount, setreviewCount] = useState(3)
 
     useFocusEffect(
         React.useCallback(() => {
@@ -149,11 +150,11 @@ const [reviewCount,setreviewCount] = useState(3)
     }
     const openGoogleMaps = (latitude, longitude) => {
 
-        if(latitude == '' || longitude == '') return errorToast('No Product Address Found',3000)
+        if (latitude == '' || longitude == '') return errorToast('No Product Address Found', 3000)
         const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
         Linking.openURL(url).catch((err) => console.error('Error opening Google Maps:', err));
-      };
-    
+    };
+
     const _getProductdetails = () => {
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
@@ -201,7 +202,7 @@ const [reviewCount,setreviewCount] = useState(3)
     }
 
     const remove_fav = () => {
-     
+
         setLoading(true)
         var formdata = new FormData();
         formdata.append("fav_id", !item?.product_data?.id ? item?.id : item?.product_data?.id);
@@ -211,11 +212,11 @@ const [reviewCount,setreviewCount] = useState(3)
             redirect: "follow"
         };
         fetch(`${DOMAIN}delete-favourite`, requestOptions)
-      
+
             .then(async (res) => {
 
                 if (res.status == "200") {
-                 
+
                     _getProductdetails()
                 }
             }).catch((err) => {
@@ -235,21 +236,21 @@ const [reviewCount,setreviewCount] = useState(3)
     const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
     const handleShare = async () => {
         const shareOptions = {
-          title: 'Share Title',
-          message: 'Check out this awesome content!',
-          url: 'https://example.com', // URL to share
-          // You can add more options like social: Share.Social.WHATSAPP
+            title: 'Share Title',
+            message: 'Check out this awesome content!',
+            url: 'https://example.com', // URL to share
+            // You can add more options like social: Share.Social.WHATSAPP
         };
-    
+
         try {
-          await Share.open(shareOptions);
+            await Share.open(shareOptions);
         } catch (error) {
-          console.log('Error sharing:', error);
+            console.log('Error sharing:', error);
         }
-      };
+    };
     //ads 
 
-    
+
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -270,7 +271,7 @@ const [reviewCount,setreviewCount] = useState(3)
                                     width: width, // Full width of the screen for each image
                                     height: hp(50),
                                     marginLeft: 10,
-                         
+
                                 }}
                                 resizeMode='contain'
                             />
@@ -278,7 +279,7 @@ const [reviewCount,setreviewCount] = useState(3)
                         onViewableItemsChanged={onViewRef.current}
                         viewabilityConfig={viewConfigRef.current}
                     />
-                    
+
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                         {item?.product_images?.map((_, index) => (
                             <View
@@ -303,14 +304,14 @@ const [reviewCount,setreviewCount] = useState(3)
                             <BackNav width={32} height={32} />
                         </Pressable>
                         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
-                           <Pressable
-                           onPress={()=>{
-                            handleShare()
-                           }}
-                           >
+                            <Pressable
+                                onPress={() => {
+                                    handleShare()
+                                }}
+                            >
 
-                            <ShareSvg width={28} height={28} />
-                           </Pressable>
+                                <ShareSvg width={28} height={28} />
+                            </Pressable>
 
                             <Pressable onPress={() => details?.favourite == false && add_fav()}>
                                 {loading ? <ActivityIndicator size={"small"} />
@@ -331,29 +332,29 @@ const [reviewCount,setreviewCount] = useState(3)
                     <Text style={{ color: "#1C1B1B", marginTop: 5, fontWeight: '700', fontSize: 17 }}>
                         {item?.title?.substring(0, 30)}
                     </Text >
-                    <Text h6 semibold style={{ color: "#949494", fontWeight: '500', fontSize: 12,width:'80%' }}>
+                    <Text h6 semibold style={{ color: "#949494", fontWeight: '500', fontSize: 12, width: '80%' }}>
                         {item?.product_location?.substring(0, 100)}
                     </Text >
-                    <TouchableOpacity 
-                    onPress={()=>{
-          if(loaded){
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (loaded) {
 
-                                        interstitial.show()
-                                    }
-                        navigation.navigate('UserProfile',{item:details?.user_data})
-                    }}
-                    style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
+                                interstitial.show()
+                            }
+                            navigation.navigate('UserProfile', { item: details?.user_data })
+                        }}
+                        style={{ width: "100%", borderRadius: 30, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 18, gap: 10 }}>
                         <View style={{ width: 50, height: 50, borderRadius: 50 / 2, backgroundColor: "#04CFA433", overflow: "hidden" }} >
                             <Image source={{ uri: details?.user_data?.image }} style={{ width: "100%", height: "100%" }} />
                         </View>
                         <View style={{ width: "65%" }}>
                             <Text style={{ color: "#1C1B1B", fontSize: 14, fontWeight: '600' }}>
-                                {details?.user_data?.user_name}  {details?.user_data.label === 'professional'&&<Image source={require('../../assets/verified.png')}  style={{height:20,width:20,marginLeft:20}} />}
+                                {details?.user_data?.user_name}  {details?.user_data.label === 'professional' && <Image source={require('../../assets/verified.png')} style={{ height: 20, width: 20, marginLeft: 20 }} />}
                             </Text >
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5, marginTop: 5 }}>
                                 <Ratting Ratting={details?.ratting} />
                                 <Text style={{ color: "#000", fontSize: 12, fontWeight: '600', marginLeft: 10 }}>
-                                {details?.ratting}
+                                    {details?.ratting}
                                 </Text >
                             </View>
                         </View>
@@ -364,12 +365,12 @@ const [reviewCount,setreviewCount] = useState(3)
                                 product_id: details?.id,
                                 reciever_id: details?.user_id
                             },
-                            product:item
+                            product: item
                         })}>
                             <ChatIcon width={65} height={44} />
                         </Pressable>
                     </TouchableOpacity>
-                    <Text style={{ color: "#64646b",fontSize:14,fontWeight:'500' }}>
+                    <Text style={{ color: "#64646b", fontSize: 14, fontWeight: '500' }}>
                         {details?.description}
                     </Text >
                     {/* <View style={{ width: "100%", borderRadius: 12, flexDirection: "row", alignItems: "center", gap: 15, marginVertical: 18, padding: 15, backgroundColor: "#04CFA433" }}>
@@ -383,7 +384,7 @@ const [reviewCount,setreviewCount] = useState(3)
                             </Text >
                         </View>
                     </View> */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:30 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
 
                         <Text style={{ color: "#000", fontWeight: '600', fontSize: 18, marginRight: 5 }}>
                             Delivery in {details?.estimate_delivery_days} days
@@ -394,18 +395,18 @@ const [reviewCount,setreviewCount] = useState(3)
                         <PinSvg width={44} height={44} />
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#000", fontWeight: '600', fontSize: 16, marginRight: 5 }}>
-                                At collection point from €{details?.at_collection_point}
+                            {localizationStrings.collection_point_from} €{details?.at_collection_point}
                             </Text >
-                           
+
                         </View>
                     </View>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, padding: 5, paddingVertical: 18, borderBottomWidth: 1, borderColor: "#EDEDED" }}>
                         <PinSvg width={44} height={44} />
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#000", fontWeight: '600', fontSize: 16, marginRight: 5 }}>
-                                At my address from €{details?.at_my_address}
+                            {localizationStrings.at_my_address} €{details?.at_my_address}
                             </Text >
-                          
+
                         </View>
                     </View>
                     <View style={{ width: "100%", borderRadius: 12, marginVertical: 18, padding: 15, borderWidth: 1, borderColor: "#EDEDED" }}>
@@ -413,17 +414,17 @@ const [reviewCount,setreviewCount] = useState(3)
                             <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15 }}>
                                 <ShieldSvg width={28} height={28} />
                                 <Text style={{ color: "#000", fontWeight: '700', fontSize: 15, marginRight: 5 }}>
-                                    Dpop Protection
+                                   {localizationStrings.dpop_protection}
                                 </Text >
                             </View>
                             <View >
                                 <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 15, marginRight: 5 }}>
-                                    + Info
+                                {localizationStrings.dpop_protection}
                                 </Text >
                             </View>
                         </View>
                         <MyText h6 regular style={{ color: "#C3C6C9", marginTop: 15 }}>
-                            Buy without worries through our shipping service. Transaction protected with refunds, secure payments and help whenever you need it.
+                            {localizationStrings.protection_txt}
                         </MyText >
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
@@ -432,22 +433,22 @@ const [reviewCount,setreviewCount] = useState(3)
                             {details?.zip_code}
                         </Text >
                     </View>
-                    <Pressable 
-                    onPress={()=>{
-                        openGoogleMaps(details?.lat,details?.long)
-                    }}
-                    style={{
-                        height: 120, borderRadius: 12, marginVertical: 18
-                    }}>
+                    <Pressable
+                        onPress={() => {
+                            openGoogleMaps(details?.lat, details?.long)
+                        }}
+                        style={{
+                            height: 120, borderRadius: 12, marginVertical: 18
+                        }}>
 
                         <Image source={require('../../assets/dinkyimg/map3.png')} style={{ height: 120, borderRadius: 15, width: '100%' }} />
                         <Image source={require('../../assets/dinkyimg/location.png')} style={{
-                                                        width:30, height:30, borderRadius: 12,
-                                                        position:'absolute',
-                                                        alignSelf:'center',
-                                                        marginTop:'12%'
-                                                        
-                                                    }} resizeMode='cover' />
+                            width: 30, height: 30, borderRadius: 12,
+                            position: 'absolute',
+                            alignSelf: 'center',
+                            marginTop: '12%'
+
+                        }} resizeMode='cover' />
                     </Pressable>
 
 
@@ -479,7 +480,7 @@ const [reviewCount,setreviewCount] = useState(3)
                                         lineHeight: 20,
                                         marginRight: 10
                                     }}>
-                                    Review
+                                  {localizationStrings.review}
                                 </Text>
                                 <Ratting Ratting={details?.ratting} />
 
@@ -487,9 +488,9 @@ const [reviewCount,setreviewCount] = useState(3)
                             </View>
 
                         </View>
-                        <Pressable onPress={() => {setreviewCount(reviewCount == 100?3:100)}} style={{}}>
+                        <Pressable onPress={() => { setreviewCount(reviewCount == 100 ? 3 : 100) }} style={{}}>
                             <Text style={{ color: "#04CFA4", fontWeight: '600', fontSize: 15, marginRight: 5 }}>
-                                {reviewCount == 3?'See All':'See less'}
+                                {reviewCount == 3 ? localizationStrings.see_all : localizationStrings.see_less}
                             </Text >
                         </Pressable>
                     </View>
@@ -555,23 +556,24 @@ const [reviewCount,setreviewCount] = useState(3)
                                 )
                             })}
                     </View> */}
-                    <AddReviewModal visible={ReviewModal}  onClose={()=>{
+                    <AddReviewModal visible={ReviewModal} onClose={() => {
                         setReviewModal(false)
-                        ratingCompleted()}}  item={item}/>
+                        ratingCompleted()
+                    }} item={item} />
                     <TouchableOpacity
-                    onPress={()=>{
-                        setReviewModal(true)
-                        interstitial.show()
-                    }}
+                        onPress={() => {
+                            setReviewModal(true)
+                            interstitial.show()
+                        }}
                     >
 
-                    <Text style={{ color: "#04CFA4", alignSelf: "center", fontWeight: '600', fontSize: 16 }}>
-                        Review product
-                    </Text >
+                        <Text style={{ color: "#04CFA4", alignSelf: "center", fontWeight: '600', fontSize: 16 }}>
+                            {localizationStrings.review_product}
+                        </Text >
                     </TouchableOpacity>
-                  <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })}
+                    <MyButton onPress={() => details == null ? null : navigation.navigate("Delivery", { details })}
                         textStyle={{ fontWeight: '700' }}
-                        title={"Buy"} style={{ borderRadius: 12, marginTop: 10, }} />
+                        title={localizationStrings.buy} style={{ borderRadius: 12, marginTop: 10, }} />
 
                 </View>
             </ScrollView>

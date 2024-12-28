@@ -81,7 +81,7 @@ const ResetPassByNumber = ({ route }) => {
                         </View>
                     </View>
                     :
-                    <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 35, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
+                    <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 35, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2 ,height:70, padding: 4, justifyContent: "space-between" }}>
                         <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
                             <EmailSvg width={30} height={30} />
                         </View>
@@ -89,7 +89,7 @@ const ResetPassByNumber = ({ route }) => {
                             <MyText semibold h6 style={{ color: email?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
                                {localizationStrings.email}
                             </MyText>
-                            <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.enter_email} placeholderTextColor={"#000"} />
+                            <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 14,paddingVertical:5,   color: "#000", height: 34 }} placeholder={localizationStrings.enter_email} placeholderTextColor={"#000"} />
                         </View>
                     </View>
                 }

@@ -94,6 +94,8 @@ const Register = ({ route, navigation }) => {
         fetch(`${DOMAIN}update-profile`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
+                console.log('res.status',res.status);
+                
                 if (res.status == "1") {
                     navigation.navigate("Bottomtab")
                 }

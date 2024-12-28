@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import MyButton from '../../elements/MyButton';
 import { errorToast, successToast } from '../../utils/customToast';
+import localizationStrings from '../Localization/Localization';
 
 const PersionPayment = () => {
     const navigation = useNavigation()
@@ -137,7 +138,7 @@ const PersionPayment = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderTwo navigation={navigation} title={"Payment"} />
+            <HeaderTwo navigation={navigation} title={localizationStrings.payment} />
 
             {!paymentSuccess &&
 
@@ -147,7 +148,7 @@ const PersionPayment = () => {
                     <View style={styles.walletSection}>
                         <Image source={require('../../assets/wallet.png')} style={styles.walletIcon} />
 
-                        <Text style={styles.walletText}>When you have balance in the wallet, you can pay with it.</Text>
+                        <Text style={styles.walletText}>{localizationStrings.when_youhave_txt}</Text>
                     </View>
 
 
@@ -155,7 +156,7 @@ const PersionPayment = () => {
                         {/* <PersonSvg width={34} height={34} /> */}
                         <View style={{ width: "80%" }}>
                             <Text style={{ color: "#000", fontSize: 18, fontWeight: '600' }}>
-                                Select Payment method
+                                {localizationStrings.select_payment_method}
                             </Text >
                             <View style={{ marginTop: 12, gap: 25, width: "100%" }}>
                                 <View style={{ flexDirection: "row", alignItems: "center", gap: 15, width: "48%" }}>
@@ -165,7 +166,7 @@ const PersionPayment = () => {
                                             borderColor: selectPay == "card" ? "#000" : "#04CFA4", borderRadius: 25 / 2, backgroundColor: selectPay == "card" ? "#04CFA4" : "#fff"
                                         }} />
                                     <Text style={{ color: "#303030", fontSize: 16, fontWeight: '700' }}>
-                                        Card
+                                       {localizationStrings.Card}
                                     </Text >
                                 </View>
                                 <View style={{ flexDirection: "row", alignItems: "center", gap: 15, width: "48%" }}>
@@ -182,7 +183,7 @@ const PersionPayment = () => {
 
                                         fontSize: 16, fontWeight: '700'
                                     }}>
-                                        Wallet  ( {`€ ${Wallet}`} )
+                                        {localizationStrings.wallet}  ( {`€ ${Wallet}`} )
                                     </Text >
                                 </View>
 
@@ -201,8 +202,8 @@ const PersionPayment = () => {
                         <Image source={{ uri: details?.product_images?.[0].image }} style={{ height: 80, width: 80, borderRadius: 15 }} />
                         <View style={{ marginLeft: 15 }}>
                             <Text style={styles.productName}>{details?.title}</Text>
-                            <Text style={styles.totalText}>Total: €{details?.price}</Text>
-                            <Text style={styles.feeText}>It includes payment fees.</Text>
+                            <Text style={styles.totalText}>{localizationStrings.total}: €{details?.price}</Text>
+                            <Text style={styles.feeText}>{localizationStrings.It_includes_payment_fees}</Text>
                         </View>
                     </View>
 
@@ -213,7 +214,7 @@ const PersionPayment = () => {
                         // onPress={() => {
                         //     navigation.navigate('CreateMettingScreen', { details, shipping_charge, amount: Number(details?.price) })
                         // }}
-                        loading={loading} title={"Continue"} style={{ borderRadius: 12 }} />
+                        loading={loading} title={localizationStrings.continue} style={{ borderRadius: 12 }} />
                     <View style={{ height: 40 }} />
                 </>}
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import localizationStrings from '../Localization/Localization';
 
 const PayinPersonModal = ({ modalVisible, setModalVisible }) => {
     return (
@@ -11,17 +12,15 @@ const PayinPersonModal = ({ modalVisible, setModalVisible }) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>Pay in person</Text>
-              <Text style={styles.modalText}>1. Open a chat and meet with the seller.</Text>
+              <Text style={styles.modalTitle}>{localizationStrings.pay_per}</Text>
+              <Text style={styles.modalText}>1.{localizationStrings.pay_in_per_xt1}.</Text>
               <Text style={styles.modalText}>
-                2. When you are with the seller, return to this screen and click "Pay in person" to purchase the item.
+                2. {localizationStrings.pay_in_per_xt2}
               </Text>
               <Text style={styles.modalText}>
-                3. Complete the payment by showing the seller the QR code you’ll see on the screen.
+                3. {localizationStrings.pay_in_per_xt3}
               </Text>
-              <Text style={styles.modalText}>
-                4. Delivery Person: €0.35/package.
-              </Text>
+            
     
               <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
                 <Text style={styles.buttonText}>X</Text>

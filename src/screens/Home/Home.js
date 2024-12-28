@@ -25,8 +25,8 @@ import { BannerAd, BannerAdSize, InterstitialAd, TestIds, useForeground,AdEventT
 import { getCurrentLocation, locationPermission } from '../Location/helperFunction'
 import { useLocation } from '../Location/LocationContext'
 
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-3193951768942482/5357890654';
-const adUnitId2 = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3193951768942482/3501985130';
+const adUnitId =  'ca-app-pub-3193951768942482/5357890654';
+const adUnitId2 = 'ca-app-pub-3193951768942482/3501985130';
 const interstitial = InterstitialAd.createForAdRequest(adUnitId2, {
     keywords: ['fashion', 'clothing'],
   });
@@ -46,7 +46,7 @@ const Home = ({ navigation }) => {
     const isFocus = useIsFocused()
     const { locationName, setLocationName } = useLocation(); // Get locationName and setLocationName from context
  
-console.log('filterData',filterData);
+
 
 
     useEffect(() => {
@@ -136,11 +136,10 @@ console.log('filterData',filterData);
             _get_product()
             _get_profile()
     
-        }, [])
+        }, [locationName])
     )
 
-    console.log(' userDetailData?.user_id', userDetailData?.id);
-    
+   
     const _update_location = (lat,long) => {
         const myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
@@ -164,13 +163,15 @@ console.log('filterData',filterData);
             // console.log("Raw response:", response);
             return response.text(); // Use .text() instead of .json() to inspect the raw response
         })
-        .then((resText) => {
-      
-            // Parse JSON manually if the response is valid JSON
+        .then((res2) => {
+ const res = JSON.parse(res2)
+ 
+ console.log('update home',res.status);
+ 
             try {
-                const res = JSON.parse(resText);
+
                 if (res.status == "1") {
-                    // console.log('Updated successfully:', res);
+                   console.log('Updated successfully jome:', res.status);
                 }
             } catch (error) {
                 console.error("Error parsing JSON:", error);
@@ -209,6 +210,7 @@ console.log('filterData',filterData);
 
 
 
+
     const _get_product = () => {
         setLoading(true)
         var formdata = new FormData();
@@ -221,7 +223,7 @@ console.log('filterData',filterData);
         fetch(`${DOMAIN}get_products`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
-                console.log('=>>>>>>>>>',res);
+                console.log('=>>>>>>get product>>>',res);
     
                 
                 if (res.status == "1") {
@@ -682,7 +684,7 @@ console.log('filterData',filterData);
                                 onPress={() => {
                                     if(loaded){
 
-                                        interstitial.show()
+                                      if(interstitial){  interstitial.show()}
                                     }
                                     navigation.navigate("ProductDetails", { item })
                                 }
@@ -744,13 +746,13 @@ console.log('filterData',filterData);
                 </View>
                 </ScrollView>
                 <View style={{position:'absolute',bottom:0}}>
-                <BannerAd  
+              {adUnitId &&  <BannerAd  
                 unitId={adUnitId} 
                 size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} 
                 requestOptions={{
                     requestNonPersonalizedAdsOnly:true
                 }}
-                />
+                />}
                 </View>
       
 

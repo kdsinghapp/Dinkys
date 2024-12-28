@@ -9,6 +9,7 @@ import { successToast } from '../../utils/customToast';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import BackNav from "../../assets/svg/BackNav.svg"
 import ExitConfirmationModal from './ExitConfirmationModal';
+import localizationStrings from '../Localization/Localization';
 const WebViewScreen = ({ route,  }) => {
     const userDetails = useSelector((state) => state?.user?.user)
     const { url, details, shipping_charge, wallet, amount,payINper } = route?.params
@@ -118,6 +119,11 @@ const navigation = useNavigation()
                     .catch((error) => console.error(error));
             }
         }
+
+        else{
+            setModalVisible(true)
+
+        }
     
 
     };
@@ -143,7 +149,7 @@ const navigation = useNavigation()
             <Pressable style={{ position: "absolute", left: 25 }} onPress={() => {setModalVisible(true)}}>
            <BackNav width={32} height={32} />
             </Pressable>
-            <Text  style={{ color: "#000",fontWeight:'700',fontSize:20 }} >Payment</Text>
+            <Text  style={{ color: "#000",fontWeight:'700',fontSize:20 }} >{localizationStrings.payment}</Text>
         </View>
     { webView &&       <WebView
                 source={{ uri: url }}

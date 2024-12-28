@@ -9,6 +9,7 @@ import PayinPersonModal from './PayinpersonModal';
 
 import PayBeforeMeetingModal from './PayBeforeMeetingModal';
 import PersonPaymentModal from './PersonPaymentModal';
+import localizationStrings from '../Localization/Localization';
 
 const MeetAndPay = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -43,10 +44,10 @@ const {details, address ,shipping_charge } = route.params
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
-      <HeaderTwo navigation={navigation} title={"Buying in person"} />
+      <HeaderTwo navigation={navigation} title={localizationStrings.buy_in_per} />
       <View style={{ flex: 1, paddingHorizontal: 20 }}>
 
-        <Text style={styles.subHeader}>When would you like to pay?</Text>
+        <Text style={styles.subHeader}>{localizationStrings.when_would}</Text>
 
         {/* Option 1: Pay Before Meeting */}
         <TouchableOpacity
@@ -63,7 +64,7 @@ const {details, address ,shipping_charge } = route.params
               style={styles.icon}
             />
               <Text style={styles.optionTitle}>
-                Pay before meeting
+               {localizationStrings.pay_before}
               </Text>
             </View>
             <Text style={styles.radioButton}>
@@ -71,13 +72,13 @@ const {details, address ,shipping_charge } = route.params
             </Text>
           </View>
           <Text style={styles.optionText}>
-            • The item will be reserved. No one but you will be able to buy it.
+            • {localizationStrings.pay_before_details1}
           </Text>
           <Text style={styles.optionText}>
-            • We protect your money. The seller will receive the payment when you confirm that you get the item.
+            •  {localizationStrings.pay_before_details2}
           </Text>
           <Text style={styles.optionText}>
-            • Establishment/Meeting Point: €0.35/package.
+            •  {localizationStrings.pay_before_details}
           </Text>
           <View style={[styles.iconAndText,{marginTop:10}]}>
           <Pressable
@@ -90,7 +91,7 @@ const {details, address ,shipping_charge } = route.params
               style={{height:20,width:20}}
             />
             </Pressable>
-                   <Text style={styles.moreInfo}>More information</Text>
+                   <Text style={styles.moreInfo}>{localizationStrings.more_info}</Text>
             </View>
         </TouchableOpacity>
 
@@ -108,20 +109,20 @@ const {details, address ,shipping_charge } = route.params
               source={require('../../assets/paypersion.png')}
               style={styles.icon}
             />
-              <Text style={styles.optionTitle}>Pay in person</Text>
+              <Text style={styles.optionTitle}>{localizationStrings.pay_per}</Text>
             </View>
             <Text style={styles.radioButton}>
               {selectedOption === 'inPerson' ? '●' : '○'}
             </Text>
           </View>
           <Text style={styles.optionText}>
-            • You will meet, check that the item is OK, and pay.
+            • {localizationStrings.pay_in_per_xt1}
           </Text>
           <Text style={styles.optionText}>
-            • Pay with Dinkys. No cash. No data sharing. Easy and secure!
+            • {localizationStrings.pay_in_per_xt2}
           </Text>
           <Text style={styles.optionText}>
-            • Delivery Person: €0.35/package.
+            • {localizationStrings.pay_in_per_xt3}
           </Text>
 
           
@@ -137,7 +138,7 @@ const {details, address ,shipping_charge } = route.params
               style={{height:20,width:20}}
               />
               </Pressable>
-                   <Text style={styles.moreInfo}>More information</Text>
+                   <Text style={styles.moreInfo}>{localizationStrings.more_info}</Text>
             </View>
      
         </TouchableOpacity>
@@ -163,7 +164,7 @@ const {details, address ,shipping_charge } = route.params
         </View>
 
         {/* Continue Button */}
-        <MyButton onPress={_next} title={"Continue"} style={{ borderRadius: 12, marginVertical:10, width: "95%", alignSelf: "center" }} />
+        <MyButton onPress={_next} title={localizationStrings.continue} style={{ borderRadius: 12, marginVertical:10, width: "95%", alignSelf: "center" }} />
       </View>
 
       <PayinPersonModal    modalVisible={payInpersonModal}  setModalVisible={setpayInpersonModal}/>

@@ -38,9 +38,7 @@ const SelectLocation = () => {
 
     const isFocus = useIsFocused()
 
-    console.log('selele location',userDetailData?.id);
-    
-
+ 
 
     useEffect(() => {
         const loadSavedAddresses = async () => {
@@ -181,17 +179,16 @@ const SelectLocation = () => {
         };
     
         fetch(`${DOMAIN}update-profile`, requestOptions)
-        .then((response) => {
-            // console.log("Raw response:", response);
-            return response.text(); // Use .text() instead of .json() to inspect the raw response
-        })
+    
         .then((resText) => {
-            console.log("Response text:", resText);
+          //  console.log("Response text:", resText);
             // Parse JSON manually if the response is valid JSON
+            console.log("update-profile =>>>>>>>>>>> ", resText.status);
             try {
-                const res = JSON.parse(resText);
-                if (res.status == "1") {
-                    console.log('Updated successfully:', res);
+              0
+                console.log("update-profile =>>>>>>>>>>> ", resText.status);
+                if (resText.status == "200") {
+                    console.log('Updated successfully:', resText.status);
                 }
             } catch (error) {
                 console.error("Error parsing JSON:", error);

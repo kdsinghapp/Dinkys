@@ -58,6 +58,8 @@ const Login = ({ route, navigation }) => {
             fetch(`${DOMAIN}Login`, requestOptions)
                 .then((response) => response.json())
                 .then(async (res) => {
+                    console.log('res login=>>>>>>>>>>.',res);
+                    
                     if (res.status == "1") {
                         dispatch({ type: 'SET_USER', payload: res?.data || {} });
                         dispatch({ type: "WALLET", payload: res?.data?.wallet });
@@ -93,6 +95,9 @@ const Login = ({ route, navigation }) => {
         fetch(`${DOMAIN}update-profile`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
+
+                console.log('res update profile =>>>>',res.status);
+                
                 if (res.status == "1") {
                     navigation.navigate("Bottomtab")
                 }
@@ -157,18 +162,26 @@ const Login = ({ route, navigation }) => {
                     </>
                     :
                     <>
-                        <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 5, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
-                            <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
+                        <View style={{ width: "100%", flexDirection: "row", 
+                            alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff",
+                             marginTop: 5, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", 
+                             borderWidth: 2,  height:70,  padding: 4, justifyContent: "space-between" }}>
+                            <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB",
+                                 justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <EmailSvg width={24} height={24} />
                             </View>
                             <View style={{ width: "78%", backgroundColor: "#fff", }}>
                                 <MyText semibold h6 style={{ color: email?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, }}>
                                 {localizationStrings.email}
                                 </MyText>
-                                <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
+                                <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)}
+                                 style={{ fontFamily: Theme.FONT_FAMILY_REGULAR,paddingVertical:5,   fontSize: 14, color: "#000", height: 34 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
                             </View>
                         </View>
-                        <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
+                        <View style={{ width: "100%", flexDirection: "row", alignItems: "center",
+                             borderRadius: 15, overflow: "hidden", backgroundColor: "#fff",
+                              marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4",
+                               borderWidth: 2, height:70, padding: 4, justifyContent: "space-between" }}>
                             <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <PasswordSvg width={24} height={24} />
                             </View>
@@ -176,7 +189,9 @@ const Login = ({ route, navigation }) => {
                                 <MyText semibold h6 style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0 }}>
                                 {localizationStrings.password}
                                 </MyText>
-                                <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
+                                <TextInput value={password} secureTextEntry={true} keyboardType="default" 
+                                onChangeText={(e) => setPassword(e)} 
+                                style={{ fontFamily: Theme.FONT_FAMILY_REGULAR,paddingVertical:5,  fontSize: 14, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
                             </View>
                             <View style={{ width: "15%", justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <EyesSvg width={24} height={24} />
