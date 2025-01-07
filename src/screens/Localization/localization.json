@@ -73,6 +73,7 @@
     "edit_profile": "Edit Profile",
     "change_password": "Change Password",
     "shipping_Address": "Shipping Address",
+    "Search_for_address":"Search for an address",
     "faq": "FAQ",
     "About_us": "About us",
     "privacy_policy": "Privacy Policy",
@@ -208,10 +209,13 @@
     "city_level":"City Level",
     "national_level":"National Level (All Spain)",
     "close":"Close",
-    "highlight":"Highlight"
+    "highlight":"Highlight",
+    "Select_address":"Select Address"
 
   },
   "Spanish": {
+    "Select_address": "Seleccionar dirección",
+    "Search_for_address": "Buscar una dirección",
         "highlight":"Destacar",
     "city_level": "Nivel de ciudad",
 "national_level": "Nivel nacional (Toda España)",

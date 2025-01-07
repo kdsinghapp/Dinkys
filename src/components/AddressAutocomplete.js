@@ -4,11 +4,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import localizationStrings from '../screens/Localization/Localization';
 
 const AddressAutocomplete = ({ setMarkerPosition, setRegion, setAddress, setLocationName, sendLocation, onFocus, onBlur }) => {
     return (
         <GooglePlacesAutocomplete
-        placeholder="Search for an address"
+        placeholder={localizationStrings.Search_for_address}
         fetchDetails={true}
         onPress={(data, details = null) => {
             if (details) {
@@ -32,14 +33,14 @@ const AddressAutocomplete = ({ setMarkerPosition, setRegion, setAddress, setLoca
         }}
         enablePoweredByContainer={false}
         query={{
-            key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',
+            key: 'AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0',
             language: 'en',
         }}
         styles={{
             description: {
                 fontWeight: 'bold',
                 color: 'black',
-                width: '90%',
+                width: '100%',
             },
             textInput: {
                 fontSize: 13,

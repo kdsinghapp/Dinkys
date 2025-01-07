@@ -7,7 +7,7 @@ const HeaderTwo = ({ title, navigation, back, subtitle, Metting }) => {
 
     return (
         <View style={styles.container}>
-            <Pressable style={{ position: "absolute", left: 25 }} onPress={() => {
+            <Pressable style={{ position: "absolute", left: 0,}} onPress={() => {
 
                 if (Metting) {
                   
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         justifyContent: "center",
         alignItems: "center",
-        marginTop:20
+        marginTop:20,
+        marginLeft:10
 
     },
 })

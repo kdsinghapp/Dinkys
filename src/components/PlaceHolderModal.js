@@ -102,7 +102,6 @@ const PlaceHolderModal = ({  modalVisible, setModalVisible }) => {
                     onBlur={() => setMapPointerEvents('auto')} // Enable map touch when blurred
                 />
 
-
              
             </View>
         </Modal>
@@ -116,6 +115,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'rgba(100, 100, 100, 0.5)',
+  
     },
     map: {
         width: '100%',

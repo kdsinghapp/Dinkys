@@ -8,8 +8,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { getCurrentLocation, locationPermission } from './helperFunction';
 import Geolocation from '@react-native-community/geolocation';
 import AddressAutocomplete from './AddressAutocomplete';
+import localizationStrings from '../screens/Localization/Localization';
 
-Geocoder.init("AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70");
+Geocoder.init('AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0');
 
 
 const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalVisible }) => {
@@ -91,25 +92,28 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
         >
             <View style={styles.modalContainer}>
                 <View style={styles.headerContainer}>
-                    <HeaderTwo navigation={navigation} title={"Select Address"} />
+                    <HeaderTwo navigation={navigation} title={localizationStrings.Select_address} />
                 </View>
 
-                {placeholderModal && <AddressAutocomplete
-                    setMarkerPosition={(latitude, longitude) => {
-                        setMarkerPosition({
-                            latitude,
-                            longitude,
-                        })
-                        setplaceholderModal(false)
-                    }}
-                    setRegion={setRegion}
-                    setAddress={setAddress}
-                    setLocationName={setLocationName}
-                    sendLocation={sendLocation}
-                    onFocus={() => setMapPointerEvents('none')}
-                    onBlur={() => setMapPointerEvents('auto')}
-                    liveLocation={markerPosition}
-                />}
+
+
+                {placeholderModal &&
+                    <AddressAutocomplete
+                        setMarkerPosition={(latitude, longitude) => {
+                            setMarkerPosition({
+                                latitude,
+                                longitude,
+                            })
+                            setplaceholderModal(false)
+                        }}
+                        setRegion={setRegion}
+                        setAddress={setAddress}
+                        setLocationName={setLocationName}
+                        sendLocation={sendLocation}
+                        onFocus={() => setMapPointerEvents('none')}
+                        onBlur={() => setMapPointerEvents('auto')}
+                        liveLocation={markerPosition}
+                    />}
 
                 <Pressable
                     onPress={() => {
@@ -160,7 +164,7 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
                     </TouchableOpacity>
                 }
                 <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmLocation}>
-                    <Text style={styles.confirmButtonText}>Confirm Location</Text>
+                    <Text style={styles.confirmButtonText}>{localizationStrings.C_location}</Text>
                 </TouchableOpacity>
 
 
@@ -208,6 +212,8 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         backgroundColor: '#fff',
+        marginTop:-25,
+        paddingHorizontal:15
     },
 });
 

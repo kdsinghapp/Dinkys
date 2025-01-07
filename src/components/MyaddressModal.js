@@ -7,7 +7,8 @@ import Theme from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import { getCurrentLocation, locationPermission } from './helperFunction';
 import AddressAutocomplete from './AddressAutocomplete'; // Import the new component
-import { width } from '../utils/Constant';
+import { hp, width, wp } from '../utils/Constant';
+import localizationStrings from '../screens/Localization/Localization';
 
 Geocoder.init("AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70");
 
@@ -87,60 +88,64 @@ const MyaddressModal = ({ sendLocation, setLocationName, modalVisible, setModalV
         >
             <View style={styles.modalContainer}>
                 <View style={styles.headerContainer}>
-                    <HeaderTwo navigation={navigation} title={"Select Address"} />
+                    <HeaderTwo navigation={navigation} title={localizationStrings.Select_address} />
                 </View>
-                <View style={{ alignSelf:'center',position:'absolute',width:'100%' }}>
-                <AddressAutocomplete
-                    setMarkerPosition={setMarkerPosition}
-                    
-                    setRegion={setRegion}
-                    setAddress={setAddress}
-                    setLocationName={setLocationName}
-                    sendLocation={sendLocation}
-                    onFocus={() => setMapPointerEvents('none')}
-                    onBlur={() => setMapPointerEvents('auto')}
-                />
-</View>
+                <View style={{ alignSelf: 'center', position: 'absolute', width: wp(100), alignItems: 'center', marginTop: 10 }}>
+                    <AddressAutocomplete
+                        setMarkerPosition={setMarkerPosition}
+
+                        setRegion={setRegion}
+                        setAddress={setAddress}
+                        setLocationName={setLocationName}
+                        sendLocation={sendLocation}
+                        onFocus={() => setMapPointerEvents('none')}
+                        onBlur={() => setMapPointerEvents('auto')}
+                    />
+                </View>
 
                 {/* Display nearby locations */}
-                <Text style={{ fontWeight: '600', color: '#000', fontSize: 18, marginTop: '25%' }}>Near By Locations</Text>
-    
-                <View style={{ flex: 1 }}>
-    {nearbyLocations?.length > 0 && (
-        <FlatList
-            data={nearbyLocations}
-            keyExtractor={(item, index) => index.toString()} // Use a unique key for each item
-            renderItem={({ item }) => (
-                <TouchableOpacity
-                    style={[styles.locationItem,{borderColor:address == item?.vicinity ?'green':'#fff',borderWidth:address == item?.vicinity?1:0,borderRadius:15,paddingHorizontal:10}]}
-                    onPress={() => {
-                        setLocationName(item?.name);
-                        sendLocation({
-                            latitude: item.geometry.location.lat,
-                            longitude: item.geometry.location.lng,
-                        })
-                        setAddress(item?.vicinity); // or another property you want to display
-                        setMarkerPosition({
-                            latitude: item.geometry.location.lat,
-                            longitude: item.geometry.location.lng,
-                        });
+                <Text style={{ fontWeight: '600', color: '#000', fontSize: 18, marginTop: '25%' }}>{localizationStrings.near_Location}</Text>
 
-                     
-                    }}
-                >
-                    <Text style={{color:'#000',fontWeight:'600',fontSize:14}}>{item?.name}</Text>
-                    <Text style={[styles.locationVicinity,{color:'#000',}]}>{item?.vicinity}</Text>
-                </TouchableOpacity>
-            )}
-        />
-    )}
-</View>
+                <View style={{ flex: 1, marginTop: 20 }}>
+                    {nearbyLocations?.length > 0 && (
+                        <FlatList
+                            data={nearbyLocations}
+                            keyExtractor={(item, index) => index.toString()} // Use a unique key for each item
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={[styles.locationItem, { borderColor: address == item?.vicinity ? 'green' : '#fff', borderWidth: address == item?.vicinity ? 1 : 0, borderRadius: 15, paddingHorizontal: 10 }]}
+                                    onPress={() => {
+                                        setLocationName(item?.name);
+                                        sendLocation({
+                                            latitude: item.geometry.location.lat,
+                                            longitude: item.geometry.location.lng,
+                                        })
+                                        setAddress(item?.vicinity); // or another property you want to display
+                                        setMarkerPosition({
+                                            latitude: item.geometry.location.lat,
+                                            longitude: item.geometry.location.lng,
+                                        });
+
+
+                                    }}
+                                >
+                                    <Text style={{ color: '#000', fontWeight: '600', fontSize: 14 }}>{item?.name}</Text>
+                                    <Text style={[styles.locationVicinity, { color: '#000', }]}>{item?.vicinity}</Text>
+                                </TouchableOpacity>
+                            )}
+
+                            ListFooterComponent={({item})=>(
+                                <View  style={{height:hp(14)}} />
+                            )}
+                        />
+                    )}
+                </View>
 
 
 
 
                 <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmLocation}>
-                    <Text style={styles.confirmButtonText}>Confirm Location</Text>
+                    <Text style={styles.confirmButtonText}>{localizationStrings.C_location}</Text>
                 </TouchableOpacity>
             </View>
         </Modal>
@@ -165,7 +170,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
-       
+
     },
     locationText: {
         fontSize: 16,
@@ -177,7 +182,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        paddingHorizontal:20,
+        paddingHorizontal: 20,
         backgroundColor: '#fff',
     },
     map: {
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         position: 'absolute',
         bottom: 0,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     confirmButtonText: {
         color: 'white',
@@ -219,5 +224,6 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         backgroundColor: '#fff',
+        marginTop: -15
     },
 });
