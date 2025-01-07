@@ -111,7 +111,7 @@ const Uploaded = ({ navigation }) => {
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <HeaderTwo back={true} navigation={navigation} title={localizationStrings.own_product} />
             <MyButton title={localizationStrings.add_product} onPress={() => navigation.navigate("AddProduct")} style={{ borderRadius: 12, width: "95%", alignSelf: "center" }} />
-            <ScrollView contentContainerStyle={{ backgroundColor: "#fff", flex: 1, padding: 20 }}>
+            <ScrollView contentContainerStyle={{ backgroundColor: "#fff",  padding: 20 }}>
                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}>
                     {loading ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <ActivityIndicator size={"small"} />
@@ -167,7 +167,7 @@ const Uploaded = ({ navigation }) => {
                                                 {item?.description?.substring(0, 30)}
                                             </Text >
                                           {item.is_highlight === 'TRUE' &&   <Text style={{ color: "grey", fontSize: 12 }}>
-                                          Highlight:  {item?.days_highlight} Days
+                                          {localizationStrings.highlight}:  {item?.days_highlight} Days
                                             </Text >}
                                         </View>
                                         {item.is_highlight !== 'TRUE' &&  <TouchableOpacity
@@ -185,7 +185,7 @@ const Uploaded = ({ navigation }) => {
                                                 justifyContent: 'center', borderRadius: 5, marginVertical: 10, alignSelf: 'center'
                                             }}
                                         >
-                                            <Text style={{ fontSize: 12, fontWeight: '800', color: '#fff' }}>Highlight</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: '800', color: '#fff' }}> {localizationStrings.highlight}</Text>
                                         </TouchableOpacity>}
 
                                {item.is_highlight === 'TRUE' &&         <View style={{ position: 'absolute', top:5,right:5 }}>

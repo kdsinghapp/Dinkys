@@ -513,18 +513,18 @@ position:'absolute',top:35,zIndex:1,
 
 
         </View>
-        <View style={{
+        {/* <View style={{
           flexDirection: 'row', alignItems: 'center',
           marginTop: 20, justifyContent: 'space-between',
           paddingHorizontal:10
         }}>
-          <View>
+    <View>
 
             <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>{localizationStrings.product_price}</Text>
 
           </View>
           <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}>£ {item?.total_amount}</Text>
-        </View>
+        </View> */}
         <View style={{ flexDirection: 'row',
              paddingHorizontal:10,
         alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
@@ -557,7 +557,7 @@ position:'absolute',top:35,zIndex:1,
             <Text style={{ fontSize: 16, color: '#000', fontWeight: '600' }}> {localizationStrings.order_details}</Text>
 
           </View>
-          <Text style={{ fontSize: 16, color: '#000', fontWeight: '700' }}>£ {item?.total_amount}</Text>
+          <Text style={{ fontSize: 16, color: '#000', fontWeight: '700' }}>£ {(Number(item.late_night_charges)+Number(item.shipping_charge))-Number(item.discount)}</Text>
         </View>
 
         {status == 'New Order' && <View style={{

@@ -535,16 +535,16 @@ const Home = ({ navigation }) => {
                     placeholderTextColor={'#000'}
                     value={searchVal} onChangeText={(e) => searchHandler(e)} placeholder={localizationStrings.search_here}
                     
-                    style={{ width: "75%",color:'#000' }} />
+                    style={{ width: "70%",color:'#000' }} />
                     {searchVal && <TouchableOpacity
                         onPress={() => {
                             _get_search_product()
                         }}
                         style={{
                             backgroundColor: "#04CFA4", borderRadius: 30, paddingVertical: 5,
-                            paddingHorizontal: 10
+                            paddingHorizontal:5
                         }}>
-                        <Text style={{ fontSize: 12, color: '#fff', fontWeight: '600' }}>Search</Text>
+                        <Text style={{ fontSize: 12, color: '#fff', fontWeight: '600' }}>{localizationStrings.searches}</Text>
                     </TouchableOpacity>}
                     {!searchVal && <View style={{ width: '20%' }} />}
                 </View>

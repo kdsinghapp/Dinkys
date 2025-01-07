@@ -207,10 +207,12 @@
     "highlight_your_ads":"Highlight Your Ads",
     "city_level":"City Level",
     "national_level":"National Level (All Spain)",
-    "close":"Close"
+    "close":"Close",
+    "highlight":"Highlight"
 
   },
   "Spanish": {
+        "highlight":"Destacar",
     "city_level": "Nivel de ciudad",
 "national_level": "Nivel nacional (Toda España)",
 "close": "Cerrar",

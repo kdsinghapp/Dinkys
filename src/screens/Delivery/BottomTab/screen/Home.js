@@ -139,7 +139,7 @@ export default function Home() {
       })
   }
 
-  console.log(' user?.driver_data?.driver_id', user?.driver_data?.driver_id);
+  console.log(' user?.driver_data?.driver_id',  user?.id , user?.driver_data?.driver_id);
   
   const _get_StatusOrder = async (status) => {
     console.log('status',status);
@@ -161,8 +161,11 @@ export default function Home() {
     await fetch(`${DOMAIN}order_by_status`, requestOptions)
       .then((response) => response.json())
       .then(async (res) => {
+        console.log('res?.result',res);
         if (res.status == "1") {
           setLoading(false)
+          console.log('res?.result',res?.result);
+          
           setStatusOrder(res?.result)
         }
 
@@ -217,7 +220,7 @@ export default function Home() {
               Order ID-#{item.order_id}
             </Text>
           </View>
-          <View>
+          {/* <View>
             <Text
               style={{
                 color: '#0BD89E',
@@ -227,7 +230,7 @@ export default function Home() {
               }}>
               £ {item.total_amount}
             </Text>
-          </View>
+          </View> */}
         </View>
         <View
           style={{

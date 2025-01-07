@@ -210,14 +210,14 @@ const SelectLocation = () => {
            }}>
                 <GooglePlacesInput placeholder={localizationStrings.search_location}   onPlaceSelected={handleSelectLocation} />
             </View>
-            <View style={styles.savedContainer}>
+            {/* <View style={styles.savedContainer}>
                 <Text style={styles.sectionTitle}>{localizationStrings.save_address}</Text>
                 <FlatList
                     data={savedAddresses}
                     renderItem={renderLocationItem}
                     keyExtractor={(item, index) => index.toString()}
                 />
-            </View>
+            </View> */}
 
             <View style={styles.nearbyContainer}>
                 <Text style={[styles.sectionTitle, { fontSize: 16, fontWeight: '400', fontFamily: 'Federo-Regular', }]}>{localizationStrings.near_Location}</Text>

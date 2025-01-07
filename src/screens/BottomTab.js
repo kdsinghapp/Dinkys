@@ -44,6 +44,7 @@ export default function TabScreen({ navigation }) {
                     backgroundColor: "#fff"
                 }}>
                 <TouchableOpacity
+              
                     onPress={() => setCurrentPage(0)}
                     style={{
                         alignItems: 'center',
@@ -74,6 +75,7 @@ export default function TabScreen({ navigation }) {
 
                 </TouchableOpacity>
                 <TouchableOpacity
+                  disabled={currentPage == 2}
                     onPress={() => setCurrentPage(2)}
                     style={{
                         alignItems: 'center',
