@@ -204,10 +204,16 @@
     "delivery_person":"Delivery Person: €0.35",
     "max_payment":"Maximum payment €2,500",
     "It_includes_payment_fees.":"It includes payment fees.",
-    "highlight_your_ads":"Highlight Your Ads"
+    "highlight_your_ads":"Highlight Your Ads",
+    "city_level":"City Level",
+    "national_level":"National Level (All Spain)",
+    "close":"Close"
 
   },
   "Spanish": {
+    "city_level": "Nivel de ciudad",
+"national_level": "Nivel nacional (Toda España)",
+"close": "Cerrar",
     "highlight_your_ads": "Resalte sus anuncios",
     "It_includes_payment_fees.":"Incluye tarifas de pago.",
  "delivery_person": "Repartidor: 0,35 €",

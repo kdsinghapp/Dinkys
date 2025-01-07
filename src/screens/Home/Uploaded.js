@@ -20,6 +20,7 @@ const Uploaded = ({ navigation }) => {
     const userDetailData = useSelector((state) => state.user.user)
     const [loading, setLoading] = useState(false)
     const [product, setProduct] = useState([]);
+    const [ProductId, setProductId] = useState('');
 
     useFocusEffect(
         React.useCallback(() => {
@@ -87,15 +88,15 @@ const Uploaded = ({ navigation }) => {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const cityLevelOptions = [
-        { duration: "1 Day", price: "€0.75" },
-        { duration: "5 Days", price: "€1.25" },
-        { duration: "15 Days", price: "€5" },
+        { duration: "1", price: "0.75" },
+        { duration: "5", price: "1.25" },
+        { duration: "15", price: "5" },
     ];
 
     const nationalLevelOptions = [
-        { duration: "1 Day", price: "€1.25" },
-        { duration: "5 Days", price: "€3" },
-        { duration: "15 Days", price: "€7" },
+        { duration: "1", price: "1.25" },
+        { duration: "5", price: "3" },
+        { duration: "15", price: "7" },
     ];
     const handleOptionSelect = (level, duration, price) => {
         setSelectedOption({ level, duration, price });
@@ -103,6 +104,8 @@ const Uploaded = ({ navigation }) => {
     };
 
 
+    console.log('product',product);
+    
     return (
         <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
@@ -130,11 +133,13 @@ const Uploaded = ({ navigation }) => {
                                                 height: 0,
                                                 width: 0
                                             },
-                                            margin:10,
+                                            margin: 10,
                                             backgroundColor: "#fff",
                                             elevation: 5,
                                             marginBottom: 15
                                         }}>
+
+                                      
                                         <Pressable
                                             onPress={() => navigation.navigate("ProductDetails", { item })}
                                             style={{
@@ -152,27 +157,44 @@ const Uploaded = ({ navigation }) => {
                                             <Pressable style={{ padding: 5, position: "absolute", top: 10, right: 5, zIndex: 1 }} onPress={() => _deleteHandler(item?.id)}>
                                                 <DeleteSvg width={20} height={20} />
                                             </Pressable>
-                                            <Text style={{ color: "#04CFA4",fontSize:14 }}>
+                                            <Text style={{ color: "#04CFA4", fontSize: 14 }}>
                                                 € {item?.price}
                                             </Text >
-                                            <Text style={{ color: "#000",fontSize:14 }}>
+                                            <Text style={{ color: "#000", fontSize: 14 }}>
                                                 {item?.brand}
                                             </Text >
-                                            <Text style={{ color: "#ccc",fontSize:10 }}>
-                                                {item?.description?.substring(0,30)}
+                                            <Text style={{ color: "grey", fontSize: 12 }}>
+                                                {item?.description?.substring(0, 30)}
                                             </Text >
+                                          {item.is_highlight === 'TRUE' &&   <Text style={{ color: "grey", fontSize: 12 }}>
+                                          Highlight:  {item?.days_highlight} Days
+                                            </Text >}
                                         </View>
-                                        <TouchableOpacity
-                                            onPress={() => setModalVisible(true)}
+                                        {item.is_highlight !== 'TRUE' &&  <TouchableOpacity
+                                            onPress={() => {
+                                                console.log('item?.id', item?.id);
+
+
+                                                setModalVisible(true)
+                                                setProductId(item?.id)
+                                            }}
                                             style={{
-                                                height:30,
+                                                height: 30,
                                                 width: '80%',
                                                 backgroundColor: '#04CFA4', alignItems: 'center',
-                                                justifyContent: 'center', borderRadius: 5, marginVertical:10, alignSelf: 'center'
+                                                justifyContent: 'center', borderRadius: 5, marginVertical: 10, alignSelf: 'center'
                                             }}
                                         >
                                             <Text style={{ fontSize: 12, fontWeight: '800', color: '#fff' }}>Highlight</Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity>}
+
+                               {item.is_highlight === 'TRUE' &&         <View style={{ position: 'absolute', top:5,right:5 }}>
+                                            <Image source={require('../../assets/bookmark.png')} 
+                                            
+                                            style={{ height:30, width:30,tintColor:'#efbf04' }} />
+
+                                            <Text style={{fontWeight:'800',fontSize:16,color:'#fdff32',position:'absolute',left:9,top:2}}>H</Text>
+                                        </View>}
                                     </View>
                                 )}
                             />
@@ -184,6 +206,7 @@ const Uploaded = ({ navigation }) => {
                     cityLevelOptions={cityLevelOptions}
                     nationalLevelOptions={nationalLevelOptions}
                     onOptionSelect={handleOptionSelect}
+                    ProductId={ProductId}
                 />
             </ScrollView>
 

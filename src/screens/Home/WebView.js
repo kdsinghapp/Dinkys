@@ -12,7 +12,7 @@ import ExitConfirmationModal from './ExitConfirmationModal';
 import localizationStrings from '../Localization/Localization';
 const WebViewScreen = ({ route,  }) => {
     const userDetails = useSelector((state) => state?.user?.user)
-    const { url, details, shipping_charge, wallet, amount,payINper } = route?.params
+    const { url,ProductId, details, shipping_charge, wallet, amount,payINper,Hightlight ,selectedOption } = route?.params
     const [modalVisible, setModalVisible] = useState(false);
     const [webView, setwebView] = useState(true);
 const navigation = useNavigation()
@@ -77,6 +77,39 @@ const navigation = useNavigation()
 
 
             }
+         else  if(Hightlight){
+  
+
+            console.log('Hightlight=>>>>');
+            
+                const formdata = new FormData();
+                formdata.append("product_id", ProductId); // Replace ProductId with the actual value
+                formdata.append("days_highlight", selectedOption?.duration); // Replace selectedOption with the actual object
+              
+                // Define the request options
+                const requestOptions = {
+                  method: "POST",
+                  body: formdata,
+                  redirect: "follow"
+                };
+              
+                // Make the API request
+                fetch("https://panel.dkyss.es/api/highlight_product", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                  console.log('higlight=>>>>>',result);
+                  
+                    if (result?.status == "1") {
+                    navigation.navigate('Bottomtab')
+             
+                    }
+                })
+                .catch((error) => console.error(error));
+          
+
+
+
+            }
             else {
                 const requestOptions = {
                     method: "GET",
@@ -120,10 +153,7 @@ const navigation = useNavigation()
             }
         }
 
-        else{
-            setModalVisible(true)
-
-        }
+       
     
 
     };

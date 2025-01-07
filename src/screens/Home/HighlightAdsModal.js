@@ -7,6 +7,11 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
+import localizationStrings from "../Localization/Localization";
+import { useSelector } from "react-redux";
+import MyLoader from "../../elements/MyLoader";
+import { DOMAIN } from "../../services/Config";
+import { useNavigation } from "@react-navigation/native";
 
 const HighlightAdsModal = ({
   isVisible,
@@ -14,8 +19,45 @@ const HighlightAdsModal = ({
   cityLevelOptions,
   nationalLevelOptions,
   onOptionSelect,
+  ProductId
 }) => {
   const [selectedOption, setSelectedOption] = useState(null); // Track selected option
+  const [loading, setLoading] = useState(false)
+  const userDetails = useSelector((state) => state.user.user)
+  const navigation = useNavigation()
+  const payment_handler_web = () => {
+    setLoading(true)
+  console.log('selectedOption?.price',selectedOption?.price);
+  
+    
+    var formdata = new FormData();
+    formdata.append("email", userDetails?.email);
+    formdata.append("price", Number(selectedOption?.price));
+    const requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow"
+    };
+    fetch(`${DOMAIN}create-checkout-session`, requestOptions)
+        .then((response) => response.json())
+        .then(async (res) => {
+
+          console.log('res=>>>>',res?.data?.url);
+          
+            if (res?.data?.url) {
+              setLoading(false)
+              onClose()
+                navigation.navigate("WebViewScreen", { url: res?.data?.url,wallet: false, Hightlight: true, amount: Number(selectedOption?.price),selectedOption ,ProductId})
+            }
+        }).catch((err) => {
+            console.log("err", err)
+            setLoading(false)
+        }).finally(() => {
+            setLoading(false)
+        })
+
+        //setLoading(false)
+}
 
   const handleOptionSelect = (level, item) => {
     const newSelection = {
@@ -27,6 +69,11 @@ const HighlightAdsModal = ({
     setSelectedOption(newSelection);
     onOptionSelect(newSelection.level, newSelection.duration, newSelection.price);
   };
+
+
+
+
+
 
   const renderOption = (item, level) => {
     const isSelected =
@@ -43,7 +90,7 @@ const HighlightAdsModal = ({
         onPress={() => handleOptionSelect(level, item)}
       >
         <Text style={styles.optionText}>
-          {item.duration} - {item.price}
+          {item.duration} Day - €{item.price}
         </Text>
       </TouchableOpacity>
     );
@@ -58,10 +105,11 @@ const HighlightAdsModal = ({
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Highlight Your Ads</Text>
+          {loading?<MyLoader />:null}
+          <Text style={styles.modalTitle}>{localizationStrings.highlight_your_ads}</Text>
 
           {/* City Level Options */}
-          <Text style={styles.sectionTitle}>City Level:</Text>
+          <Text style={styles.sectionTitle}>{localizationStrings.city_level}:</Text>
           <FlatList
             data={cityLevelOptions}
             renderItem={({ item }) => renderOption(item, "City Level")}
@@ -69,7 +117,7 @@ const HighlightAdsModal = ({
           />
 
           {/* National Level Options */}
-          <Text style={styles.sectionTitle}>National Level (All Spain):</Text>
+          <Text style={styles.sectionTitle}>{localizationStrings.national_level}:</Text>
           <FlatList
             data={nationalLevelOptions}
             renderItem={({ item }) => renderOption(item, "National Level")}
@@ -77,8 +125,12 @@ const HighlightAdsModal = ({
           />
 
           {/* Close Button */}
-    {selectedOption &&      <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeText}>Pay to highlight ads( {selectedOption?.price} )</Text>
+    {selectedOption &&      <TouchableOpacity 
+    onPress={()=>{
+      payment_handler_web()
+    }}
+    style={styles.closeButton}>
+            <Text style={styles.closeText}>{localizationStrings.pay}( {selectedOption?.price} )</Text>
           </TouchableOpacity>}
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeText}>Close</Text>
