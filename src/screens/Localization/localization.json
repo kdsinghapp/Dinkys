@@ -210,10 +210,12 @@
     "national_level":"National Level (All Spain)",
     "close":"Close",
     "highlight":"Highlight",
-    "Select_address":"Select Address"
+    "Select_address":"Select Address",
+    "validation_process":"Validation Process"
 
   },
   "Spanish": {
+    "validation_process": "Proceso de validación",
     "Select_address": "Seleccionar dirección",
     "Search_for_address": "Buscar una dirección",
         "highlight":"Destacar",

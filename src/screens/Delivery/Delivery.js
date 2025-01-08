@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import localizationStrings from '../Localization/Localization';
+import { Dropdown } from 'react-native-element-dropdown';
 const DeliveryScreen = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false)
@@ -25,7 +26,18 @@ const DeliveryScreen = () => {
   const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [cifNif, setCifNif] = useState('');
+  const [value, setValue] = useState('French');
 
+  const items = [
+      
+      
+    { label: 'Professional sellers', value: 'Professional',  },
+    { label: 'Private sellers', value: 'Private', },
+    { label: 'Pickup points', value: 'Pickup', },
+ 
+    
+    // Add more languages here
+  ]
   // State management for the profile image
   const [profileImage, setProfileImage] = useState(null);
   useFocusEffect(
@@ -116,6 +128,8 @@ formdata.append("driver_lat", homeAddress1?.lat?homeAddress1?.lat:'');
 formdata.append("driver_long", homeAddress1?.lng?homeAddress1?.lat:'');
 formdata.append("driver_email", email);
 formdata.append("driver_company_name", companyName);
+formdata.append("driver_type", value);
+
 formdata.append("driver_cif_nif", cifNif);
 formdata.append("driver_images", profileImage);
 const requestOptions = {
@@ -211,12 +225,27 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
                             placeholderTextColor: "#000"
                         }}
                         query={{
-                            key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',
+                            key: 'AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0',
                             language: 'en',
                         }}
                     />
                 </View>
       <ScrollView showsVerticalScrollIndicator={false}>
+      <Dropdown
+style={styles.input}
+data={items}
+itemTextStyle={{color:'#000'}}
+placeholderStyle={{color:'#000'}}
+labelField="label"
+valueField="value"
+placeholder="Select Delivery Profile"
+selectedTextStyle={{
+color:"#000"
+}}
+value={value}
+
+onChange={item => setValue(item.value)}
+/>
       <TextInput 
         style={styles.input} 
         placeholder={localizationStrings.first_name}
@@ -271,7 +300,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
          
       <TextInput 
         style={styles.input} 
-        placeholder={localizationStrings.home_ad1}
+        placeholder={localizationStrings.home_ad2}
         placeholderTextColor={"#000"}
         value={homeAddress2} 
         onChangeText={setHomeAddress2} 
@@ -291,6 +320,17 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
 };
 
 const styles = StyleSheet.create({
+  dropdown: {
+    marginLeft:10,
+    marginTop:10,
+     height:40,
+ justifyContent:'center',
+     width:'100%',
+     alignSelf:'center',
+     //backgroundColor:'#fff',
+    
+   
+   },
   container: {
     flex: 1,
     backgroundColor: '#fff',

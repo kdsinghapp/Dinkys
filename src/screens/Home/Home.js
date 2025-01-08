@@ -455,6 +455,9 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
     );
 
+
+
+    
  
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
@@ -488,11 +491,11 @@ const Home = ({ navigation }) => {
                         <Pressable
                             onPress={() => {
 
-                                if (user?.driver_register && user?.driver_details) {
+                                if (user?.driver_register && user?.driver_data?.driver_details === 'TRUE') {
                                     navigation.navigate('TabNavigator')
                                 }
 
-                                else if (!user?.driver_details && user?.driver_register) {
+                                else if (!user?.driver_data?.driver_details === 'TRUE' && user?.driver_register) {
                                     navigation.navigate('VehicleDetails')
                                 }
                                 else if (user) {

@@ -190,7 +190,7 @@ dropdownPosition='top'
 onChange={item => handleChangeLanguage(item.value)}
 />
 </View>
-                {(user?.driver_details_data || user?.driver_data) &&
+                {(_data || user?.driver_data) &&
                     <>
                         <View style={{ backgroundColor: "transparent", padding: 25, justifyContent: "space-between", paddingVertical: 20 }}>
                             <Text style={{ color: "#04CFA4", fontWeight: '700', fontSize: 18 }} >{localizationStrings.driver_details}</Text>

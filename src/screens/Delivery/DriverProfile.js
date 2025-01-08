@@ -240,7 +240,7 @@ fetch(`${DOMAIN}register-driver`, requestOptions)
                             placeholderTextColor: "#000"
                         }}
                         query={{
-                            key: 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70',
+                            key: 'AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0',
                             language: 'en',
                         }}
                     />

@@ -16,7 +16,7 @@ import { getCurrentLocation } from '../../components/helperFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import localizationStrings from '../Localization/Localization';
 // Replace with your Google Maps API key
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBQDSvBppnW59UJ0ALOlGV5aMiJl6bgk70';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyCPO3jjHmxtN44lSqdaB278knxRvijkSR0';
 
 export default function MapPickup() {
   const [loading, setLoading] = useState(false)
