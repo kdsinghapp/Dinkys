@@ -15,6 +15,7 @@ import MapPickerModal from '../../components/MapPicker'
 import MyaddressModal from '../../components/MyaddressModal'
 import { errorToast } from '../../utils/customToast'
 import localizationStrings from '../Localization/Localization'
+import MapPickerModal2 from '../../components/MapPicker2'
 
 
 const Delivery = ({ navigation, route }) => {
@@ -30,6 +31,9 @@ const Delivery = ({ navigation, route }) => {
     
     const [AddressLocation, setAddressLocation] = useState('')
  
+
+    console.log('PickupLocation',PickupLocation);
+    
 
     function haversine(lat1, lon1, lat2, lon2) {
         const R = 6371; // Earth's radius in kilometers
@@ -145,7 +149,7 @@ const Delivery = ({ navigation, route }) => {
                 </View>
             </View>
             <MyButton onPress={_next} title={localizationStrings.continue} style={{ borderRadius: 12, marginBottom:10, width: "95%", alignSelf: "center" }} />
-            <MapPickerModal    setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible}  sendLocation={setPickupLocation} setLocationName={setPickupLocationName}  />
+            <MapPickerModal2    setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible}  sendLocation={setPickupLocation} setLocationName={setPickupLocationName}  />
   
             <MyaddressModal    setModalVisible={setaddressModalVisible} modalVisible={addressModalVisible} 
              sendLocation={setAddressLocation} setLocationName={setAddressLocationName}  />
