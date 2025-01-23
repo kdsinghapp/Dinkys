@@ -147,11 +147,18 @@ const Profile = ({ navigation }) => {
                         <Text style={{ color: '#000', fontWeight: '500', fontSize: 16 }}>{localizationStrings.setting}</Text>
                         <ProRight width={24} height={24} />
                     </Pressable>
+                    <Pressable onPress={() => user == null ? null : navigation.navigate("Subscription", { userDetails: user })} 
+                    
+                    style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between",marginTop:20 }}>
+                        <Text style={{ color: '#000', fontWeight: '500', fontSize: 16 }}>{localizationStrings.Subscription}</Text>
+                        <ProRight width={24} height={24} />
+                    </Pressable>
+                
                     <Pressable
 
                         onPress={() => user == null ? null : navigation.navigate("Help", { userDetails: user })}
 
-                        style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginVertical: 30 }}>
+                        style={{ alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginVertical: 20 }}>
                         <Text style={{ color: '#000', fontWeight: '500', fontSize: 16 }}>{localizationStrings.help}</Text>
                         <ProRight width={24} height={24} />
                     </Pressable>
@@ -190,7 +197,7 @@ dropdownPosition='top'
 onChange={item => handleChangeLanguage(item.value)}
 />
 </View>
-                {(_data || user?.driver_data) &&
+                {(user?.driver_data) &&
                     <>
                         <View style={{ backgroundColor: "transparent", padding: 25, justifyContent: "space-between", paddingVertical: 20 }}>
                             <Text style={{ color: "#04CFA4", fontWeight: '700', fontSize: 18 }} >{localizationStrings.driver_details}</Text>

@@ -63,6 +63,7 @@ import ViewCart from '../screens/Home/AdsCart';
 import AdsWebview from '../screens/Home/AdsWebview';
 import SelectLocation from '../screens/Location/SelectLocation';
 import AddPickupPoint from '../screens/Delivery/AddPickupPoint';
+import Subscription from '../screens/profile/Subscription';
 const Stack = createStackNavigator();
 export default function Navigation() {
 
@@ -178,6 +179,8 @@ export default function Navigation() {
                 <Stack.Screen name="SelectLocation" component={SelectLocation} options={verticalAnimationTransparent} />
            
                 <Stack.Screen name="AddPickupPoint" component={AddPickupPoint} options={verticalAnimationTransparent} />
+           
+                <Stack.Screen name="Subscription" component={Subscription} options={verticalAnimationTransparent} />
            
             </Stack.Navigator>
         </NavigationContainer>

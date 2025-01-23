@@ -211,10 +211,12 @@
     "close":"Close",
     "highlight":"Highlight",
     "Select_address":"Select Address",
-    "validation_process":"Validation Process"
+    "validation_process":"Validation Process",
+    "Subscription":"Subscription"
 
   },
   "Spanish": {
+      "Subscription":"Suscripción",
     "validation_process": "Proceso de validación",
     "Select_address": "Seleccionar dirección",
     "Search_for_address": "Buscar una dirección",

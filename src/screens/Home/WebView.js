@@ -12,7 +12,7 @@ import ExitConfirmationModal from './ExitConfirmationModal';
 import localizationStrings from '../Localization/Localization';
 const WebViewScreen = ({ route,  }) => {
     const userDetails = useSelector((state) => state?.user?.user)
-    const { url,ProductId, details, shipping_charge, wallet, amount,payINper,Hightlight ,selectedOption } = route?.params
+    const { url,ProductId, details, shipping_charge, wallet, amount,payINper,Hightlight ,selectedOption ,subscription,plan_id} = route?.params
     const [modalVisible, setModalVisible] = useState(false);
     const [webView, setwebView] = useState(true);
 const navigation = useNavigation()
@@ -106,6 +106,52 @@ const navigation = useNavigation()
                 })
                 .catch((error) => console.error(error));
           
+
+
+
+            }
+         else  if(subscription){
+            const requestOptions = {
+                method: "GET",
+                redirect: "follow"
+            };
+            fetch(navState?.url, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+        
+                const formdata = new FormData();
+                formdata.append("user_id", userDetails?.id); // Replace ProductId with the actual value
+                formdata.append("plan_id", plan_id); // Replace selectedOption with the actual object
+              
+                formdata.append("total_amount", '1.5'); // Replace selectedOption with the actual object
+              
+                formdata.append("payment_intent", result?.session?.payment_intent ); // Replace selectedOption with the actual object
+              
+                // Define the request options
+                const requestOptions = {
+                  method: "POST",
+                  body: formdata,
+                  redirect: "follow"
+                };
+              
+                // Make the API request
+                fetch("https://panel.dkyss.es/api/create_subscription", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                  console.log('higlight=>>>>>',result);
+                  
+                    if (result?.status == "1") {
+
+                        successToast(result?.message)
+                    navigation.navigate('Subscription')
+             
+                    }
+                })
+                .catch((error) => console.error(error));
+          
+            })
+            .catch((error) => console.error(error));
+           
 
 
 
