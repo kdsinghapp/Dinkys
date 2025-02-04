@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import HeaderTwo from './Header';
 import Theme from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import localizationStrings from '../screens/Localization/Localization';
-
+import AddressAutocomplete from './AddressAutocomplete';
 const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModalVisible }) => {
     const [region, setRegion] = useState({
         latitude: 22.6845605,
@@ -14,6 +14,7 @@ const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModal
         latitudeDelta: 0.015,
         longitudeDelta: 0.0121,
     });
+    const [address, setAddress] = useState('');
     const [markerPosition, setMarkerPosition] = useState({
         latitude: 22.6845605,
         longitude: 75.8618508,
@@ -43,11 +44,11 @@ const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModal
         Geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords;
-                setRegion({
-                    ...region,
-                    latitude,
-                    longitude,
-                });
+                // setRegion({
+                //     ...region,
+                //     latitude,
+                //     longitude,
+                // });
                 setMarkerPosition({
                     latitude,
                     longitude,
@@ -69,6 +70,7 @@ const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModal
         setSelectedMarkerId(location.id);
         sendLocation({ latitude: parseFloat(location.lat), longitude: parseFloat(location.long) });
         setLocationName(location.location);
+        handleConfirmLocation()
     };
 
     const handleConfirmLocation = () => {
@@ -89,8 +91,29 @@ const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModal
             <View style={styles.modalContainer}>
                 <View style={styles.headerContainer}>
                     <HeaderTwo navigation={navigation} title={localizationStrings.Select_address} />
+
                 </View>
 
+                <AddressAutocomplete
+
+                    setMarkerPosition={(latitude, longitude) => {
+
+                        console.log('latitude, longitude', latitude, longitude);
+
+                        sendLocation({ latitude: latitude, longitude: longitude });
+                        setMarkerPosition({
+                            latitude,
+                            longitude,
+                        })
+               
+                    }}
+                    setRegion={setRegion}
+                    setAddress={setAddress}
+                  
+                 
+                    liveLocation={markerPosition}
+
+                />
                 <MapView
                     style={styles.map}
                     region={region}
@@ -104,9 +127,21 @@ const MapPickerModal2 = ({ sendLocation, setLocationName, modalVisible, setModal
                                 longitude: parseFloat(point.long),
                             }}
                             title={point.location}
-                            pinColor={selectedMarkerId === point.id ? 'green' : 'red'}
+
                             onPress={() => handleMarkerPress(point)}
-                        />
+
+                            style={{ width: 40, height: 40 }}
+                        >
+
+                            <View style={styles.markerContainer}>
+                                <Image
+                                    source={require("../assets/locationpin.png")}
+                                    style={{ height: 40, width: 40 }}
+
+                                    resizeMode='contain'
+                                />
+                            </View>
+                        </Marker>
                     ))}
                 </MapView>
 
@@ -154,5 +189,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginTop: -25,
         paddingHorizontal: 15,
+
     },
 });

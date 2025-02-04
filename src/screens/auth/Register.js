@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react'
-import { TextInput, View, TouchableOpacity, Pressable, ScrollView, BackHandler, Alert } from 'react-native'
+import { TextInput, View, TouchableOpacity, Pressable, ScrollView, BackHandler, Alert, StyleSheet } from 'react-native'
 import MyText from '../../elements/MyText'
 import MyButton from '../../elements/MyButton'
 import MyStatusBar from '../../elements/MyStatusBar'
@@ -18,7 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { DOMAIN } from '../../services/Config'
 import { useFocusEffect } from '@react-navigation/native'
 import localizationStrings from '../Localization/Localization'
-
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 const Register = ({ route, navigation }) => {
@@ -29,6 +29,7 @@ const Register = ({ route, navigation }) => {
     const [loading, setLoading] = useState(false)
     const [deviceId, setDeviceId] = useState('');
     const dispatch = useDispatch()
+    const [value, setValue] = useState('');
 
     useFocusEffect(
         React.useCallback(() => {
@@ -40,9 +41,16 @@ const Register = ({ route, navigation }) => {
             })();
         }, []),
     );
+    const items = [
 
+
+        { label: 'Professional sellers', value: 'Professional', },
+        { label: 'Private sellers', value: 'Private', },
+    ]
 
     const signupHandler = () => {
+
+        if(!value) return  errorToast("Please Select Profile", 3000)
         if (name.length == 0 || number.length == 0 || email.length == 0 || password.length == 0) {
             errorToast("Please Enter Number", 3000)
         } else {
@@ -52,6 +60,7 @@ const Register = ({ route, navigation }) => {
             formdata.append("password", password);
             formdata.append("email", email);
             formdata.append("mobile", number);
+            formdata.append("identify", value);
             const requestOptions = {
                 method: "POST",
                 body: formdata,
@@ -94,8 +103,8 @@ const Register = ({ route, navigation }) => {
         fetch(`${DOMAIN}update-profile`, requestOptions)
             .then((response) => response.json())
             .then(async (res) => {
-                console.log('res.status',res.status);
-                
+                console.log('res.status', res.status);
+
                 if (res.status == "1") {
                     navigation.navigate("Bottomtab")
                 }
@@ -111,14 +120,14 @@ const Register = ({ route, navigation }) => {
             <MyStatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
             <ScrollView style={{ padding: 20, marginBottom: 20 }}>
                 <View style={{ width: "100%", height: 180, justifyContent: "center", alignItems: "center" }}>
-              <LogoSvg width={219.29} height={130} />
+                    <LogoSvg width={219.29} height={130} />
                 </View>
                 <View style={{ width: "100%", justifyContent: "center" }}>
                     <MyText h4 bold style={{ color: "#000" }}>
                         {localizationStrings.regiter}
                     </MyText>
                     <MyText h5 regular style={{ color: "#9DB2BF", marginVertical: 5 }}>
-                    {localizationStrings.enter_user_details}
+                        {localizationStrings.enter_user_details}
                     </MyText>
                 </View>
 
@@ -128,7 +137,7 @@ const Register = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: name?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                        {localizationStrings.full_name}
+                            {localizationStrings.full_name}
                         </MyText>
                         <TextInput value={name} keyboardType="default" onChangeText={(e) => setName(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.full_name} placeholderTextColor={"#000"} />
                     </View>
@@ -136,13 +145,13 @@ const Register = ({ route, navigation }) => {
 
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: number?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
                     <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
-                       <Mobile width={24} height={24} />
+                        <Mobile width={24} height={24} />
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: number?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                        {localizationStrings.enter_number}
+                            {localizationStrings.enter_number}
                         </MyText>
-                        <TextInput value={number} keyboardType="numeric" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder=         {localizationStrings.enter_number} placeholderTextColor={"#000"} />
+                        <TextInput value={number} keyboardType="numeric" onChangeText={(e) => setNumber(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.enter_number} placeholderTextColor={"#000"} />
                     </View>
                 </View>
                 <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: email?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
@@ -151,18 +160,45 @@ const Register = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: "78%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: email?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                        {localizationStrings.email}
+                            {localizationStrings.email}
                         </MyText>
-                        <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
+                        <TextInput value={email} keyboardType="default" onChangeText={(e) => setEmail(e)} style={{
+                            fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34
+                        }} placeholder={localizationStrings.email} placeholderTextColor={"#000"} />
                     </View>
                 </View>
-                <View style={{ width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15, overflow: "hidden", backgroundColor: "#fff", marginTop: 15, borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between" }}>
+                <View style={{ width: "100%", backgroundColor: "#fff", }}>
+                    <Dropdown
+                        style={styles.input}
+                        data={items}
+                        itemTextStyle={{ color: '#000' }}
+                        placeholderStyle={{ color: '#000' }}
+                        labelField="label"
+                        valueField="value"
+                        placeholder="Select Profile"
+                        selectedTextStyle={{
+                            color: "#000"
+                        }}
+                        value={value}
+
+                        onChange={item => setValue(item.value)}
+                    />
+
+                </View>
+
+
+                <View style={{
+                    width: "100%", flexDirection: "row", alignItems: "center", borderRadius: 15,
+                    overflow: "hidden",
+                    backgroundColor: "#fff", marginTop: 15,
+                    borderColor: password?.length == 0 ? "#D1D1D1" : "#04CFA4", borderWidth: 2, height: 60, padding: 4, justifyContent: "space-between"
+                }}>
                     <View style={{ width: "18%", borderRightWidth: 2, borderRightColor: "#EBEBEB", justifyContent: "center", alignItems: "center", height: "100%" }}>
                         <PasswordSvg width={24} height={24} />
                     </View>
                     <View style={{ width: "58%", backgroundColor: "#fff", }}>
                         <MyText semibold style={{ color: password?.length == 0 ? "#D1D1D1" : "#04CFA4", margin: 0, marginBottom: 0, fontSize: 14 }}>
-                        {localizationStrings.password}
+                            {localizationStrings.password}
                         </MyText>
                         <TextInput value={password} secureTextEntry={true} keyboardType="default" onChangeText={(e) => setPassword(e)} style={{ fontFamily: Theme.FONT_FAMILY_REGULAR, fontSize: 10, color: "#000", height: 34 }} placeholder={localizationStrings.password} placeholderTextColor={"#000"} />
                     </View>
@@ -182,7 +218,7 @@ const Register = ({ route, navigation }) => {
                         <MyText h6 regular style={{
                             color: '#000',
                         }}>
-                   {localizationStrings.have_a}
+                            {localizationStrings.have_a}
                         </MyText>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Login")}
@@ -205,3 +241,19 @@ const Register = ({ route, navigation }) => {
 }
 
 export default Register
+
+
+const styles = StyleSheet.create({
+
+    input: {
+        height: 60,
+        borderColor: 'grey',
+        color: '#000',
+        borderWidth: 2,
+        borderRadius: 15,
+        paddingHorizontal: 15,
+        borderColor: "#D1D1D1",
+
+        marginTop: 10,
+    },
+})

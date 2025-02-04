@@ -260,8 +260,8 @@ const [loading,setLoading] = useState(false)
         <View style={styles.validation}>
           {/* Professional Sellers Validation */}
           <View style={[styles.validationItem, { padding: 15, borderRadius: 15 }]}>
-            <Text style={{ fontWeight: '600', fontSize: 18, color: '#000' }}>
-              Professional Sellers Validations: {sellers?.length}/7
+            <Text style={{ fontWeight: '600', fontSize: 16, color: '#000' }}>
+             {localizationStrings.professional_sellers}: {sellers?.length}/7
             </Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
               <TouchableOpacity
@@ -269,7 +269,7 @@ const [loading,setLoading] = useState(false)
                 onPress={() => setSellersListVisible(!sellersListVisible)}
               >
                 <Text style={styles.buttonText}>
-                  {sellersListVisible ? 'Hide List' : 'See List'}
+                  {sellersListVisible ?  `${localizationStrings.hide_list}` : `${localizationStrings.see_list}`}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -280,7 +280,7 @@ const [loading,setLoading] = useState(false)
 
                 }}
               >
-                <Text style={styles.buttonText}>Add</Text>
+                <Text style={styles.buttonText}>{localizationStrings.add}</Text>
               </TouchableOpacity>
             </View>
 
@@ -320,7 +320,7 @@ const [loading,setLoading] = useState(false)
                     </View>
                   ))}
                 </View>
-              ) : <Text style={{ fontSize: 14, fontWeight: '600', alignSelf: 'center', marginTop: 20 }}>No Seller Added</Text>}
+              ) : <Text style={{ fontSize: 14, fontWeight: '600', alignSelf: 'center', marginTop: 20 }}>{localizationStrings.no_data_here}</Text>}
 
             </>
             }
@@ -329,7 +329,7 @@ const [loading,setLoading] = useState(false)
           {/* Pickup Points Validation */}
           <View style={[styles.validationItem, { padding: 15, borderRadius: 15 }]}>
             <Text style={{ fontWeight: '600', fontSize: 18, color: '#000' }}>
-              Pickup Points Validations: {pickupPoints?.length}/7
+            {localizationStrings.pickup_points}: {pickupPoints?.length}/7
             </Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
               <TouchableOpacity
@@ -337,7 +337,7 @@ const [loading,setLoading] = useState(false)
                 onPress={() => setPickupPointsListVisible(!pickupPointsListVisible)}
               >
                 <Text style={styles.buttonText}>
-                  {pickupPointsListVisible ? 'Hide List' : 'See List'}
+                  {pickupPointsListVisible ? `${localizationStrings.hide_list}` : `${localizationStrings.see_list}`}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -347,7 +347,7 @@ const [loading,setLoading] = useState(false)
                   //handleValidationUpdate('pickupPoints')
                 }}
               >
-                <Text style={styles.buttonText}>Add</Text>
+                <Text style={styles.buttonText}>{localizationStrings.add}</Text>
               </TouchableOpacity>
             </View>
             {pickupPointsListVisible && <>
@@ -376,7 +376,7 @@ const [loading,setLoading] = useState(false)
                     </View>
                   ))}
                 </View>
-              ) : <Text style={{ fontSize: 14, fontWeight: '600', alignSelf: 'center', marginTop: 20 }}>No Pickup Points Added</Text>}
+              ) : <Text style={{ fontSize: 14, fontWeight: '600', alignSelf: 'center', marginTop: 20 }}>{localizationStrings.no_pic_add}</Text>}
 
             </>}
           </View>
@@ -384,7 +384,7 @@ const [loading,setLoading] = useState(false)
           {/* App Shares */}
           <View style={[styles.validationItem, { padding: 15, borderRadius: 15 }]}>
             <Text style={{ fontWeight: '600', fontSize: 18, color: '#000' }}>
-              App Shares: {AppshareCount}/100
+              {localizationStrings.app_shares}: {AppshareCount}/100
             </Text>
             <TouchableOpacity
               style={[styles.validateButton, { marginTop: 15 }]}
@@ -393,7 +393,7 @@ const [loading,setLoading] = useState(false)
               }
               }
             >
-              <Text style={styles.buttonText}>Share</Text>
+              <Text style={styles.buttonText}>{localizationStrings.share}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -424,7 +424,7 @@ const [loading,setLoading] = useState(false)
               ? '#0BD89E'
               : 'grey',
         }]}>
-       {loading?<ActivityIndicator size={25} color={'#fff'} />:<Text style={styles.continueButtonText}>Validate</Text>}
+       {loading?<ActivityIndicator size={25} color={'#fff'} />:<Text style={styles.continueButtonText}>{localizationStrings.validate}</Text>}
       </TouchableOpacity>
 
       <View style={{ height: 20 }} />

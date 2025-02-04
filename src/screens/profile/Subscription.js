@@ -15,6 +15,7 @@ import { hp, wp } from '../../utils/Constant';
 import { useSelector } from 'react-redux';
 import { DOMAIN } from '../../services/Config';
 import { useIsFocused } from '@react-navigation/native';
+import localizationStrings from '../Localization/Localization';
 
 const Subscription = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
@@ -32,15 +33,15 @@ const focus = useIsFocused()
                 });
                 const result = await response.json();
 
-                if (result.status === '1') {
+                if (result.status == '1') {
                     setPlan(result.data);
                     setIsSubscribed(result.data?.subscription?.status === 'ACTIVE');
                 } else {
-                    Alert.alert('Subscription', 'No Subscription Found.');
+                   // Alert.alert('Subscription', 'No Subscription Found.');
                 }
             } catch (error) {
                 console.error('Error fetching plan:', error);
-                Alert.alert('Error', 'Something went wrong while fetching subscription details.');
+               // Alert.alert('Error', 'Something went wrong while fetching subscription details.');
             } finally {
                 setLoading(false);
             }
@@ -63,13 +64,13 @@ const focus = useIsFocused()
 
             if (result.status === '1') {
                 setIsSubscribed(false);
-                Alert.alert('Subscription', 'Your subscription has been deactivated.');
+                Alert.alert(`${localizationStrings.Subscription}`, 'Your subscription has been deactivated.');
             } else {
                 Alert.alert('Error', 'Failed to deactivate subscription.');
             }
         } catch (error) {
             console.error('Error deactivating subscription:', error);
-            Alert.alert('Error', 'Something went wrong while deactivating subscription.');
+          //  Alert.alert('Error', 'Something went wrong while deactivating subscription.');
         }
     };
 
@@ -112,18 +113,18 @@ const focus = useIsFocused()
             style={{ flex: 1 }}
         >
             <MyStatusBar backgroundColor="transparent" barStyle="dark-content" />
-            <HeaderTwo navigation={navigation} title="Subscription" />
+            <HeaderTwo navigation={navigation} title={localizationStrings.Subscription} />
 
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 20, color: '#0BD89E' }}>
-                    Manage Your Subscription
+                    {localizationStrings.manage_sub}
                 </Text>
                 <Text style={{ fontSize: 16, marginTop: 10, color: '#000', fontWeight: '600' }}>
-                    Current Status: {isSubscribed ? 'Activated' : 'No Subscription'}
+                    {localizationStrings.current_status}: {isSubscribed ? 'Activated' : 'No Subscription'}
                 </Text>
                 {plan?.subscription && (
                     <Text style={{ fontSize: 16, marginTop: 5, color: '#000', fontWeight: '600' }}>
-                        Ends on: {plan.subscription.end_date}
+                       {localizationStrings.expire_on}: {plan.subscription.end_date}
                     </Text>
                 )}
             </View>
@@ -134,11 +135,11 @@ const focus = useIsFocused()
                     onPress={()=>{
                      
                         Alert.alert(
-                            'Deactivate Subscription',
-                            'Are you sure you want to cancel this subscription?',
+                           `${localizationStrings.de_active}`,
+                            `${localizationStrings.sub_can}`,
                             [
                                 {
-                                    text: 'Cancel',
+                                    text: `${localizationStrings.cancel}`,
                                     onPress: () => console.log('Deactivation canceled'),
                                     style: 'cancel', // Sets the button style to "Cancel"
                                 },
@@ -152,14 +153,14 @@ const focus = useIsFocused()
                         );
                     }}
                 >
-                    <Text style={styles.buttonText}>Deactivate Subscription</Text>
+                    <Text style={styles.buttonText}>{localizationStrings.de_active}</Text>
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
                     style={styles.activateButton}
                     onPress={() => setModalVisible(true)}
                 >
-                    <Text style={styles.buttonText}>Subscription</Text>
+                    <Text style={styles.buttonText}>{localizationStrings.Subscription}</Text>
                 </TouchableOpacity>
             )}
 
@@ -173,10 +174,10 @@ const focus = useIsFocused()
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>
-                            Activate Monthly Subscription
+                           {localizationStrings.active_subsciption}
                         </Text>
                         <Text style={styles.modalText}>
-                            Your card will be charged €1.50 monthly. Do you want to proceed?
+                           {localizationStrings.active_sub_txt}
                         </Text>
                         <TouchableOpacity
                             style={styles.confirmButton}
@@ -185,13 +186,13 @@ const focus = useIsFocused()
                             payment_handler_web()
                             }}
                         >
-                            <Text style={styles.confirmText}>Confirm</Text>
+                            <Text style={styles.confirmText}>{localizationStrings.confirm}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.cancelButton}
                             onPress={() => setModalVisible(false)}
                         >
-                            <Text style={styles.cancelText}>Cancel</Text>
+                            <Text style={styles.cancelText}>{localizationStrings.cancel}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

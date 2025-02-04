@@ -31,8 +31,8 @@ const DeliveryScreen = () => {
   const items = [
       
       
-    { label: 'Professional sellers', value: 'Professional',  },
-    { label: 'Private sellers', value: 'Private', },
+    // { label: 'Professional sellers', value: 'Professional',  },
+    // { label: 'Private sellers', value: 'Private', },
     { label: 'Pickup points', value: 'Pickup', },
  
     

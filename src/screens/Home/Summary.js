@@ -239,9 +239,9 @@ const Summary = ({ navigation, route }) => {
                 </Pressable>
                 <View style={{ backgroundColor: "#fff", marginVertical: 15 }}>
                     <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, elevation: 5 }}>
-                        <View style={{ width: 100, height: 100, borderRadius: 12, overflow: "hidden" }}>
-                            <Image source={{ uri: details.product_images?.[0].image }} style={{ width: "100%", height: "100%" }} />
-                        </View>
+                      {details.product_images?.[0]?.image &&  <View style={{ width: 100, height: 100, borderRadius: 12, overflow: "hidden" }}>
+                            <Image source={{ uri: details.product_images?.[0]?.image }} style={{ width: "100%", height: "100%" }} />
+                        </View>}
                         <View style={{}}>
                             <Text  style={{ color: "#000",fontSize:18,fontWeight:'800' }}>
                                 {details?.title}

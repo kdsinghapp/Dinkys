@@ -59,7 +59,7 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
 
 
     const handleConfirmLocation = () => {
-    
+
         setModalVisible(false); // Close modal when user confirms location
     };
 
@@ -102,8 +102,8 @@ const MapPickerModal = ({ sendLocation, setLocationName, modalVisible, setModalV
                     <AddressAutocomplete
                         setMarkerPosition={(latitude, longitude) => {
 
-                            console.log('latitude, longitude',latitude, longitude);
-                            
+                            console.log('latitude, longitude', latitude, longitude);
+
                             sendLocation({ latitude: latitude, longitude: longitude });
                             setMarkerPosition({
                                 latitude,
@@ -217,8 +217,8 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         backgroundColor: '#fff',
-        marginTop:-25,
-        paddingHorizontal:15
+        marginTop: -25,
+        paddingHorizontal: 15
     },
 });
 
